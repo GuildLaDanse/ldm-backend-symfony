@@ -1,10 +1,15 @@
 <?php
 
-namespace LaDanseDomain\Migrations;
+namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use DateTime;
+use DateTimeZone;
+use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+use Doctrine\DBAL\Connection;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,7 +29,7 @@ class Version20170603100455 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         // it all happens in postUp as we can't just change the schema
         // we keep a dummy SQL statement here to avoid warnings
@@ -33,8 +38,12 @@ class Version20170603100455 extends AbstractMigration implements ContainerAwareI
 
     /**
      * @param Schema $schema
+     *
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws Exception
      */
-    public function postUp(Schema $schema)
+    public function postUp(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -48,8 +57,8 @@ class Version20170603100455 extends AbstractMigration implements ContainerAwareI
 
         $stmt = $conn->query("SELECT e.id, e.inviteTime, e.startTime, e.endTime FROM Event as e");
 
-        $realmServerTimeZone = new \DateTimeZone('Europe/Paris');
-        $utcTimeZone = new \DateTimeZone('UTC');
+        $realmServerTimeZone = new DateTimeZone('Europe/Paris');
+        $utcTimeZone = new DateTimeZone('UTC');
 
         $eventTimes = [];
 
@@ -70,13 +79,13 @@ class Version20170603100455 extends AbstractMigration implements ContainerAwareI
 
         foreach($eventTimes as $eventTime)
         {
-            $originalInviteTime = new \DateTime($eventTime['inviteTime'], $realmServerTimeZone);
+            $originalInviteTime = new DateTime($eventTime['inviteTime'], $realmServerTimeZone);
             $newInviteTime = (clone $originalInviteTime)->setTimezone($utcTimeZone);
 
-            $originalStartTime = new \DateTime($eventTime['startTime'], $realmServerTimeZone);
+            $originalStartTime = new DateTime($eventTime['startTime'], $realmServerTimeZone);
             $newStartTime = (clone $originalStartTime)->setTimezone($utcTimeZone);
 
-            $originalEndTime = new \DateTime($eventTime['endTime'], $realmServerTimeZone);
+            $originalEndTime = new DateTime($eventTime['endTime'], $realmServerTimeZone);
             $newEndTime = (clone $originalEndTime)->setTimezone($utcTimeZone);
 
             $updateStmt = $conn->prepare("UPDATE Event SET inviteTime = :newInviteTime, startTime = :newStartTime, endTime = :newEndTime WHERE id = :id");
@@ -93,10 +102,13 @@ class Version20170603100455 extends AbstractMigration implements ContainerAwareI
 
     /**
      * @param Schema $schema
-     * @throws \Exception
+     *
+     * @throws DBALException
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
-        throw new \Exception("Migration the schema 'down' is not supported");
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        throw new DBALException("'down' migration is not support for this migration");
     }
 }

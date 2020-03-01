@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace LaDanseDomain\Migrations;
+namespace DoctrineMigrations;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -13,10 +14,9 @@ final class Version20180810175029 extends AbstractMigration
     /**
      * @param Schema $schema
      *
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Doctrine\DBAL\Migrations\AbortMigrationException
+     * @throws DBALException
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
@@ -26,10 +26,9 @@ final class Version20180810175029 extends AbstractMigration
     /**
      * @param Schema $schema
      *
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Doctrine\DBAL\Migrations\AbortMigrationException
+     * @throws DBALException
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 

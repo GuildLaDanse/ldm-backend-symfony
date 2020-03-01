@@ -1,10 +1,11 @@
 <?php
 
-namespace LaDanseDomain\Migrations;
+namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,7 +25,7 @@ class Version20160828075255 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         // it all happens in postUp as we can't just change the schema
         // we keep a dummy SQL statement here to avoid warnings
@@ -33,8 +34,10 @@ class Version20160828075255 extends AbstractMigration implements ContainerAwareI
 
     /**
      * @param Schema $schema
+     *
+     * @throws DBALException
      */
-    public function postUp(Schema $schema)
+    public function postUp(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -44,9 +47,9 @@ class Version20160828075255 extends AbstractMigration implements ContainerAwareI
 
         $conn->beginTransaction();
 
-        $conn->executeUpdate('CREATE TABLE Guild (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', realm CHAR(36) NULL COMMENT \'(DC2Type:guid)\', name VARCHAR(100) NOT NULL, INDEX IDX_B48152AFFA96DBDA (realm), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
-        $conn->executeUpdate('CREATE TABLE Realm (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', name VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
-        $conn->executeUpdate('CREATE TABLE InGuild (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', guild CHAR(36) NULL COMMENT \'(DC2Type:guid)\', `character` INT NULL, fromTime DATETIME NOT NULL, endTime DATETIME DEFAULT NULL, INDEX IDX_CA2244C75407DAB (guild), INDEX IDX_CA2244C937AB034 (`character`), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
+        $conn->executeUpdate('CREATE TABLE Guild (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', realm CHAR(36) NULL COMMENT \'(DC2Type:guid)\', name VARCHAR(100) NOT NULL, INDEX IDX_B48152AFFA96DBDA (realm), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci');
+        $conn->executeUpdate('CREATE TABLE Realm (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', name VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci');
+        $conn->executeUpdate('CREATE TABLE InGuild (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', guild CHAR(36) NULL COMMENT \'(DC2Type:guid)\', `character` INT NULL, fromTime DATETIME NOT NULL, endTime DATETIME DEFAULT NULL, INDEX IDX_CA2244C75407DAB (guild), INDEX IDX_CA2244C937AB034 (`character`), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci');
 
         // fetch all guilds used in the current database (this should actually be only one)
         $stmt = $conn->query("SELECT DISTINCT(guild) FROM GuildCharacterVersion");
@@ -173,38 +176,40 @@ class Version20160828075255 extends AbstractMigration implements ContainerAwareI
          *  - if the GuildCharacter has an endTime, use that for the endTime of the InGuild instance
          */
 
-        $stmt = $conn->query("SELECT id FROM Guild WHERE name = 'La Danse Macabre'");
-        $row = $stmt->fetch();
+        $stmt = $conn->query("SELECT id FROM Guild WHERE name = 'La Danse Macabre' LIMIT 1");
 
-        $ldmGuildId = $row['id'];
-
-        $stmt = $conn->query("SELECT id, fromTime, endTime FROM GuildCharacter");
-
-        $guildCharacters = [];
-
-        $row = $stmt->fetch();
-        while ($row)
+        if ($row = $stmt->fetch())
         {
-            $guildCharacters[(string)$row['id']] = [
-                'fromTime' => $row['fromTime'],
-                'endTime' => $row['endTime']
-            ];
+            $ldmGuildId = $row['id'];
+
+            $stmt = $conn->query("SELECT id, fromTime, endTime FROM GuildCharacter");
+
+            $guildCharacters = [];
 
             $row = $stmt->fetch();
-        }
+            while ($row)
+            {
+                $guildCharacters[(string)$row['id']] = [
+                    'fromTime' => $row['fromTime'],
+                    'endTime' => $row['endTime']
+                ];
 
-        $stmt->closeCursor();
+                $row = $stmt->fetch();
+            }
 
-        foreach($guildCharacters as $characterId => $times)
-        {
-            $insertStmt = $conn->prepare(
-                'INSERT INTO InGuild (`id`, `guild`, `character`, `fromTime`, `endTime`) ' .
-                'VALUES (UUID(), :guildId, :characterId, :fromTime, :endTime)');
-            $insertStmt->bindValue("guildId", $ldmGuildId);
-            $insertStmt->bindValue("characterId", $characterId);
-            $insertStmt->bindValue("fromTime", $times['fromTime']);
-            $insertStmt->bindValue("endTime", $times['endTime']);
-            $insertStmt->execute();
+            $stmt->closeCursor();
+
+            foreach($guildCharacters as $characterId => $times)
+            {
+                $insertStmt = $conn->prepare(
+                    'INSERT INTO InGuild (`id`, `guild`, `character`, `fromTime`, `endTime`) ' .
+                    'VALUES (UUID(), :guildId, :characterId, :fromTime, :endTime)');
+                $insertStmt->bindValue("guildId", $ldmGuildId);
+                $insertStmt->bindValue("characterId", $characterId);
+                $insertStmt->bindValue("fromTime", $times['fromTime']);
+                $insertStmt->bindValue("endTime", $times['endTime']);
+                $insertStmt->execute();
+            }
         }
 
         // set all columns that are intended to be a foreign key to not null, added indexes and foreign keys
@@ -221,10 +226,13 @@ class Version20160828075255 extends AbstractMigration implements ContainerAwareI
 
     /**
      * @param Schema $schema
-     * @throws \Exception
+     *
+     * @throws DBALException
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
-        throw new \Exception("Migration the schema 'down' is not supported");
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        throw new DBALException("'down' migration is not support for this migration");
     }
 }

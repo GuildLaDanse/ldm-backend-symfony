@@ -1,9 +1,10 @@
 <?php
 
-namespace LaDanseDomain\Migrations;
+namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -12,8 +13,10 @@ class Version20160827175536 extends AbstractMigration
 {
     /**
      * @param Schema $schema
+     *
+     * @throws DBALException
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -50,10 +53,13 @@ class Version20160827175536 extends AbstractMigration
 
     /**
      * @param Schema $schema
-     * @throws \Exception
+     *
+     * @throws DBALException
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
-        throw new \Exception("Migration the schema 'down' is not supported");
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        throw new DBALException("'down' migration is not support for this migration");
     }
 }
