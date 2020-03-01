@@ -19,6 +19,7 @@
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "4.4.*",
         "symfony/yaml": "4.4.*",
+        "yohang/finite": "^1.1",
         "ext-json": "*"
     },
     "require-dev": {
