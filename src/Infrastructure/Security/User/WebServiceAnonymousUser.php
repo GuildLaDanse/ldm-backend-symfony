@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Security\User;
+namespace App\Infrastructure\Security\User;
 
 
 class WebServiceAnonymousUser extends WebServiceUser

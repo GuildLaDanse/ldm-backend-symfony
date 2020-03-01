@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Security\User;
+namespace App\Infrastructure\Security\User;
 
 
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
