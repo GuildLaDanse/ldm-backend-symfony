@@ -12,20 +12,39 @@ use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\Types;
 
 class UTCDateTimeType extends DateTimeType
 {
     static private $utc;
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return "utc_datetime";
+    }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
+    }
+
+    public function canRequireSQLConversion()
+    {
+        return true;
+    }
+
+    /**
      * @param mixed $value
      * @param AbstractPlatform $platform
      *
-     * @return mixed|string
+     * @return string
      *
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
         if ($value instanceof DateTime) {
             $value->setTimezone(self::getUtcDateTimeZone());
@@ -38,11 +57,11 @@ class UTCDateTimeType extends DateTimeType
      * @param mixed $value
      * @param AbstractPlatform $platform
      *
-     * @return DateTime|false|mixed
+     * @return DateTime
      *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): DateTime
     {
         if (null === $value || $value instanceof DateTime) {
             return $value;
