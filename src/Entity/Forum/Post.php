@@ -36,7 +36,7 @@ class Post
     private $postDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=true)
      */
     private $poster;

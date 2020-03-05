@@ -7,13 +7,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="Account")
  */
-class Account extends BaseUser
+class Account
 {
     const REPOSITORY = 'LaDanseDomainBundle:Account';
 
@@ -25,16 +24,31 @@ class Account extends BaseUser
     protected $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=32, nullable=false)
      */
     protected $displayName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=128, nullable=false)
+     */
+    protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    protected $externalId;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**
@@ -51,9 +65,10 @@ class Account extends BaseUser
      * Set displayName
      *
      * @param string $displayName
+     *
      * @return Account
      */
-    public function setDisplayName($displayName)
+    public function setDisplayName($displayName): Account
     {
         $this->displayName = $displayName;
 
@@ -68,5 +83,43 @@ class Account extends BaseUser
     public function getDisplayName()
     {
         return $this->displayName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return Account
+     */
+    public function setEmail(string $email): Account
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalId(): string
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param string $externalId
+     *
+     * @return Account
+     */
+    public function setExternalId(string $externalId): Account
+    {
+        $this->externalId = $externalId;
+        return $this;
     }
 }

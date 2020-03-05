@@ -58,7 +58,7 @@ class Forum
     private $lastPostTopic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
     private $lastPostPoster;

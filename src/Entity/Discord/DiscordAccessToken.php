@@ -55,7 +55,7 @@ class DiscordAccessToken
     /**
      * @var Account $organiser
      *
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account", fetch="EAGER")
      * @ORM\JoinColumn(name="account", referencedColumnName="id", nullable=false)
      */
     protected $account;

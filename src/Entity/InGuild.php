@@ -37,7 +37,7 @@ class InGuild
     /**
      * @var Guild $guild
      *
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\GameData\Guild")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameData\Guild")
      * @ORM\JoinColumn(name="guild", referencedColumnName="id", nullable=false)
      */
     protected $guild;

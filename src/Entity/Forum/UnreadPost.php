@@ -28,7 +28,7 @@ class UnreadPost
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
     private $account;

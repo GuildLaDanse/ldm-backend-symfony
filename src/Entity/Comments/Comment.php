@@ -36,7 +36,7 @@ class Comment
     private $postDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=true)
      */
     private $poster;
@@ -49,7 +49,7 @@ class Comment
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Comments\CommentGroup", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comments\CommentGroup", inversedBy="comments")
      * @ORM\JoinColumn(name="groupId", referencedColumnName="groupId", nullable=true)
      */
     private $group;

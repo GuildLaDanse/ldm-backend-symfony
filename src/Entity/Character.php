@@ -31,7 +31,7 @@ class Character
     /**
      * @var Realm $realm
      *
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\GameData\Realm")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameData\Realm")
      * @ORM\JoinColumn(name="realm", referencedColumnName="id", nullable=false)
      */
     protected $realm;

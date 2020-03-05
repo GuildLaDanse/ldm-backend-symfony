@@ -38,7 +38,7 @@ class Topic
     private $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=false)
      */
     private $creator;
@@ -69,7 +69,7 @@ class Topic
     private $lastPostDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LaDanse\DomainBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
     private $lastPostPoster;
