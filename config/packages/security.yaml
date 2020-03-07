@@ -29,5 +29,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/private, roles: ROLE_OAUTH_AUTHENTICATED }
-        - { path: ^/api/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/private,  roles: ROLE_OAUTH_AUTHENTICATED }
+        - { path: ^/api/comments, roles: ROLE_OAUTH_AUTHENTICATED }
+        - { path: ^/api/public,   roles: IS_AUTHENTICATED_ANONYMOUSLY }

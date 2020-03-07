@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use RS\DiExtraBundle\Annotation as DI;
 
 /**
- * @Route("/")
+ * @Route("/api/comments")
  */
 class CommentsResource extends AbstractRestController
 {
