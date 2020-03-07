@@ -1,0 +1,40 @@
+<?php declare(strict_types=1);
+/**
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     https://github.com/GuildLaDanse
+ */
+
+namespace App\Modules\Event\DTO;
+
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class PutEventState
+{
+    /**
+     * @var string
+     * @Type("string")
+     * @SerializedName("state")
+     * @Assert\NotBlank()
+     */
+    private $state;
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     * @return PutEventState
+     */
+    public function setState(string $state): PutEventState
+    {
+        $this->state = $state;
+        return $this;
+    }
+}

@@ -13,13 +13,11 @@ use App\Entity\Account;
 /**
  * Post
  *
+ * @ORM\Entity(repositoryClass="App\Repository\Comments\CommentRepository")
  * @ORM\Table(name="Comment", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
- * @ORM\Entity
  */
 class Comment
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Comments\Comment';
-
     /**
      * @var integer
      *

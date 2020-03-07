@@ -15,13 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Topic
  *
+ * @ORM\Entity(repositoryClass="App\Repository\Comments\CommentGroupRepository")
  * @ORM\Table(name="CommentGroup", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
- * @ORM\Entity
  */
 class CommentGroup
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Comments\CommentGroup';
-
     /**
      * @var integer
      *

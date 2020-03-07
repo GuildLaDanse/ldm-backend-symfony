@@ -5,8 +5,11 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "auth0/jwt-auth-bundle": "~3.0",
+        "jms/serializer-bundle": "^3.5",
         "nelmio/cors-bundle": "^2.0",
+        "rickysu/di-extra-bundle": "^1.0",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/console": "4.4.*",
         "symfony/dotenv": "4.4.*",
@@ -19,8 +22,7 @@
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "4.4.*",
         "symfony/yaml": "4.4.*",
-        "yohang/finite": "^1.1",
-        "ext-json": "*"
+        "yohang/finite": "^1.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

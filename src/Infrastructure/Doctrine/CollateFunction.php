@@ -6,7 +6,6 @@
 
 namespace App\Infrastructure\Doctrine;
 
-
 use Doctrine\ORM\Query\AST\ASTException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\PathExpression;

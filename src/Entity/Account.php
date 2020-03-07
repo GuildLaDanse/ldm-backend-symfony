@@ -7,12 +7,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Intl\Exception\NotImplementedException;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
  * @ORM\Table(name="Account")
  */
-class Account
+class Account implements UserInterface, EquatableInterface
 {
     const REPOSITORY = 'LaDanseDomainBundle:Account';
 
@@ -45,10 +48,24 @@ class Account
     protected $externalId;
 
     /**
+     * @var array
+     */
+    protected $roles;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->roles = array();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAnonymous(): bool
+    {
+        return false;
     }
 
     /**
@@ -80,7 +97,7 @@ class Account
      *
      * @return string 
      */
-    public function getDisplayName()
+    public function getDisplayName(): ?string
     {
         return $this->displayName;
     }
@@ -88,7 +105,7 @@ class Account
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -121,5 +138,67 @@ class Account
     {
         $this->externalId = $externalId;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        throw new NotImplementedException("getPassword() is not implemented for JWT Users");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        throw new NotImplementedException("getSalt() is not implemented for JWT Users");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // do nothing
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof Account) {
+            return false;
+        }
+
+        if ($this->getEmail() !== $user->getEmail())
+        {
+            return false;
+        }
+
+        return true;
     }
 }

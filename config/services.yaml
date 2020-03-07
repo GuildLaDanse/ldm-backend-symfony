@@ -27,5 +27,5 @@ services:
     # please note that last definitions always *replace* previous ones
 
     web_service_user_provider:
-        class: App\Security\User\WebServiceUserProvider
+        class: App\Infrastructure\Security\User\WebServiceUserProvider
         arguments: ["@jwt_auth.auth0_service"]
