@@ -7,8 +7,6 @@
 namespace App\Infrastructure\Modules;
 
 use App\Entity\Account;
-use App\Infrastructure\Security\AuthenticationContext;
-use App\Infrastructure\Security\AuthenticationService;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -73,30 +71,26 @@ abstract class AbstractCommand
     }
 
     /**
+     * @deprecated
+     *
      * Returns true if the current request is authenticated, false otherwise
      *
      * @return bool
      */
     protected function isAuthenticated()
     {
-        /** @var AuthenticationContext $authContext */
-        $authContext = $this->container->get(AuthenticationService::SERVICE_NAME)->getCurrentContext();
-
-        return $authContext->isAuthenticated();
+        return false;
     }
 
     /**
+     * @deprecated
+     *
      * Returns the account that is currently logged in. When not authenticated, returns null.
      *
      * @return Account
      */
     protected function getAccount()
     {
-        if ($this->isAuthenticated())
-        {
-            return $this->container->get(AuthenticationService::SERVICE_NAME)->getCurrentContext()->getAccount();
-        }
-
         return null;
     }
 

@@ -71,14 +71,13 @@ class LaDanseService
     }
 
     /**
+     * @deprecated
+     *
      * @return AuthenticationService
      */
     protected function getAuthenticationService()
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->container->get(AuthenticationService::SERVICE_NAME);
-
-        return $authenticationService;
+        return null;
     }
 
     /**

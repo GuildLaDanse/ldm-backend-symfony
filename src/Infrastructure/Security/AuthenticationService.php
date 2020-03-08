@@ -6,31 +6,19 @@
 
 namespace App\Infrastructure\Security;
 
-
-use App\Infrastructure\Modules\LaDanseService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RS\DiExtraBundle\Annotation as DI;
-
-/**
- * Class AuthenticationService
- * @package LaDanse\ServicesBundle\Service
- *
- * @DI\Service(AuthenticationService::SERVICE_NAME, public=true)
- */
-class AuthenticationService extends LaDanseService
+class AuthenticationService
 {
-    const SERVICE_NAME = 'LaDanse.AuthenticationService';
+    /**
+     * @var AuthenticationContext
+     */
+    private $authenticationContext;
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
+     * @param AuthenticationContext $authenticationContext
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(AuthenticationContext $authenticationContext)
     {
-        parent::__construct($container);
+        $this->authenticationContext = $authenticationContext;
     }
 
     /**
@@ -38,9 +26,6 @@ class AuthenticationService extends LaDanseService
      */
     public function getCurrentContext(): AuthenticationContext
     {
-        /** @var AuthenticationContext $authenticationContext */
-        $authenticationContext = $this->container->get(AuthenticationContext::SERVICE_NAME);
-
-        return $authenticationContext;
+        return $this->authenticationContext;
     }
 }

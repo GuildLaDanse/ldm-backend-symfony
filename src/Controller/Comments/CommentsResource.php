@@ -120,6 +120,7 @@ class CommentsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param CommentService $commentService
+     * @param AuthenticationService $authenticationService
      * @param string $commentId
      *
      * @return Response
@@ -129,10 +130,9 @@ class CommentsResource extends AbstractRestController
     public function updateCommentAction(
         Request $request,
         CommentService $commentService,
+        AuthenticationService $authenticationService,
         $commentId)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
 
         $comment = null;

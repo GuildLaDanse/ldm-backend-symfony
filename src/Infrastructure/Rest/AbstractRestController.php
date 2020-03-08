@@ -12,7 +12,6 @@ use App\Infrastructure\Authorization\CannotEvaluateException;
 use App\Infrastructure\Authorization\ResourceReference;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\ServiceException;
-use App\Infrastructure\Security\AuthenticationService;
 use Exception;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,39 +26,32 @@ use Symfony\Component\Intl\Exception\NotImplementedException;
 class AbstractRestController extends AbstractController
 {
     /**
+     * @deprecated
+     *
      * Returns true if the current request is authenticated, false otherwise
      *
      * @return bool
      */
     protected function isAuthenticated()
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
-
-        $authContext = $authenticationService->getCurrentContext();
-
-        return $authContext->isAuthenticated();
+        return false;
     }
 
     /**
+     * @deprecated
+     *
      * Returns the account that is currently logged in. When not authenticated, returns null.
      *
      * @return Account
      */
     protected function getAccount()
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
-
-        if ($this->isAuthenticated())
-        {
-            return $authenticationService->getCurrentContext()->getAccount();
-        }
-
         return null;
     }
 
     /**
+     * @deprecated
+     *
      * @param SubjectReference $subject
      * @param string $action
      * @param ResourceReference $resource
@@ -79,10 +71,12 @@ class AbstractRestController extends AbstractController
     /** @noinspection PhpUnusedParameterInspection */
     protected function hasFeatureToggled($featureName, $default = false)
     {
+        /*
         if (!$this->isAuthenticated())
         {
             return $default;
         }
+        */
 
         //$account = $this->getAccount();
 

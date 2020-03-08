@@ -9,26 +9,12 @@ namespace App\Infrastructure\Security;
 use App\Entity\Account;
 use App\Infrastructure\Modules\LaDanseService;
 
-use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RS\DiExtraBundle\Annotation as DI;
 
-/**
- * Class AuthenticationContext
- * @package LaDanse\ServicesBundle\Service
- *
- * @DI\Service(AuthenticationContext::SERVICE_NAME, public=true)
- */
 class AuthenticationContext extends LaDanseService
 {
-    const SERVICE_NAME = 'LaDanse.AuthenticationContext';
-
     /**
      * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
      */
     public function __construct(ContainerInterface $container)
     {
@@ -40,14 +26,7 @@ class AuthenticationContext extends LaDanseService
      */
     public function isAuthenticated()
     {
-        try
-        {
-            return (true === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED'));
-        }
-        catch(Exception $exception)
-        {
-            return false;
-        }
+        return !$this->getAccount()->isAnonymous();
     }
 
     /**
