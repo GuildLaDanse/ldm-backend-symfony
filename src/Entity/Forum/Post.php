@@ -13,13 +13,11 @@ use App\Entity\Account;
 /**
  * Post
  *
+ * @ORM\Entity(repositoryClass="App\Repository\Forum\PostRepository")
  * @ORM\Table(name="Post", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
- * @ORM\Entity
  */
 class Post
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Forum\Post';
-
     /**
      * @var string
      *

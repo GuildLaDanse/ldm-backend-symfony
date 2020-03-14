@@ -6,15 +6,18 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\RestBundle\Common\AbstractRestController;
-use LaDanse\ServicesBundle\Service\Forum\ForumStatsService;
-use LaDanse\SiteBundle\Security\AuthenticationService;
+use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Security\AuthenticationService;
+use App\Modules\Event\Forum\ForumStatsService;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * @Route("/account")
@@ -22,20 +25,28 @@ use JMS\DiExtraBundle\Annotation as DI;
 class AccountResource extends AbstractRestController
 {
     /**
-     * @DI\Inject("monolog.logger.ladanse")
      * @var LoggerInterface $logger
      */
     private $logger;
 
+    public function  __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
+     * @param AuthenticationService $authenticationService
+     * @param ForumStatsService $statsService
+     *
      * @return Response
      *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @Route("/unread", name="getUnreadForAccount", methods={"GET"})
      */
-    public function getUnreadForAccountAction()
+    public function getUnreadForAccountAction(AuthenticationService $authenticationService, ForumStatsService $statsService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
 
         if (!$authContext->isAuthenticated())
@@ -51,9 +62,6 @@ class AccountResource extends AbstractRestController
 
         $account = $authContext->getAccount();
 
-        /** @var ForumStatsService $statsService */
-        $statsService = $this->get(ForumStatsService::SERVICE_NAME);
-
         $unreadPosts = $statsService->getUnreadPostsForAccount($account);
 
         $postMapper = new PostMapper();
@@ -63,7 +71,7 @@ class AccountResource extends AbstractRestController
             "displayName" => $account->getDisplayName(),
             "unreadPosts" => $postMapper->mapPostsAndTopic($this->get('router'), $unreadPosts),
             "links"       => (object)[
-                "self"  => $this->generateUrl('getUnreadForAccount', [], true)
+                "self"  => $this->generateUrl('getUnreadForAccount', [], UrlGeneratorInterface::ABSOLUTE_PATH)
             ]
         ];
 

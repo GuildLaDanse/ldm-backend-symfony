@@ -6,17 +6,16 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\RestBundle\Common\AbstractRestController;
-use LaDanse\ServicesBundle\Service\Forum\ForumService;
-use LaDanse\ServicesBundle\Service\Forum\TopicDoesNotExistException;
-use LaDanse\SiteBundle\Security\AuthenticationService;
+use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Security\AuthenticationService;
+use App\Modules\Event\Forum\ForumService;
+use App\Modules\Event\Forum\TopicDoesNotExistException;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/topics")
@@ -24,24 +23,26 @@ use JMS\DiExtraBundle\Annotation as DI;
 class TopicsResource extends AbstractRestController
 {
     /**
-     * @DI\Inject("monolog.logger.ladanse")
      * @var LoggerInterface $logger
      */
     private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param Request $request
      * @param string $topicId
      *
+     * @param ForumService $forumService
      * @return Response
      *
      * @Route("/{topicId}", name="getPostsInTopic", methods={"GET"})
      */
-    public function getTopicAction(Request $request, $topicId)
+    public function getTopicAction(Request $request, $topicId, ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         try
         {
             $topic = $forumService->getTopic($topicId);
@@ -66,15 +67,19 @@ class TopicsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param string $topicId
+     * @param AuthenticationService $authenticationService
+     * @param ForumService $forumService
      *
      * @return Response
      *
      * @Route("/{topicId}/posts", name="createPostInTopic", methods={"POST", "PUT"})
      */
-    public function createPostInTopicAction(Request $request, $topicId)
+    public function createPostInTopicAction(
+        Request $request,
+        $topicId,
+        AuthenticationService $authenticationService,
+        ForumService $forumService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
 
         if (!$authContext->isAuthenticated())
@@ -92,15 +97,18 @@ class TopicsResource extends AbstractRestController
 
         $jsonObject = json_decode($jsonData);
 
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         try
         {
             $forumService->createPost(
                 $authContext->getAccount(),
                 $topicId,
                 $jsonObject->message);
+
+            $jsonObject = (object)[
+                "status" => "post created in topic"
+            ];
+
+            return new JsonResponse($jsonObject);
         }
         catch (TopicDoesNotExistException $e)
         {
@@ -111,30 +119,27 @@ class TopicsResource extends AbstractRestController
                 ["Allow" => "GET"]
             );
         }
-
-        $jsonObject = (object)[
-            "status" => "post created in topic"
-        ];
-
-        return new JsonResponse($jsonObject);
     }
 
     /**
      * @param Request $request
      * @param string $topicId
+     * @param AuthenticationService $authenticationService
+     * @param ForumService $forumService
      *
      * @return Response
      *
+     * @throws TopicDoesNotExistException
+     *
      * @Route("/{topicId}", name="updateTopic", methods={"POST", "PUT"})
      */
-    public function updateTopicAction(Request $request, $topicId)
+    public function updateTopicAction(
+        Request $request,
+        $topicId,
+        AuthenticationService $authenticationService,
+        ForumService $forumService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
-
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
 
         $topic = null;
 

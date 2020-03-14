@@ -6,7 +6,8 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\DomainBundle\Entity\Forum\Topic;
+use App\Entity\Forum as ForumEntity;
+use DateTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -18,18 +19,18 @@ class TopicMapper
 {
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Topic $topic
+     * @param ForumEntity\Topic $topic
      *
      * @return object
      */
-    public function mapTopic(UrlGeneratorInterface $generator, Topic $topic)
+    public function mapTopic(UrlGeneratorInterface $generator, ForumEntity\Topic $topic)
     {
         return (object)[
             "topicId"    => $topic->getId(),
             "creatorId"  => $topic->getCreator()->getId(),
             "creator"    => $topic->getCreator()->getDisplayName(),
             "subject"    => $topic->getSubject(),
-            "createDate" => $topic->getCreateDate()->format(\DateTime::ISO8601),
+            "createDate" => $topic->getCreateDate()->format(DateTime::ISO8601),
             "lastPost"   => $this->createLastPost($topic),
             "links"      => (object)[
                 "self"
@@ -42,11 +43,11 @@ class TopicMapper
 
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Topic $topic
+     * @param ForumEntity\Topic $topic
      *
      * @return object
      */
-    public function mapTopicAndForum(UrlGeneratorInterface $generator, Topic $topic)
+    public function mapTopicAndForum(UrlGeneratorInterface $generator, ForumEntity\Topic $topic)
     {
         $jsonTopic = $this->mapTopic($generator, $topic);
 
@@ -68,7 +69,7 @@ class TopicMapper
     {
         $jsonTopics = [];
 
-        /** @var Topic $topic */
+        /** @var ForumEntity\Topic $topic */
         foreach($topics as $topic)
         {
             $jsonTopics[] = $this->mapTopicAndForum($generator, $topic);
@@ -79,11 +80,11 @@ class TopicMapper
 
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Topic $topic
+     * @param ForumEntity\Topic $topic
      *
      * @return object
      */
-    public function mapTopicAndPosts(UrlGeneratorInterface $generator, Topic $topic)
+    public function mapTopicAndPosts(UrlGeneratorInterface $generator, ForumEntity\Topic $topic)
     {
         $topicObject = $this->mapTopic($generator, $topic);
 
@@ -92,8 +93,8 @@ class TopicMapper
         usort(
             $posts,
             function ($a, $b) {
-                /** @var $a \LaDanse\DomainBundle\Entity\Forum\Post */
-                /** @var $b \LaDanse\DomainBundle\Entity\Forum\Post */
+                /** @var $a ForumEntity\Post */
+                /** @var $b ForumEntity\Post */
 
                 return $a->getPostDate() > $b->getPostDate();
             }
@@ -113,12 +114,12 @@ class TopicMapper
         return $topicObject;
     }
 
-    private function createLastPost(Topic $topic)
+    private function createLastPost(ForumEntity\Topic $topic)
     {
         if ($topic->getLastPostPoster() != null)
         {
             return (object)[
-                "date" => $topic->getLastPostDate()->format(\DateTime::ISO8601),
+                "date" => $topic->getLastPostDate()->format(DateTime::ISO8601),
                 "poster" => (object)[
                     "id" => $topic->getLastPostPoster()->getId(),
                     "displayName" => $topic->getLastPostPoster()->getDisplayName()

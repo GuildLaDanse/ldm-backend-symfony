@@ -6,17 +6,20 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\RestBundle\Common\AbstractRestController;
-use LaDanse\ServicesBundle\Service\Forum\ForumDoesNotExistException;
-use LaDanse\ServicesBundle\Service\Forum\ForumService;
-use LaDanse\SiteBundle\Security\AuthenticationService;
+use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Security\AuthenticationService;
+use App\Modules\Event\Forum\ForumDoesNotExistException;
+use App\Modules\Event\Forum\ForumService;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ForumsResource
@@ -28,21 +31,24 @@ use JMS\DiExtraBundle\Annotation as DI;
 class ForumsResource extends AbstractRestController
 {
     /**
-     * @DI\Inject("monolog.logger.ladanse")
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     private $logger;
 
+    public function  __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
+     * @param ForumService $forumService
+     *
      * @return Response
      *
      * @Route("/", name="getForumList", methods={"GET"})
      */
-    public function getForumListAction()
+    public function getForumListAction(ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         $forums = $forumService->getAllForums();
 
         $forumMapper = new ForumMapper();
@@ -53,15 +59,18 @@ class ForumsResource extends AbstractRestController
     }
 
     /**
+     * @param ForumService $forumService
+     *
      * @return Response
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      *
      * @Route("/activity", name="getActivityForForums", methods={"GET"})
      */
-    public function getActivityForForumsAction()
+    public function getActivityForForumsAction(ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         $posts = $forumService->getActivityForForums();
 
         $postMapper = new PostMapper();
@@ -69,7 +78,7 @@ class ForumsResource extends AbstractRestController
         $jsonObject = (object)[
             "posts"   => $postMapper->mapPostsAndTopic($this->get('router'), $posts),
             "links"   => (object)[
-                "self"  => $this->generateUrl('getActivityForForums', [], true)
+                "self"  => $this->generateUrl('getActivityForForums', [], UrlGeneratorInterface::ABSOLUTE_PATH)
             ]
         ];
 
@@ -79,16 +88,14 @@ class ForumsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param string $forumId
+     * @param ForumService $forumService
      *
      * @return Response
      *
      * @Route("/{forumId}", name="getForum", methods={"GET"})
      */
-    public function getForumForIdAction(Request $request, $forumId)
+    public function getForumForIdAction(Request $request, $forumId, ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         try
         {
             $forum = $forumService->getForum($forumId);
@@ -113,16 +120,18 @@ class ForumsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param string $forumId
+     * @param ForumService $forumService
      *
      * @return Response
      *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     *
      * @Route("/{forumId}/activity", name="getActivityForForum", methods={"GET"})
      */
-    public function getActivityForForumAction(Request $request, $forumId)
+    public function getActivityForForumAction(Request $request, $forumId, ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         try
         {
             $forumService->getForum($forumId);
@@ -144,7 +153,7 @@ class ForumsResource extends AbstractRestController
         $jsonObject = (object)[
             "posts"   => $postMapper->mapPostsAndTopic($this->get('router'), $posts),
             "links"   => (object)[
-                "self"  => $this->generateUrl('getActivityForForum', ['forumId' => $forumId], true)
+                "self"  => $this->generateUrl('getActivityForForum', ['forumId' => $forumId], UrlGeneratorInterface::ABSOLUTE_PATH)
             ]
         ];
 
@@ -154,15 +163,19 @@ class ForumsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param string $forumId
+     * @param ForumService $forumService
+     * @param AuthenticationService $authenticationService
      *
      * @return Response
      *
      * @Route("/{forumId}/topics", name="createTopic", methods={"POST", "PUT"})
      */
-    public function createTopicAction(Request $request, $forumId)
+    public function createTopicAction(
+        Request $request,
+        $forumId,
+        ForumService $forumService,
+        AuthenticationService $authenticationService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
 
         if (!$authContext->isAuthenticated())
@@ -182,9 +195,6 @@ class ForumsResource extends AbstractRestController
 
         try
         {
-            /** @var ForumService $forumService */
-            $forumService = $this->get(ForumService::SERVICE_NAME);
-
             $forumService->createTopicInForum(
                 $authContext->getAccount(),
                 $forumId,

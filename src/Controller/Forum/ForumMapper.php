@@ -6,7 +6,8 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\DomainBundle\Entity\Forum\Forum;
+use App\Entity\Forum as ForumEntity;
+use DateTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ForumMapper
@@ -15,29 +16,27 @@ class ForumMapper
     {
         $jsonForums = [];
 
-        /** @var Forum $forum */
+        /** @var ForumEntity\Forum $forum */
         foreach($forums as $forum)
         {
             $jsonForums[] = $this->mapForum($generator, $forum);
         }
 
-        $jsonObject = (object)[
+        return (object)[
             "forums"  => $jsonForums,
             "links"   => (object)[
                 "self"        => $generator->generate('getForumList', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ]
         ];
-
-        return $jsonObject;
     }
 
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Forum $forum
+     * @param ForumEntity\Forum $forum
      *
      * @return object
      */
-    public function mapForum(UrlGeneratorInterface $generator, Forum $forum)
+    public function mapForum(UrlGeneratorInterface $generator, ForumEntity\Forum $forum)
     {
         return (object)[
             "forumId"        => $forum->getId(),
@@ -53,11 +52,11 @@ class ForumMapper
 
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Forum $forum
+     * @param ForumEntity\Forum $forum
      *
      * @return object
      */
-    public function mapForumAndTopics(UrlGeneratorInterface $generator, Forum $forum)
+    public function mapForumAndTopics(UrlGeneratorInterface $generator, ForumEntity\Forum $forum)
     {
         $topics = $forum->getTopics()->getValues();
 
@@ -65,8 +64,8 @@ class ForumMapper
             $topics,
             function ($a, $b)
             {
-                /** @var $a \LaDanse\DomainBundle\Entity\Forum\Topic */
-                /** @var $b \LaDanse\DomainBundle\Entity\Forum\Topic */
+                /** @var ForumEntity\Topic $a */
+                /** @var ForumEntity\Topic $b */
                 return $a->getLastPostDate() < $b->getLastPostDate();
             }
         );
@@ -87,12 +86,12 @@ class ForumMapper
         return $jsonForum;
     }
 
-    private function createLastPost(Forum $forum)
+    private function createLastPost(ForumEntity\Forum $forum)
     {
         if ($forum->getLastPostPoster() != null)
         {
             return (object)[
-                "date" => $forum->getLastPostDate()->format(\DateTime::ISO8601),
+                "date" => $forum->getLastPostDate()->format(DateTime::ISO8601),
                 "topic" => (object)[
                     "id" => $forum->getLastPostTopic()->getId(),
                     "subject" => $forum->getLastPostTopic()->getSubject()

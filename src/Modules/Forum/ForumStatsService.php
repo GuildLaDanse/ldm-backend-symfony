@@ -172,6 +172,8 @@ class ForumStatsService extends LaDanseService
      * @param DateTime $default
      *
      * @return DateTime
+     *
+     * @noinspection DuplicatedCode
      */
     private function getLastVisitForAccount($account, DateTime $default = null)
     {
@@ -208,6 +210,8 @@ class ForumStatsService extends LaDanseService
      * @param Account $account
      *
      * @throws Exception
+     *
+     * @noinspection DuplicatedCode
      */
     private function resetLastVisitForAccount($account)
     {

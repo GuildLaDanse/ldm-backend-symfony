@@ -10,6 +10,7 @@ use App\Entity\Account;
 use App\Entity\Forum as ForumEntity;
 use App\Infrastructure\Modules\LaDanseService;
 use App\Infrastructure\Modules\UUIDUtils;
+use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use DateTime;
@@ -39,15 +40,23 @@ class ForumService extends LaDanseService
     public $eventDispatcher;
 
     /**
+     * @var AuthenticationService
+     */
+    public $authenticationService;
+
+    /**
      * @param ContainerInterface $container
+     * @param AuthenticationService $authenticationService
      *
      * @DI\InjectParams({
      *     "container" = @DI\Inject("service_container")
      * })
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, AuthenticationService $authenticationService)
     {
         parent::__construct($container);
+
+        $this->authenticationService = $authenticationService;
     }
 
     /**
@@ -57,7 +66,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $forumRepo = $doc->getRepository(ForumEntity\Forum::REPOSITORY);
+        $forumRepo = $doc->getRepository(ForumEntity\Forum::class);
 
         return $forumRepo->findAll();
     }
@@ -73,7 +82,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $forumRepo = $doc->getRepository(ForumEntity\Forum::REPOSITORY);
+        $forumRepo = $doc->getRepository(ForumEntity\Forum::class);
 
         /** @var ForumEntity\Forum $forum */
         $forum = $forumRepo->find($forumId);
@@ -142,7 +151,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $topicRepo = $doc->getRepository(ForumEntity\Forum::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Forum::class);
 
         /** @var ForumEntity\Forum $forum */
         $forum = $topicRepo->find($forumId);
@@ -177,7 +186,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
 
         $topic = $topicRepo->find($topicId);
 
@@ -211,7 +220,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $postRepo = $doc->getRepository(ForumEntity\Post::REPOSITORY);
+        $postRepo = $doc->getRepository(ForumEntity\Post::class);
 
         /** @var ForumEntity\Post $post */
         $post = $postRepo->find($postId);
@@ -237,7 +246,7 @@ class ForumService extends LaDanseService
     {
         $doc = $this->getDoctrine();
 
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
 
         /** @var ForumEntity\Topic $topic */
         $topic = $topicRepo->find($topicId);
@@ -306,7 +315,7 @@ class ForumService extends LaDanseService
         $this->eventDispatcher->dispatch(
             new ActivityEvent(
                 ActivityType::FORUM_TOPIC_CREATE,
-                $this->getAuthenticationService()->getCurrentContext()->getAccount(),
+                $this->authenticationService->getCurrentContext()->getAccount(),
                 [
                     'postedBy' =>
                     [
@@ -337,7 +346,7 @@ class ForumService extends LaDanseService
         $doc = $this->getDoctrine();
         $em = $doc->getManager();
 
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
 
         /** @var ForumEntity\Topic $topic */
         $topic = $topicRepo->find($topicId);
@@ -355,7 +364,7 @@ class ForumService extends LaDanseService
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_TOPIC_REMOVE,
-                    $this->getAuthenticationService()->getCurrentContext()->getAccount(),
+                    $this->authenticationService->getCurrentContext()->getAccount(),
                     [
                         'removedBy' =>
                         [
@@ -385,7 +394,7 @@ class ForumService extends LaDanseService
         $doc = $this->getDoctrine();
 
         $em = $doc->getManager();
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
 
         /* @var $topic ForumEntity\Topic */
         $topic = $topicRepo->find($topicId);
@@ -423,7 +432,7 @@ class ForumService extends LaDanseService
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_POST_CREATE,
-                    $this->getAuthenticationService()->getCurrentContext()->getAccount(),
+                    $this->authenticationService->getCurrentContext()->getAccount(),
                     [
                         'postedBy' =>
                         [
@@ -454,7 +463,7 @@ class ForumService extends LaDanseService
         $doc = $this->getDoctrine();
 
         $em = $doc->getManager();
-        $postRepo = $doc->getRepository(ForumEntity\Post::REPOSITORY);
+        $postRepo = $doc->getRepository(ForumEntity\Post::class);
 
         $post = $postRepo->find($postId);
 
@@ -475,7 +484,7 @@ class ForumService extends LaDanseService
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_POST_UPDATE,
-                    $this->getAuthenticationService()->getCurrentContext()->getAccount(),
+                    $this->authenticationService->getCurrentContext()->getAccount(),
                     [
                         'updatedBy' =>
                         [
@@ -508,7 +517,7 @@ class ForumService extends LaDanseService
         $doc = $this->getDoctrine();
 
         $em = $doc->getManager();
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::REPOSITORY);
+        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
 
         $topic = $topicRepo->find($topicId);
 
@@ -529,7 +538,7 @@ class ForumService extends LaDanseService
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_TOPIC_UPDATE,
-                    $this->getAuthenticationService()->getCurrentContext()->getAccount(),
+                    $this->authenticationService->getCurrentContext()->getAccount(),
                     [
                         'updatedBy' =>
                         [

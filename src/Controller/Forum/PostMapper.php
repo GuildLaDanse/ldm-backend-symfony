@@ -6,7 +6,8 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\DomainBundle\Entity\Forum\Post;
+use App\Entity\Forum as ForumEntity;
+use DateTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -18,18 +19,18 @@ class PostMapper
 {
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Post $post
+     * @param ForumEntity\Post $post
      *
      * @return object
      */
-    public function mapPost(UrlGeneratorInterface $generator, Post $post)
+    public function mapPost(UrlGeneratorInterface $generator, ForumEntity\Post $post)
     {
         return (object)[
             "postId"   => $post->getId(),
             "posterId" => $post->getPoster()->getId(),
             "poster"   => $post->getPoster()->getDisplayName(),
             "message"  => $post->getMessage(),
-            "postDate" => $post->getPostDate()->format(\DateTime::ISO8601),
+            "postDate" => $post->getPostDate()->format(DateTime::ISO8601),
             "links"    => (object)[
                 "self"   => $generator->generate('getPost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
                 "update" => $generator->generate('updatePost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
@@ -39,11 +40,11 @@ class PostMapper
 
     /**
      * @param UrlGeneratorInterface $generator
-     * @param Post $post
+     * @param ForumEntity\Post $post
      *
      * @return object
      */
-    public function mapPostAndTopic(UrlGeneratorInterface $generator, Post $post)
+    public function mapPostAndTopic(UrlGeneratorInterface $generator, ForumEntity\Post $post)
     {
         $jsonPost = $this->mapPost($generator, $post);
 
@@ -65,7 +66,7 @@ class PostMapper
     {
         $jsonPosts = [];
 
-        /** @var Post $post */
+        /** @var ForumEntity\Post $post */
         foreach($posts as $post)
         {
             $jsonPosts[] = $this->mapPostAndTopic($generator, $post);

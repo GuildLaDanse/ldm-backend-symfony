@@ -15,13 +15,11 @@ use App\Entity\Account;
 /**
  * Forum
  *
+ * @ORM\Entity(repositoryClass="App\Repository\Forum\ForumRepository")
  * @ORM\Table(name="Forum", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
- * @ORM\Entity
  */
 class Forum
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Forum\Forum';
-
     /**
      * @var string
      *
@@ -67,6 +65,7 @@ class Forum
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
     protected $topics;
+
     /**
      * Constructor
      */

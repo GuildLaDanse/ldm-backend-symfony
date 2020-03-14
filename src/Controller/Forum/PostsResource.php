@@ -6,18 +6,17 @@
 
 namespace App\Controller\Forum;
 
-use LaDanse\RestBundle\Common\AbstractRestController;
-use LaDanse\ServicesBundle\Service\Forum\ForumService;
-use LaDanse\ServicesBundle\Service\Forum\ForumStatsService;
-use LaDanse\ServicesBundle\Service\Forum\PostDoesNotExistException;
-use LaDanse\SiteBundle\Security\AuthenticationService;
+use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Security\AuthenticationService;
+use App\Modules\Event\Forum\ForumService;
+use App\Modules\Event\Forum\ForumStatsService;
+use App\Modules\Event\Forum\PostDoesNotExistException;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/posts")
@@ -25,24 +24,26 @@ use JMS\DiExtraBundle\Annotation as DI;
 class PostsResource extends AbstractRestController
 {
     /**
-     * @DI\Inject("monolog.logger.ladanse")
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     private $logger;
+
+    public function  __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param Request $request
      * @param string $postId
+     * @param ForumService $forumService
      *
      * @return Response
      *
      * @Route("/{postId}", name="getPost", methods={"GET"})
      */
-    public function getPostAction(Request $request, $postId)
+    public function getPostAction(Request $request, $postId, ForumService $forumService)
     {
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
-
         try
         {
             $post = $forumService->getPost($postId);
@@ -67,19 +68,20 @@ class PostsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param string $postId
+     * @param AuthenticationService $authenticationService
+     * @param ForumService $forumService
      *
      * @return Response
      *
      * @Route("/{postId}", name="updatePost", methods={"POST", "PUT"})
      */
-    public function updatePostAction(Request $request, $postId)
+    public function updatePostAction(
+        Request $request,
+        $postId,
+        AuthenticationService $authenticationService,
+        ForumService $forumService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
-
-        /** @var ForumService $forumService */
-        $forumService = $this->get(ForumService::SERVICE_NAME);
 
         $post = null;
 
@@ -111,29 +113,44 @@ class PostsResource extends AbstractRestController
 
         $jsonObject = json_decode($jsonData);
 
-        $forumService->updatePost(
-            $authContext->getAccount(),
-            $postId,
-            $jsonObject->message);
+        try
+        {
+            $forumService->updatePost(
+                $authContext->getAccount(),
+                $postId,
+                $jsonObject->message);
 
-        $jsonObject = (object)[
-            "posts" => "test"
-        ];
+            $jsonObject = (object)[
+                "posts" => "test"
+            ];
 
-        return new JsonResponse($jsonObject);
+            return new JsonResponse($jsonObject);
+        }
+        catch (PostDoesNotExistException $e)
+        {
+            return ResourceHelper::createErrorResponse(
+                $request,
+                Response::HTTP_NOT_FOUND,
+                $e->getMessage(),
+                ["Allow" => "GET"]
+            );
+        }
     }
 
     /**
      * @param string $postId
+     * @param AuthenticationService $authenticationService
+     * @param ForumStatsService $statsService
      *
      * @return Response
      *
      * @Route("/{postId}/markRead", name="markPostAsRead", methods={"GET", "POST", "PUT"})
      */
-    public function markPostAsReadAction($postId)
+    public function markPostAsReadAction(
+        $postId,
+        AuthenticationService $authenticationService,
+        ForumStatsService $statsService)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->get(AuthenticationService::SERVICE_NAME);
         $authContext = $authenticationService->getCurrentContext();
 
         if (!$authContext->isAuthenticated())
@@ -148,9 +165,6 @@ class PostsResource extends AbstractRestController
         }
 
         $account = $authContext->getAccount();
-
-        /** @var ForumStatsService $statsService */
-        $statsService = $this->get(ForumStatsService::SERVICE_NAME);
 
         $statsService->markPostAsRead($account, $postId);
 
