@@ -1,6 +1,7 @@
 {
     "type": "project",
     "license": "proprietary",
+    "name": "ldm-backend-symfony",
     "description": "La Danse Guild backend for website and other clients",
     "require": {
         "php": "^7.4",
