@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use RS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/api/comments")
@@ -26,10 +25,14 @@ use RS\DiExtraBundle\Annotation as DI;
 class CommentsResource extends AbstractRestController
 {
     /**
-     * @DI\Inject("monolog.logger.ladanse")
      * @var LoggerInterface $logger
      */
     private $logger;
+
+    public function  __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param Request $request

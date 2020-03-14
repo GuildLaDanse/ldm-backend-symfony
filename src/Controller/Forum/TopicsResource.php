@@ -34,14 +34,17 @@ class TopicsResource extends AbstractRestController
 
     /**
      * @param Request $request
+     * @param ForumService $forumService
      * @param string $topicId
      *
-     * @param ForumService $forumService
      * @return Response
      *
      * @Route("/{topicId}", name="getPostsInTopic", methods={"GET"})
      */
-    public function getTopicAction(Request $request, $topicId, ForumService $forumService)
+    public function getTopicAction(
+        Request $request,
+        ForumService $forumService,
+        $topicId)
     {
         try
         {
@@ -66,9 +69,9 @@ class TopicsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $topicId
      * @param AuthenticationService $authenticationService
      * @param ForumService $forumService
+     * @param string $topicId
      *
      * @return Response
      *
@@ -76,9 +79,9 @@ class TopicsResource extends AbstractRestController
      */
     public function createPostInTopicAction(
         Request $request,
-        $topicId,
         AuthenticationService $authenticationService,
-        ForumService $forumService)
+        ForumService $forumService,
+        $topicId)
     {
         $authContext = $authenticationService->getCurrentContext();
 
@@ -123,9 +126,9 @@ class TopicsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $topicId
      * @param AuthenticationService $authenticationService
      * @param ForumService $forumService
+     * @param string $topicId
      *
      * @return Response
      *
@@ -135,9 +138,9 @@ class TopicsResource extends AbstractRestController
      */
     public function updateTopicAction(
         Request $request,
-        $topicId,
         AuthenticationService $authenticationService,
-        ForumService $forumService)
+        ForumService $forumService,
+        $topicId)
     {
         $authContext = $authenticationService->getCurrentContext();
 

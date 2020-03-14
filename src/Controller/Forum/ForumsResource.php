@@ -87,14 +87,17 @@ class ForumsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $forumId
      * @param ForumService $forumService
+     * @param string $forumId
      *
      * @return Response
      *
      * @Route("/{forumId}", name="getForum", methods={"GET"})
      */
-    public function getForumForIdAction(Request $request, $forumId, ForumService $forumService)
+    public function getForumForIdAction(
+        Request $request,
+        ForumService $forumService,
+        $forumId)
     {
         try
         {
@@ -119,8 +122,8 @@ class ForumsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $forumId
      * @param ForumService $forumService
+     * @param string $forumId
      *
      * @return Response
      *
@@ -130,7 +133,10 @@ class ForumsResource extends AbstractRestController
      *
      * @Route("/{forumId}/activity", name="getActivityForForum", methods={"GET"})
      */
-    public function getActivityForForumAction(Request $request, $forumId, ForumService $forumService)
+    public function getActivityForForumAction(
+        Request $request,
+        ForumService $forumService,
+        $forumId)
     {
         try
         {
@@ -162,9 +168,9 @@ class ForumsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $forumId
      * @param ForumService $forumService
      * @param AuthenticationService $authenticationService
+     * @param string $forumId
      *
      * @return Response
      *
@@ -172,9 +178,9 @@ class ForumsResource extends AbstractRestController
      */
     public function createTopicAction(
         Request $request,
-        $forumId,
         ForumService $forumService,
-        AuthenticationService $authenticationService)
+        AuthenticationService $authenticationService,
+        $forumId)
     {
         $authContext = $authenticationService->getCurrentContext();
 

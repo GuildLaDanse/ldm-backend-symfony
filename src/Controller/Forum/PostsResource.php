@@ -35,14 +35,17 @@ class PostsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $postId
      * @param ForumService $forumService
+     * @param string $postId
      *
      * @return Response
      *
      * @Route("/{postId}", name="getPost", methods={"GET"})
      */
-    public function getPostAction(Request $request, $postId, ForumService $forumService)
+    public function getPostAction(
+        Request $request,
+        ForumService $forumService,
+        $postId)
     {
         try
         {
@@ -67,9 +70,9 @@ class PostsResource extends AbstractRestController
 
     /**
      * @param Request $request
-     * @param string $postId
      * @param AuthenticationService $authenticationService
      * @param ForumService $forumService
+     * @param string $postId
      *
      * @return Response
      *
@@ -77,9 +80,9 @@ class PostsResource extends AbstractRestController
      */
     public function updatePostAction(
         Request $request,
-        $postId,
         AuthenticationService $authenticationService,
-        ForumService $forumService)
+        ForumService $forumService,
+        $postId)
     {
         $authContext = $authenticationService->getCurrentContext();
 
@@ -138,18 +141,18 @@ class PostsResource extends AbstractRestController
     }
 
     /**
-     * @param string $postId
      * @param AuthenticationService $authenticationService
      * @param ForumStatsService $statsService
+     * @param string $postId
      *
      * @return Response
      *
      * @Route("/{postId}/markRead", name="markPostAsRead", methods={"GET", "POST", "PUT"})
      */
     public function markPostAsReadAction(
-        $postId,
         AuthenticationService $authenticationService,
-        ForumStatsService $statsService)
+        ForumStatsService $statsService,
+        $postId)
     {
         $authContext = $authenticationService->getCurrentContext();
 

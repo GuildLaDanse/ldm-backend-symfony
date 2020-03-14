@@ -43,9 +43,12 @@ class AccountResource extends AbstractRestController
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     *
      * @Route("/unread", name="getUnreadForAccount", methods={"GET"})
      */
-    public function getUnreadForAccountAction(AuthenticationService $authenticationService, ForumStatsService $statsService)
+    public function getUnreadForAccountAction(
+        AuthenticationService $authenticationService,
+        ForumStatsService $statsService)
     {
         $authContext = $authenticationService->getCurrentContext();
 
