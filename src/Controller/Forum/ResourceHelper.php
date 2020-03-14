@@ -7,6 +7,8 @@
 namespace App\Controller\Forum;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ResourceHelper
@@ -15,13 +17,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ResourceHelper
 {
     /**
-     * @param $request
-     * @param $httpStatusCode
-     * @param $errorMessage
+     * @param Request $request
+     * @param int $httpStatusCode
+     * @param string $errorMessage
      * @param array $headers
+     *
      * @return JsonResponse
      */
-    public static function createErrorResponse($request, $httpStatusCode, $errorMessage, $headers = [])
+    public static function createErrorResponse(
+        Request $request,
+        int $httpStatusCode,
+        string $errorMessage,
+        array $headers = []): JsonResponse
     {
         $jsonObject = (object)[
                 "errorId"      => $httpStatusCode,
@@ -43,16 +50,16 @@ class ResourceHelper
     /**
      * @return string
      */
-    public static function createUUID()
+    public static function createUUID(): string
     {
         return md5(uniqid());
     }
 
     /**
-     * @param $request
-     * @param $response
+     * @param Request $request
+     * @param Response $response
      */
-    public static function addAccessControlAllowOrigin($request, $response)
+    public static function addAccessControlAllowOrigin(Request $request, Response $response): void
     {
         $origin = $request->headers->get('Origin');
 
@@ -65,10 +72,11 @@ class ResourceHelper
     }
 
     /**
-     * @param $origin
+     * @param string $origin
+     *
      * @return bool
      */
-    static public function isOriginAllowed($origin)
+    static public function isOriginAllowed(string $origin): bool
     {
         $allowedOrigins = [
             'http://localhost:8080/',
@@ -87,11 +95,12 @@ class ResourceHelper
     }
 
     /**
-     * @param $mainstring
-     * @param $substring
+     * @param string $mainstring
+     * @param string $substring
+     *
      * @return bool
      */
-    static public function startsWith($mainstring, $substring)
+    static public function startsWith(string $mainstring, string $substring): bool
     {
         return $substring === "" || strpos($mainstring, $substring) === 0;
     }
