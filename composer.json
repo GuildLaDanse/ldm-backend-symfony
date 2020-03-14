@@ -1,6 +1,7 @@
 {
     "type": "project",
     "license": "proprietary",
+    "description": "La Danse Guild backend for website and other clients",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
