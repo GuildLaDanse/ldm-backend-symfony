@@ -39,7 +39,7 @@ abstract class VersionedEntity
      *
      * @return DateTime
      */
-    public function getFromTime()
+    public function getFromTime(): DateTime
     {
         return $this->fromTime;
     }
@@ -48,6 +48,7 @@ abstract class VersionedEntity
      * Set endTime
      *
      * @param DateTime $endTime
+     *
      * @return $this
      */
     public function setEndTime($endTime)
@@ -60,9 +61,9 @@ abstract class VersionedEntity
     /**
      * Get endTime
      *
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getEndTime()
+    public function getEndTime(): ?DateTime
     {
         return $this->endTime;
     }
@@ -74,7 +75,7 @@ abstract class VersionedEntity
      *
      * @return bool
      */
-    public function isVersionActiveOn(DateTime $onDateTime)
+    public function isVersionActiveOn(DateTime $onDateTime): bool
     {
         if (($this->getFromTime() <= $onDateTime)
             &&

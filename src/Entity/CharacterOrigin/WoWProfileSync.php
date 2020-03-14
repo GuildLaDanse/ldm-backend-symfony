@@ -7,7 +7,7 @@
 namespace App\Entity\CharacterOrigin;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Account;
+use App\Entity\Account\Account;
 
 /**
  * @ORM\Entity

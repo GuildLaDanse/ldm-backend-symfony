@@ -6,7 +6,7 @@
 
 namespace App\Modules\Activity;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use DateTime;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Contracts\EventDispatcher\Event;

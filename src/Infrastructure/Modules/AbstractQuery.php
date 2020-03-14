@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Modules;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Error\LoaderError;

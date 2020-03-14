@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Authorization;
 
-use App\Entity\Event;
+use App\Entity\Event\Event;
 use App\Infrastructure\Authorization\ResourceFinders\EventFinderModule;
 use App\Infrastructure\Authorization\ResourceFinders\ResourceFinderModule;
 use Symfony\Component\DependencyInjection\ContainerInterface;

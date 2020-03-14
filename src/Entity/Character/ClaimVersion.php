@@ -4,9 +4,10 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Character;
 
 
+use App\Entity\VersionedEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

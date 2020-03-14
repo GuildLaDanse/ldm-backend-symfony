@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;

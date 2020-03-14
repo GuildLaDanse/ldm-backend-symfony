@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Event;
 
 /**
  * Class SignUpType

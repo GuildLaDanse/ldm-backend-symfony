@@ -102,7 +102,7 @@ class EventHydrator
 
         foreach($this->signUps as $signUp)
         {
-            /** @var Entity\SignUp $signUp */
+            /** @var \App\Entity\Event\SignUp $signUp */
             if ($signUp->getEvent()->getId() == $eventId)
             {
                 $result[] = $signUp;
@@ -130,7 +130,7 @@ class EventHydrator
 
         foreach($this->forRoles as $forRole)
         {
-            /** @var Entity\ForRole $forRole */
+            /** @var \App\Entity\Event\ForRole $forRole */
             if ($forRole->getSignUp()->getId() == $signUpId)
             {
                 $result[] = $forRole;
@@ -159,7 +159,7 @@ class EventHydrator
         $qb = $em->createQueryBuilder();
 
         $qb->select('signUp', 'account', 'event')
-            ->from(Entity\SignUp::class, 'signUp')
+            ->from(Entity\Event\SignUp::class, 'signUp')
             ->join('signUp.event', 'event')
             ->join('signUp.account', 'account')
             ->add('where',
@@ -178,7 +178,7 @@ class EventHydrator
 
         foreach($this->signUps as $signUp)
         {
-            /** @var Entity\SignUp $signUp */
+            /** @var \App\Entity\Event\SignUp $signUp */
 
             $signUpIds[] = $signUp->getId();
         }
@@ -193,7 +193,7 @@ class EventHydrator
             $qb = $em->createQueryBuilder();
 
             $qb->select('forRole', 'signUp')
-                ->from(Entity\ForRole::class, 'forRole')
+                ->from(Entity\Event\ForRole::class, 'forRole')
                 ->join('forRole.signUp', 'signUp')
                 ->add('where',
                     $qb->expr()->in(

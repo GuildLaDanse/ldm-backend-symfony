@@ -6,6 +6,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Character\Character;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\GameData\Guild;
 

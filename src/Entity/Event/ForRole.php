@@ -4,8 +4,9 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Event;
 
+use App\Entity\Event\SignUp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

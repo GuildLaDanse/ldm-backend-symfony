@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Authorization\Policies;
 
-use App\Entity\Claim;
+use App\Entity\Character\Claim;
 use App\Infrastructure\Authorization\EvaluationCtx;
 use App\Infrastructure\Authorization\Rule;
 use App\Modules\Activity\ActivityType;

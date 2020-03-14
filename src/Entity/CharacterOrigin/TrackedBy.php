@@ -8,7 +8,7 @@ namespace App\Entity\CharacterOrigin;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Character;
+use App\Entity\Character\Character;
 
 /**
  * @ORM\Entity

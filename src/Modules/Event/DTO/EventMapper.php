@@ -17,14 +17,14 @@ use App\Modules\Event\DTO as EventDTO;
 class EventMapper
 {
     /**
-     * @param Entity\Event $event
+     * @param \App\Entity\Event\Event $event
      * @param EventHydrator $eventHydrator
      *
      * @return Event
      *
      * @throws MapperException
      */
-    public static function mapSingle(Entity\Event $event, EventHydrator $eventHydrator) : EventDTO\Event
+    public static function mapSingle(Entity\Event\Event $event, EventHydrator $eventHydrator) : EventDTO\Event
     {
         $dtoEvent = new EventDTO\Event();
 
@@ -47,14 +47,14 @@ class EventMapper
 
         $signUpDtos = [];
 
-        /** @var Entity\SignUp $signUp */
+        /** @var \App\Entity\Event\SignUp $signUp */
         foreach($eventHydrator->getSignUps($event->getId()) as $signUp)
         {
             $roles = [];
 
-            if ($signUp->getType() != Entity\SignUpType::ABSENCE)
+            if ($signUp->getType() != Entity\Event\SignUpType::ABSENCE)
             {
-                /** @var Entity\ForRole $role */
+                /** @var \App\Entity\Event\ForRole $role */
                 foreach($eventHydrator->getForRoles($signUp->getId()) as $role)
                 {
                     $roles[] = $role->getRole();
@@ -95,12 +95,12 @@ class EventMapper
 
         foreach($events as $event)
         {
-            if (!($event instanceof Entity\Event))
+            if (!($event instanceof Entity\Event\Event))
             {
                 throw new MapperException('Element in array is not of type Entity\Event');
             }
 
-            /** @var Entity\Event $event */
+            /** @var \App\Entity\Event\Event $event */
             $dtoArray[] = EventMapper::mapSingle($event, $eventHydrator);
         }
 

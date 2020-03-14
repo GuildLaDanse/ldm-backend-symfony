@@ -4,8 +4,11 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Event;
 
+use App\Entity\Account\Account;
+use App\Entity\Event\Event;
+use App\Entity\Event\ForRole;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

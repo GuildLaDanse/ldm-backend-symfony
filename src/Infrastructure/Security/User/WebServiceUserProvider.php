@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Security\User;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use App\Repository\AccountRepository;
 use Auth0\JWTAuthBundle\Security\Auth0Service;
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
@@ -95,7 +95,7 @@ class WebServiceUserProvider implements JWTUserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === 'App\Entity\Account';
+        return $class === 'App\Entity\Account\Account';
     }
 
 }

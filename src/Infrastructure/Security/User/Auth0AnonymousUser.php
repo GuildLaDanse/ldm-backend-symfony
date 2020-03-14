@@ -7,7 +7,7 @@
 namespace App\Infrastructure\Security\User;
 
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 
 class Auth0AnonymousUser extends Account
 {

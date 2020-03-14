@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Security;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use App\Infrastructure\Modules\LaDanseService;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;

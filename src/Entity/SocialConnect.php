@@ -6,6 +6,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Account\Account;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Account;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Intl\Exception\NotImplementedException;

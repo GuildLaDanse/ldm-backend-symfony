@@ -8,7 +8,7 @@ namespace App\Entity\Discord;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Account;
+use App\Entity\Account\Account;
 
 /**
  * @ORM\Entity

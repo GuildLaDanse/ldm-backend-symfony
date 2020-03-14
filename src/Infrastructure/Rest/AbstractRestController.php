@@ -6,7 +6,7 @@
 
 namespace App\Infrastructure\Rest;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Authorization\CannotEvaluateException;
 use App\Infrastructure\Authorization\ResourceReference;

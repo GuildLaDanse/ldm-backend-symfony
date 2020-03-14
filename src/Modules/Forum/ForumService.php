@@ -6,7 +6,7 @@
 
 namespace App\Modules\Event\Forum;
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 use App\Entity\Forum as ForumEntity;
 use App\Infrastructure\Modules\LaDanseService;
 use App\Infrastructure\Modules\UUIDUtils;

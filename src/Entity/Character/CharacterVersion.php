@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Character;
 
+use App\Entity\Character\Character;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\GameData\GameClass;

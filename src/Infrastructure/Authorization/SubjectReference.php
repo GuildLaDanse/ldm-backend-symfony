@@ -7,7 +7,7 @@
 namespace App\Infrastructure\Authorization;
 
 
-use App\Entity\Account;
+use App\Entity\Account\Account;
 
 class SubjectReference
 {
