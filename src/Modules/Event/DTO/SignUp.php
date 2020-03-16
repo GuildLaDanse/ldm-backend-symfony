@@ -7,33 +7,40 @@
 namespace App\Modules\Event\DTO;
 
 use App\Modules\Common\AccountReference;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class SignUp
 {
     /**
+     * @Serializer\SerializedName("id")
+     *
      * @var int
-     * @SerializedName("id")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @Serializer\SerializedName("accountRef")
+     *
      * @var AccountReference
-     * @SerializedName("accountRef")
      */
-    protected $account;
+    protected AccountReference $account;
 
     /**
+     * @Serializer\SerializedName("type")
+     *
      * @var string
-     * @SerializedName("type")
      */
-    protected $type;
+    protected string $type;
 
     /**
+     * @Serializer\SerializedName("roles")
+     *
      * @var array
-     * @SerializedName("roles")
      */
-    protected $roles;
+    protected array $roles;
 
     /**
      * @return int
@@ -45,6 +52,7 @@ class SignUp
 
     /**
      * @param int $id
+     *
      * @return SignUp
      */
     public function setId(int $id): SignUp
@@ -63,6 +71,7 @@ class SignUp
 
     /**
      * @param AccountReference $account
+     *
      * @return SignUp
      */
     public function setAccount(AccountReference $account): SignUp
@@ -81,6 +90,7 @@ class SignUp
 
     /**
      * @param string $type
+     *
      * @return SignUp
      */
     public function setType($type): SignUp
@@ -99,6 +109,7 @@ class SignUp
 
     /**
      * @param array $roles
+     *
      * @return SignUp
      */
     public function setRoles($roles): SignUp

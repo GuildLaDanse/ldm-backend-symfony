@@ -7,49 +7,57 @@
 namespace App\Modules\Event\DTO;
 
 use DateTime;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class PatchEvent
 {
     /**
-     * @SerializedName("name")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("name")
      *
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
-     * @SerializedName("description")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("description")
      *
      * @var string
      */
-    protected $description;
+    protected string $description;
 
     /**
-     * @SerializedName("inviteTime")
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("inviteTime")
      *
      * @var DateTime
      */
-    protected $inviteTime;
+    protected DateTime $inviteTime;
 
     /**
-     * @SerializedName("startTime")
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("startTime")
      *
      * @var DateTime
      */
-    protected $startTime;
+    protected DateTime $startTime;
 
     /**
-     * @SerializedName("endTime")
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("endTime")
      *
      * @var DateTime
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -65,7 +73,7 @@ class PatchEvent
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -81,7 +89,7 @@ class PatchEvent
     /**
      * @return DateTime
      */
-    public function getInviteTime()
+    public function getInviteTime(): DateTime
     {
         return $this->inviteTime;
     }
@@ -97,7 +105,7 @@ class PatchEvent
     /**
      * @return DateTime
      */
-    public function getStartTime()
+    public function getStartTime(): DateTime
     {
         return $this->startTime;
     }
@@ -113,7 +121,7 @@ class PatchEvent
     /**
      * @return DateTime
      */
-    public function getEndTime()
+    public function getEndTime(): DateTime
     {
         return $this->endTime;
     }

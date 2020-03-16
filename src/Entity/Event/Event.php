@@ -18,14 +18,12 @@ use Finite\StatefulInterface;
 use Finite\StateMachine\StateMachineInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\Event\EventRepository")
  * @ORM\Table(name="Event", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"})
  * @ORM\HasLifecycleCallbacks
  */
 class Event implements StatefulInterface
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Event';
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

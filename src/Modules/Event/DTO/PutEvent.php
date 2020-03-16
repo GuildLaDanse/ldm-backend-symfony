@@ -8,59 +8,71 @@ namespace App\Modules\Event\DTO;
 
 use App\Modules\Common\IntegerReference;
 use DateTime;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class PutEvent
 {
     /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("name")
-     * @Assert\NotBlank()
-     */
-    private $name;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("description")
-     */
-    private $description;
-
-    /**
-     * @var DateTime
-     * @Type("DateTime")
-     * @SerializedName("inviteTime")
-     * @Assert\NotNull()
-     */
-    private $inviteTime;
-
-    /**
-     * @var DateTime
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("name")
      *
-     * @Type("DateTime")
-     * @SerializedName("startTime")
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $startTime;
+    private string $name;
 
     /**
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("description")
+     *
+     * @var string
+     */
+    private string $description;
+
+    /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("inviteTime")
+     *
+     * @Assert\NotNull()
+     *
      * @var DateTime
-     * @Type("DateTime")
-     * @SerializedName("endTime")
-     * @Assert\NotNull()
      */
-    private $endTime;
+    private DateTime $inviteTime;
 
     /**
-     * @var IntegerReference
-     * @Type(IntegerReference::class)
-     * @SerializedName("organiserReference")
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("startTime")
+     *
      * @Assert\NotNull()
+     *
+     * @var DateTime
      */
-    private $organiserReference;
+    private DateTime $startTime;
+
+    /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("endTime")
+     *
+     * @Assert\NotNull()
+     *
+     * @var DateTime
+     */
+    private DateTime $endTime;
+
+    /**
+     * @Serializer\Type(IntegerReference::class)
+     * @Serializer\SerializedName("organiserReference")
+     *
+     * @Assert\NotNull()
+     *
+     * @var IntegerReference
+     */
+    private IntegerReference $organiserReference;
 
     public function __construct()
     {
@@ -77,6 +89,7 @@ class PutEvent
 
     /**
      * @param string $name
+     *
      * @return PutEvent
      */
     public function setName($name): PutEvent
@@ -95,6 +108,7 @@ class PutEvent
 
     /**
      * @param string $description
+     *
      * @return PutEvent
      */
     public function setDescription($description): PutEvent
@@ -113,6 +127,7 @@ class PutEvent
 
     /**
      * @param DateTime $inviteTime
+     *
      * @return PutEvent
      */
     public function setInviteTime(DateTime $inviteTime): PutEvent
@@ -131,6 +146,7 @@ class PutEvent
 
     /**
      * @param DateTime $startTime
+     *
      * @return PutEvent
      */
     public function setStartTime(DateTime $startTime): PutEvent
@@ -149,6 +165,7 @@ class PutEvent
 
     /**
      * @param DateTime $endTime
+     *
      * @return PutEvent
      */
     public function setEndTime(DateTime $endTime): PutEvent
@@ -167,6 +184,7 @@ class PutEvent
 
     /**
      * @param IntegerReference $organiserReference
+     *
      * @return PutEvent
      */
     public function setOrganiserReference(IntegerReference $organiserReference): PutEvent

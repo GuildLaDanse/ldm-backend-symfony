@@ -7,34 +7,41 @@
 namespace App\Modules\Event\DTO;
 
 use App\Modules\Common\IntegerReference;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class PostSignUp
 {
     /**
-     * @var IntegerReference
-     * @Type(IntegerReference::class)
-     * @SerializedName("accountReference")
+     * @Serializer\Type(IntegerReference::class)
+     * @Serializer\SerializedName("accountReference")
+     *
      * @Assert\NotNull()
+     *
+     * @var IntegerReference
      */
-    private $accountReference;
+    private IntegerReference $accountReference;
 
     /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("signUpType")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("signUpType")
+     *
      * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $signUpType;
+    private string $signUpType;
 
     /**
+     * @Serializer\Type("array<string>")
+     * @Serializer\SerializedName("roles")
+     *
      * @var array
-     * @Type("array<string>")
-     * @SerializedName("roles")
      */
-    private $roles;
+    private array $roles;
 
     /**
      * @return IntegerReference
@@ -46,6 +53,7 @@ class PostSignUp
 
     /**
      * @param IntegerReference $accountReference
+     *
      * @return PostSignUp
      */
     public function setAccountReference(IntegerReference $accountReference): PostSignUp
@@ -64,6 +72,7 @@ class PostSignUp
 
     /**
      * @param string $signUpType
+     *
      * @return PostSignUp
      */
     public function setSignUpType(string $signUpType): PostSignUp
@@ -82,6 +91,7 @@ class PostSignUp
 
     /**
      * @param array $roles
+     *
      * @return PostSignUp
      */
     public function setRoles(array $roles): PostSignUp

@@ -6,25 +6,26 @@
 
 namespace App\Modules\Event\DTO;
 
+use App\Entity\Event\ForRole;
 use App\Modules\Common\MapperException;
 use App\Modules\Event\Query\EventHydrator;
 use DateTime;
 use DateTimeZone;
-use App\Entity as Entity;
+use App\Entity\Event as EventEntity;
 use App\Modules\Common as CommonDTO;
 use App\Modules\Event\DTO as EventDTO;
 
 class EventMapper
 {
     /**
-     * @param \App\Entity\Event\Event $event
+     * @param EventEntity\Event $event
      * @param EventHydrator $eventHydrator
      *
      * @return Event
      *
      * @throws MapperException
      */
-    public static function mapSingle(Entity\Event\Event $event, EventHydrator $eventHydrator) : EventDTO\Event
+    public static function mapSingle(EventEntity\Event $event, EventHydrator $eventHydrator) : EventDTO\Event
     {
         $dtoEvent = new EventDTO\Event();
 
@@ -47,14 +48,14 @@ class EventMapper
 
         $signUpDtos = [];
 
-        /** @var \App\Entity\Event\SignUp $signUp */
+        /** @var EventEntity\SignUp $signUp */
         foreach($eventHydrator->getSignUps($event->getId()) as $signUp)
         {
             $roles = [];
 
-            if ($signUp->getType() != Entity\Event\SignUpType::ABSENCE)
+            if ($signUp->getType() != EventEntity\SignUpType::ABSENCE)
             {
-                /** @var \App\Entity\Event\ForRole $role */
+                /** @var ForRole $role */
                 foreach($eventHydrator->getForRoles($signUp->getId()) as $role)
                 {
                     $roles[] = $role->getRole();
@@ -95,12 +96,12 @@ class EventMapper
 
         foreach($events as $event)
         {
-            if (!($event instanceof Entity\Event\Event))
+            if (!($event instanceof EventEntity\Event))
             {
                 throw new MapperException('Element in array is not of type Entity\Event');
             }
 
-            /** @var \App\Entity\Event\Event $event */
+            /** @var EventEntity\Event $event */
             $dtoArray[] = EventMapper::mapSingle($event, $eventHydrator);
         }
 

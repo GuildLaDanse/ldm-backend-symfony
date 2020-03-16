@@ -1,0 +1,160 @@
+<?php declare(strict_types=1);
+/**
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     https://github.com/GuildLaDanse
+ */
+
+namespace LaDanse\ServicesBundle\Service\Event\Command;
+
+use App\Entity\Account\Account;
+use App\Entity\Event as EventEntity;
+use App\Infrastructure\Authorization\AuthorizationService;
+use App\Infrastructure\Authorization\NotAuthorizedException;
+use App\Infrastructure\Authorization\ResourceByValue;
+use App\Infrastructure\Authorization\SubjectReference;
+use App\Infrastructure\Modules\InvalidInputException;
+use App\Infrastructure\Security\AuthenticationService;
+use App\Infrastructure\Tactician\CommandHandlerInterface;
+
+use App\Modules\Activity\ActivityEvent;
+use App\Modules\Activity\ActivityType;
+use App\Modules\Comment\CommentService;
+use App\Modules\Event\DTO as EventDTO;
+use App\Modules\Event\EventService;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Exception;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+class PostEventCommandHandler implements CommandHandlerInterface
+{
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private EventDispatcherInterface $eventDispatcher;
+
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
+
+    /**
+     * @var EventService
+     */
+    private EventService $eventService;
+
+    /**
+     * @var CommentService
+     */
+    private CommentService $commentService;
+
+    /**
+     * @var AuthenticationService
+     */
+    private AuthenticationService $authenticationService;
+
+    /**
+     * @var AuthorizationService
+     */
+    private AuthorizationService $authzService;
+
+    public function __construct(
+        LoggerInterface $logger,
+        EventDispatcherInterface $eventDispatcher,
+        Registry $doctrine,
+        EventService $eventService,
+        CommentService $commentService,
+        AuthenticationService $authenticationService,
+        AuthorizationService $authzService)
+    {
+        $this->logger = $logger;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->doctrine = $doctrine;
+        $this->eventService = $eventService;
+        $this->commentService = $commentService;
+        $this->authenticationService = $authenticationService;
+        $this->authzService = $authzService;
+    }
+
+    /**
+     * @param PostEventCommand $command
+     *
+     * @throws InvalidInputException
+     */
+    protected function validateInput(PostEventCommand $command)
+    {
+        $inviteTime = $command->getPostEventDto()->getInviteTime();
+        $startTime = $command->getPostEventDto()->getStartTime();
+        $endTime = $command->getPostEventDto()->getEndTime();
+
+        if (!(($inviteTime <= $startTime) && ($startTime <= $endTime)))
+        {
+            throw new InvalidInputException("Violation of time constraints: inviteTime <= startTime <= endTime");
+        }
+    }
+
+    /**
+     * @param PostEventCommand $command
+     *
+     * @return EventDTO\Event
+     *
+     * @throws InvalidInputException
+     * @throws NotAuthorizedException
+     * @throws Exception
+     */
+    public function __invoke(PostEventCommand $command): EventDTO\Event
+    {
+        $this->validateInput($command);
+
+        /** @var Account $account */
+        $account = $this->authenticationService->getCurrentContext()->getAccount();
+
+        $this->authzService->allowOrThrow(
+            new SubjectReference($account),
+            ActivityType::EVENT_CREATE,
+            new ResourceByValue(EventDTO\PostEvent::class, $command->getPostEventDto())
+        );
+
+        $em = $this->doctrine->getManager();
+
+        $commentGroupId = $this->commentService->createCommentGroup();
+
+        $event = new EventEntity\Event();
+        $event->setOrganiser(
+            $em->getReference(
+                Account::class,
+                $command->getPostEventDto()->getOrganiserReference()->getId()
+            )
+        );
+        $event->setName($command->getPostEventDto()->getName());
+        $event->setDescription($command->getPostEventDto()->getDescription());
+        $event->setInviteTime($command->getPostEventDto()->getInviteTime());
+        $event->setStartTime($command->getPostEventDto()->getStartTime());
+        $event->setEndTime($command->getPostEventDto()->getEndTime());
+        $event->setTopicId($commentGroupId);
+
+        $this->logger->info(__CLASS__ . ' persisting event');
+
+        $em->persist($event);
+        $em->flush();
+
+        $eventDto = $this->eventService->getEventById($event->getId());
+
+        $this->eventDispatcher->dispatch(
+            new ActivityEvent(
+                ActivityType::EVENT_CREATE,
+                $account,
+                [
+                    'event' => ActivityEvent::annotatedToSimpleObject($eventDto)
+                ]
+            )
+        );
+
+        return $eventDto;
+    }
+}

@@ -9,84 +9,100 @@ namespace App\Modules\Event\DTO;
 use App\Modules\Common\AccountReference;
 use App\Modules\Common\CommentGroupReference;
 use DateTime;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ExclusionPolicy("none")
+ * @Serializer\ExclusionPolicy("none")
  */
 class Event
 {
     /**
+     * @Serializer\Type("int")
+     * @Serializer\SerializedName("id")
+     *
      * @var int
-     * @SerializedName("id")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("name")
+     *
      * @var string
-     * @SerializedName("name")
      */
-    protected $name;
+    protected string $name;
 
     /**
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("description")
+     *
      * @var string
-     * @SerializedName("description")
      */
-    protected $description;
+    protected string $description;
 
     /**
+     * @Serializer\Type(AccountReference::class)
+     * @Serializer\SerializedName("organiserRef")
+     *
      * @var AccountReference
-     * @SerializedName("organiserRef")
      */
-    protected $organiser;
+    protected AccountReference $organiser;
 
     /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("inviteTime")
+     *
      * @var DateTime
-     * @SerializedName("inviteTime")
      */
-    protected $inviteTime;
+    protected DateTime $inviteTime;
 
     /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("startTime")
+     *
      * @var DateTime
-     * @SerializedName("startTime")
      */
-    protected $startTime;
+    protected DateTime $startTime;
 
     /**
+     * @Serializer\SerializedName("endTime")
+     *
      * @var DateTime
-     * @SerializedName("endTime")
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
+     * @Serializer\SerializedName("state")
+     *
      * @var string
-     * @SerializedName("state")
      */
-    protected $state;
+    protected string $state;
 
     /**
+     * @Serializer\SerializedName("commentGroupRef")
+     *
      * @var CommentGroupReference
-     * @SerializedName("commentGroupRef")
      */
-    protected $commentGroup;
+    protected CommentGroupReference $commentGroup;
 
     /**
+     * @Serializer\SerializedName("signUps")
+     *
      * @var array
-     * @SerializedName("signUps")
      */
-    protected $signUps;
+    protected array $signUps;
 
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * @param int $id
+     *
      * @return Event
      */
     public function setId(int $id): Event
@@ -98,13 +114,14 @@ class Event
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
+     *
      * @return Event
      */
     public function setName($name): Event
@@ -116,13 +133,14 @@ class Event
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
      * @param string $description
+     *
      * @return Event
      */
     public function setDescription($description): Event
@@ -141,6 +159,7 @@ class Event
 
     /**
      * @param AccountReference $organiser
+     *
      * @return Event
      */
     public function setOrganiser(AccountReference $organiser): Event
@@ -152,13 +171,14 @@ class Event
     /**
      * @return DateTime
      */
-    public function getInviteTime()
+    public function getInviteTime(): DateTime
     {
         return $this->inviteTime;
     }
 
     /**
      * @param DateTime $inviteTime
+     *
      * @return Event
      */
     public function setInviteTime(DateTime $inviteTime): Event
@@ -170,13 +190,14 @@ class Event
     /**
      * @return DateTime
      */
-    public function getStartTime()
+    public function getStartTime(): DateTime
     {
         return $this->startTime;
     }
 
     /**
      * @param DateTime $startTime
+     *
      * @return Event
      */
     public function setStartTime(DateTime $startTime): Event
@@ -195,9 +216,10 @@ class Event
 
     /**
      * @param DateTime $endTime
+     *
      * @return Event
      */
-    public function setEndTime(DateTime $endTime)
+    public function setEndTime(DateTime $endTime): Event
     {
         $this->endTime = $endTime;
         return $this;
@@ -213,6 +235,7 @@ class Event
 
     /**
      * @param string $state
+     *
      * @return Event
      */
     public function setState($state): Event
@@ -231,6 +254,7 @@ class Event
 
     /**
      * @param CommentGroupReference $commentGroup
+     *
      * @return Event
      */
     public function setCommentGroup($commentGroup): Event
@@ -239,7 +263,12 @@ class Event
         return $this;
     }
 
-    public function getSignUpForId($signUpId)
+    /**
+     * @param $signUpId
+     *
+     * @return SignUp|null
+     */
+    public function getSignUpForId($signUpId): ?SignUp
     {
         foreach($this->signUps as $signUp)
         {
@@ -251,7 +280,12 @@ class Event
         return null;
     }
 
-    public function getSignUpForAccountId($accountId)
+    /**
+     * @param $accountId
+     *
+     * @return SignUp|null
+     */
+    public function getSignUpForAccountId($accountId): ?SignUp
     {
         foreach($this->signUps as $signUp)
         {
@@ -273,6 +307,7 @@ class Event
 
     /**
      * @param array $signUps
+     *
      * @return Event
      */
     public function setSignUps($signUps): Event

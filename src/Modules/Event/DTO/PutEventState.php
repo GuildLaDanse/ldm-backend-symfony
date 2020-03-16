@@ -6,19 +6,23 @@
 
 namespace App\Modules\Event\DTO;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class PutEventState
 {
     /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("state")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("state")
+     *
      * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $state;
+    private string $state;
 
     /**
      * @return string
@@ -30,6 +34,7 @@ class PutEventState
 
     /**
      * @param string $state
+     *
      * @return PutEventState
      */
     public function setState(string $state): PutEventState

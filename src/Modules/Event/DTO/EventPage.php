@@ -7,31 +7,36 @@
 namespace App\Modules\Event\DTO;
 
 use DateTime;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ExclusionPolicy("none")
+ * @Serializer\ExclusionPolicy("none")
  */
 class EventPage
 {
     /**
+     * @Serializer\Type("array<App\Modules\Event\DTO\Event>")
+     * @Serializer\SerializedName("events")
+     *
      * @var array
-     * @SerializedName("events")
      */
-    private $events;
+    private array $events;
 
     /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("previousTimestamp")
+     *
      * @var DateTime
-     * @SerializedName("previousTimestamp")
      */
-    private $previousTimestamp;
+    private DateTime $previousTimestamp;
 
     /**
+     * @Serializer\Type("DateTime")
+     * @Serializer\SerializedName("nextTimestamp")
+     *
      * @var DateTime
-     * @SerializedName("nextTimestamp")
      */
-    private $nextTimestamp;
+    private DateTime $nextTimestamp;
 
     /**
      * @return array
@@ -43,6 +48,7 @@ class EventPage
 
     /**
      * @param array $events
+     *
      * @return EventPage
      */
     public function setEvents(array $events): EventPage
@@ -61,6 +67,7 @@ class EventPage
 
     /**
      * @param DateTime $previousTimestamp
+     *
      * @return EventPage
      */
     public function setPreviousTimestamp(DateTime $previousTimestamp): EventPage
@@ -79,6 +86,7 @@ class EventPage
 
     /**
      * @param DateTime $nextTimestamp
+     *
      * @return EventPage
      */
     public function setNextTimestamp(DateTime $nextTimestamp): EventPage

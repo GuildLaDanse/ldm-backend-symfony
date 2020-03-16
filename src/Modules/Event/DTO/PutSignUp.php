@@ -6,26 +6,31 @@
 
 namespace App\Modules\Event\DTO;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class PutSignUp
 {
     /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("signUpType")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("signUpType")
+     *
      * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $signUpType;
+    private string $signUpType;
 
     /**
+     * @Serializer\Type("array<string>")
+     * @Serializer\SerializedName("roles")
+     *
      * @var array
-     * @Type("array<string>")
-     * @SerializedName("roles")
      */
-    private $roles;
+    private array $roles;
 
     /**
      * @return string
@@ -37,6 +42,7 @@ class PutSignUp
 
     /**
      * @param string $signUpType
+     *
      * @return PutSignUp
      */
     public function setSignUpType(string $signUpType): PutSignUp
@@ -55,6 +61,7 @@ class PutSignUp
 
     /**
      * @param array $roles
+     *
      * @return PutSignUp
      */
     public function setRoles(array $roles): PutSignUp
