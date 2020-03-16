@@ -12,9 +12,9 @@ use App\Infrastructure\Tactician\CommandHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -31,14 +31,14 @@ class NotifyEventTodayCommandHandler implements CommandHandlerInterface
     public EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    public Registry $doctrine;
+    public ManagerRegistry $doctrine;
 
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine)
+        ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->eventDispatcher = $eventDispatcher;

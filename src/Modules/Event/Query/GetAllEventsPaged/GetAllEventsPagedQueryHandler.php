@@ -19,9 +19,9 @@ use App\Modules\Common\MapperException;
 use App\Modules\Event\Query\EventHydrator;
 use App\Modules\Event\DTO as EventDTO;
 use DateInterval;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -38,9 +38,9 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
     public EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    public Registry $doctrine;
+    public ManagerRegistry $doctrine;
 
     /**
      * @var EventHydrator
@@ -59,7 +59,7 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventHydrator $eventHydrator,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService)
@@ -116,7 +116,7 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
             ->setParameter('beforeDate', $beforeDate);
 
         $this->logger->debug(
-            __CLASS__ . " created DQL for retrieving Events ",
+            self::class . " created DQL for retrieving Events ",
             [
                 "query" => $qb->getDQL()
             ]

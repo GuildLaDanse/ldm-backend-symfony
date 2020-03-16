@@ -22,11 +22,11 @@ use App\Modules\Event\EventInvalidStateChangeException;
 use App\Modules\Event\EventService;
 use App\Modules\Event\SignUpDoesNotExistException;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -43,9 +43,9 @@ class DeleteSignUpCommandHandler implements CommandHandlerInterface
     public EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    public Registry $doctrine;
+    public ManagerRegistry $doctrine;
 
     /**
      * @var AuthenticationService
@@ -65,7 +65,7 @@ class DeleteSignUpCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService,
         EventService $eventService)

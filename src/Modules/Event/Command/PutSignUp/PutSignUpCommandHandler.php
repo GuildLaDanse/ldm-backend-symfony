@@ -26,8 +26,8 @@ use App\Modules\Event\EventInvalidStateChangeException;
 use App\Modules\Event\EventService;
 use App\Modules\Event\SignUpDoesNotExistException;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -44,9 +44,9 @@ class PutSignUpCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var EventService
@@ -71,7 +71,7 @@ class PutSignUpCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventService $eventService,
         CommentService $commentService,
         AuthenticationService $authenticationService,

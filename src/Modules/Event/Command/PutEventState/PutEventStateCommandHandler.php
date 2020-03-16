@@ -20,8 +20,8 @@ use App\Modules\Comment\CommentService;
 use App\Modules\Event\EventDoesNotExistException;
 use App\Modules\Event\EventInvalidStateChangeException;
 use App\Modules\Event\EventService;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Event as EventEntity;
@@ -40,9 +40,9 @@ class PutEventStateCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var EventService
@@ -67,7 +67,7 @@ class PutEventStateCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventService $eventService,
         CommentService $commentService,
         AuthenticationService $authenticationService,

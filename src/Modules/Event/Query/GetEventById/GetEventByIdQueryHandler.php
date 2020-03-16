@@ -19,8 +19,8 @@ use App\Modules\Common\MapperException;
 use App\Modules\Event\DTO\EventMapper;
 use App\Modules\Event\EventDoesNotExistException;
 use App\Modules\Event\Query\EventHydrator;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -37,9 +37,9 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var EventHydrator
@@ -59,7 +59,7 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventHydrator $eventHydrator,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService)

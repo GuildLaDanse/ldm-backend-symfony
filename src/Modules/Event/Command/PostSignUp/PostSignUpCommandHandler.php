@@ -27,8 +27,8 @@ use App\Modules\Event\EventInvalidStateChangeException;
 use App\Modules\Event\EventService;
 use App\Modules\Event\UserAlreadySignedException;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -45,9 +45,9 @@ class PostSignUpCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var EventService
@@ -72,7 +72,7 @@ class PostSignUpCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventService $eventService,
         CommentService $commentService,
         AuthenticationService $authenticationService,
@@ -204,7 +204,7 @@ class PostSignUpCommandHandler implements CommandHandlerInterface
             $em->persist($forRole);
         }
 
-        $this->logger->info(__CLASS__ . ' persisting new sign up');
+        $this->logger->info(self::class . ' persisting new sign up');
 
         $em->persist($signUp);
         $em->flush();

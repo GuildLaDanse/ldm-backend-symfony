@@ -21,7 +21,7 @@ use App\Modules\Activity\ActivityType;
 use App\Modules\Comment\CommentService;
 use App\Modules\Event\DTO as EventDTO;
 use App\Modules\Event\EventService;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -41,9 +41,9 @@ class PutEventCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var EventService
@@ -68,7 +68,7 @@ class PutEventCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         EventService $eventService,
         CommentService $commentService,
         AuthenticationService $authenticationService,
