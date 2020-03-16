@@ -6,11 +6,8 @@
 
 namespace App\Entity\Event;
 
-/**
- * Class SignUpType
- * @package LaDanse\DomainBundle\Entity
- */
-class SignUpType
+
+final class SignUpType
 {
     const WILLCOME      = "WillCome";
     const MIGHTCOME     = "MightCome";

@@ -26,181 +26,199 @@ class SocialConnect
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $resource;
+    protected string $resource;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $resourceId;
+    protected string $resourceId;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $accessToken;
+    protected string $accessToken;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $refreshToken;
+    protected string $refreshToken;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $connectTime;
+    protected DateTime $connectTime;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $lastRefreshTime;
+    protected DateTime $lastRefreshTime;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
+     * @return SocialConnect
      */
-    public function setId($id)
+    public function setId(int $id): SocialConnect
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * @param mixed $resource
-     */
-    public function setResource($resource)
-    {
-        $this->resource = $resource;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResourceId()
-    {
-        return $this->resourceId;
-    }
-
-    /**
-     * @param mixed $resourceId
-     */
-    public function setResourceId($resourceId)
-    {
-        $this->resourceId = $resourceId;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getAccessToken()
+    public function getResource(): string
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @param string $resource
+     * @return SocialConnect
+     */
+    public function setResource(string $resource): SocialConnect
+    {
+        $this->resource = $resource;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceId(): string
+    {
+        return $this->resourceId;
+    }
+
+    /**
+     * @param string $resourceId
+     * @return SocialConnect
+     */
+    public function setResourceId(string $resourceId): SocialConnect
+    {
+        $this->resourceId = $resourceId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
 
     /**
      * @param string $accessToken
+     * @return SocialConnect
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken(string $accessToken): SocialConnect
     {
         $this->accessToken = $accessToken;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getRefreshToken()
+    public function getRefreshToken(): string
     {
         return $this->refreshToken;
     }
 
     /**
      * @param string $refreshToken
+     * @return SocialConnect
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken(string $refreshToken): SocialConnect
     {
         $this->refreshToken = $refreshToken;
+        return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getConnectTime()
+    public function getConnectTime(): DateTime
     {
         return $this->connectTime;
     }
 
     /**
      * @param DateTime $connectTime
+     * @return SocialConnect
      */
-    public function setConnectTime(DateTime $connectTime)
+    public function setConnectTime(DateTime $connectTime): SocialConnect
     {
         $this->connectTime = $connectTime;
+        return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getLastRefreshTime()
+    public function getLastRefreshTime(): DateTime
     {
         return $this->lastRefreshTime;
     }
 
     /**
      * @param DateTime $lastRefreshTime
+     * @return SocialConnect
      */
-    public function setLastRefreshTime(DateTime $lastRefreshTime)
+    public function setLastRefreshTime(DateTime $lastRefreshTime): SocialConnect
     {
         $this->lastRefreshTime = $lastRefreshTime;
+        return $this;
     }
 
     /**
      * @return Account
      */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
     /**
      * @param Account $account
+     * @return SocialConnect
      */
-    public function setAccount($account)
+    public function setAccount(Account $account): SocialConnect
     {
         $this->account = $account;
+        return $this;
     }
 }

@@ -23,49 +23,49 @@ class DiscordAuthCode
     const STATE_REMOVED  = 'Removed';  // the auth code or access token is no longer considered valid
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=20, nullable=false)
      */
-    protected $state;
+    protected string $state;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    protected $nonce;
+    protected string $nonce;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    protected $authCode;
+    protected string $authCode;
 
     /**
      * @var int
      *
      * @ORM\Column(name="creationDate", type="integer", nullable=false)
      */
-    protected $creationDate;
+    protected int $creationDate;
 
     /**
-     * @var Account $organiser
+     * @var Account
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account", fetch="EAGER")
      * @ORM\JoinColumn(name="account", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
      * @return int

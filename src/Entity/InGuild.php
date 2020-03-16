@@ -7,6 +7,7 @@
 namespace App\Entity;
 
 use App\Entity\Character\Character;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\GameData\Guild;
 
@@ -19,37 +20,43 @@ class InGuild
     const REPOSITORY = 'LaDanseDomainBundle:InGuild';
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime|null
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $endTime;
+    protected ?DateTime $endTime;
 
     /**
-     * @var Guild $guild
+     * @var Guild
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\GameData\Guild")
      * @ORM\JoinColumn(name="guild", referencedColumnName="id", nullable=false)
      */
-    protected $guild;
+    protected Guild $guild;
 
     /**
-     * @var Character $character
+     * @var Character
      *
      * @ORM\ManyToOne(targetEntity="Character")
      * @ORM\JoinColumn(name="characterId", referencedColumnName="id", nullable=false)
      */
-    protected $character;
+    protected Character $character;
 
     /**
      * @return mixed

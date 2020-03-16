@@ -20,25 +20,28 @@ class UnreadPost
     const REPOSITORY = 'LaDanseDomainBundle:Forum\UnreadPost';
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="unreadId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private string $id;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    private $account;
+    private Account $account;
 
     /**
+     * @var Post
+     *
      * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(name="postId", referencedColumnName="postId", nullable=false)
      */
-    private $post;
-    
+    private Post $post;
 
     /**
      * Set id

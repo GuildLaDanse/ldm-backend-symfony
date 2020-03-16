@@ -7,13 +7,13 @@
 namespace App\Entity\Event;
 
 use App\Entity\Account\Account;
-use App\FSM\EventStateMachine;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Finite\Exception\ObjectException;
 use Finite\StatefulInterface;
+use Finite\StateMachine\StateMachine;
 use Finite\StateMachine\StateMachineInterface;
 
 /**
@@ -24,76 +24,86 @@ use Finite\StateMachine\StateMachineInterface;
 class Event implements StatefulInterface
 {
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $description;
+    protected ?string $description;
 
     /**
-     * @var $inviteTime DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="utc_datetime", nullable=false)
      */
-    protected $inviteTime;
+    protected DateTime $inviteTime;
 
     /**
-     * @var $startTime DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="utc_datetime", nullable=false)
      */
-    protected $startTime;
+    protected DateTime $startTime;
 
     /**
-     * @var $endTime DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="utc_datetime", nullable=false)
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
-     * @var $lastModifiedTime DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $lastModifiedTime;
+    protected DateTime $lastModifiedTime;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="text", nullable=false)
      */
-    protected $topicId;
+    protected string $topicId;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="SignUp", mappedBy="event", cascade={"persist", "remove"})
      */
-    protected $signUps;
+    protected ArrayCollection $signUps;
 
     /**
-     * @var Account $organiser Account
+     * @var Account
      *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="organiserId", referencedColumnName="id", nullable=false)
      */
-    protected $organiser;
+    protected Account $organiser;
 
     /**
-     * @var string $state
+     * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    private $state;
+    private string $state;
 
-    private $stateMachine;
+    private StateMachine $stateMachine;
 
     /**
      * Event constructor.

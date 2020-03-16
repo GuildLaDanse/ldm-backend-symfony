@@ -17,21 +17,25 @@ class Realm
     const REPOSITORY = 'LaDanseDomainBundle:GameData\Realm';
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

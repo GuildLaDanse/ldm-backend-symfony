@@ -25,7 +25,7 @@ class TopicsResource extends AbstractRestController
     /**
      * @var LoggerInterface $logger
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {

@@ -19,41 +19,41 @@ class MailSend
     const REPOSITORY = 'LaDanseDomainBundle:MailSend';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $sendOn;
+    protected DateTime $sendOn;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false, name="fromAddress")
      */
-    protected $from;
+    protected string $from;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false, name="toAddress")
      */
-    protected $to;
+    protected string $to;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $subject;
+    protected string $subject;
 
     /**
      * @return int

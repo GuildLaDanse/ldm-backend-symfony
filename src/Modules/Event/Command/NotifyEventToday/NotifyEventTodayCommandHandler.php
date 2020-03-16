@@ -7,7 +7,7 @@
 namespace LaDanse\ServicesBundle\Service\Event\Command;
 
 use App\Entity\Event as EventEntity;
-use App\FSM\EventStateMachine;
+use App\Entity\Event\EventStateMachine;
 use App\Infrastructure\Tactician\CommandHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;

@@ -18,27 +18,27 @@ class FeatureToggle
     const REPOSITORY = 'LaDanseDomainBundle:FeatureToggle';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $feature;
+    protected string $feature;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
-    protected $toggle;
+    protected bool $toggle;
 
     /**
      * @var Account
@@ -46,7 +46,7 @@ class FeatureToggle
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="toggleFor", referencedColumnName="id", nullable=false)
      */
-    protected $toggleFor;
+    protected Account $toggleFor;
 
     /**
      * @return int

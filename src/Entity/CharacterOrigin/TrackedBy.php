@@ -17,43 +17,43 @@ use App\Entity\Character\Character;
 class TrackedBy
 {
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string $id
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @var DateTime $fromTime
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @var DateTime $endTime
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
+     * @var Character
+     *
      * @ORM\ManyToOne(targetEntity=Character::class)
      * @ORM\JoinColumn(name="characterId", referencedColumnName="id", nullable=false)
-     *
-     * @var Character $character
      */
-    protected $character;
+    protected Character $character;
 
     /**
+     * @var CharacterSource
+     *
      * @ORM\ManyToOne(targetEntity=CharacterSource::class)
      * @ORM\JoinColumn(name="characterSource", referencedColumnName="id", nullable=false)
-     *
-     * @var CharacterSource $characterSource
      */
-    protected $characterSource;
+    protected CharacterSource $characterSource;
 
     /**
      * @return string

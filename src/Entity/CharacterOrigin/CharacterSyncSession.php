@@ -16,42 +16,42 @@ use Doctrine\ORM\Mapping as ORM;
 class CharacterSyncSession
 {
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string $id
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @var DateTime $fromTime
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @var DateTime $endTime
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @var string $log
      */
-    protected $log;
+    protected string $log;
 
     /**
+     * @var CharacterSource
+     *
      * @ORM\ManyToOne(targetEntity=CharacterSource::class)
      * @ORM\JoinColumn(name="characterSource", referencedColumnName="id", nullable=false)
-     *
-     * @var CharacterSource $characterSource
      */
-    protected $characterSource;
+    protected CharacterSource $characterSource;
 
     /**
      * @return string

@@ -21,25 +21,27 @@ class ForumLastVisit
     const REPOSITORY = 'LaDanseDomainBundle:Forum\ForumLastVisit';
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="visitId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private string $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="lastVisitDate", type="datetime")
      */
-    private $lastVisitDate;
+    private DateTime $lastVisitDate;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    private $account;
+    private Account $account;
 
     /**
      * Set id

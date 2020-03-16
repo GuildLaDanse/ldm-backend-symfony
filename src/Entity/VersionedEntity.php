@@ -12,14 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class VersionedEntity
 {
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", length=255, nullable=false)
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime|null
+     *
      * @ORM\Column(type="datetime", length=255, nullable=true)
      */
-    protected $endTime;
+    protected ?DateTime $endTime;
 
     /**
      * Set fromTime

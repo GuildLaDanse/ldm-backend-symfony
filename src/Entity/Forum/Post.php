@@ -24,33 +24,37 @@ class Post
      * @ORM\Column(name="postId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private string $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="postDate", type="datetime")
      */
-    private $postDate;
+    private DateTime $postDate;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=true)
      */
-    private $poster;
+    private Account $poster;
 
     /**
      * @var string
      *
      * @ORM\Column(name="message", type="text")
      */
-    private $message;
+    private string $message;
 
     /**
+     * @var Topic
+     *
      * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts")
      * @ORM\JoinColumn(name="topicId", referencedColumnName="topicId", nullable=true)
      */
-    private $topic;
+    private Topic $topic;
 
     /**
      * Set id

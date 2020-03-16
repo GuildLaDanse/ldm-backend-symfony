@@ -20,37 +20,39 @@ class Account implements UserInterface, EquatableInterface
     const REPOSITORY = 'LaDanseDomainBundle:Account';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=32, nullable=false)
      */
-    protected $displayName;
+    protected string $displayName;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=128, nullable=false)
      */
-    protected $email;
+    protected string $email;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    protected $externalId;
+    protected string $externalId;
 
     /**
      * @var array
      */
-    protected $roles;
+    protected array $roles;
 
     /**
      * Constructor

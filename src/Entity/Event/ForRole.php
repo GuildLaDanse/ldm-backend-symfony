@@ -15,22 +15,28 @@ use Doctrine\ORM\Mapping as ORM;
 class ForRole
 {
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=15, nullable=false)
      */
-    protected $role;
+    protected string $role;
 
     /**
+     * @var SignUp
+     *
      * @ORM\ManyToOne(targetEntity="SignUp", inversedBy="roles")
      * @ORM\JoinColumn(name="signUpId", referencedColumnName="id", nullable=false)
      */
-    protected $signUp;
+    protected SignUp $signUp;
 
     /**
      * Get id

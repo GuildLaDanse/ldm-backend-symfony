@@ -17,14 +17,14 @@ class LastPostEntry
      *
      * @var DateTime
      */
-    protected $postDate;
+    protected DateTime $postDate;
 
     /**
      * @SerializedName("posterRef")
      *
      * @var AccountReference
      */
-    protected $posterRef;
+    protected AccountReference $posterRef;
 
     /**
      * LastPostEntry constructor.

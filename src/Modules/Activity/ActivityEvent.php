@@ -18,17 +18,17 @@ class ActivityEvent extends Event
     /**
      * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var DateTime
      */
-    protected $time;
+    protected DateTime $time;
 
     /**
      * @var Account
      */
-    protected $actor;
+    protected Account $actor;
 
     /**
      * @var mixed

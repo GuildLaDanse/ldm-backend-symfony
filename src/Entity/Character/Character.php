@@ -17,39 +17,49 @@ class Character
     const REPOSITORY = 'LaDanseDomainBundle:Character';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
-     * @var Realm $realm
+     * @var Realm
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\GameData\Realm")
      * @ORM\JoinColumn(name="realm", referencedColumnName="id", nullable=false)
      */
-    protected $realm;
+    protected Realm $realm;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", length=255, nullable=false)
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", length=255, nullable=true)
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="CharacterVersion", mappedBy="character", cascade={"persist", "remove"})
      */
-    protected $versions;
+    protected ArrayCollection $versions;
 
     /**
      * Constructor

@@ -19,29 +19,35 @@ class ClaimVersion extends VersionedEntity
     const REPOSITORY = 'LaDanseDomainBundle:ClaimVersion';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var Claim
+     *
      * @ORM\ManyToOne(targetEntity="Claim")
      * @ORM\JoinColumn(name="claimId", referencedColumnName="id", nullable=false)
      */
-    protected $claim;
+    protected Claim $claim;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text", length=1024, nullable=true)
      */
-    protected $comment;
+    protected string $comment;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $raider = false;
+    protected bool $raider = false;
 
     /**
      * Constructor

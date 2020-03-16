@@ -11,8 +11,10 @@ use App\Entity\Account\Account;
 
 class SubjectReference
 {
-    /** @var Account */
-    private $account;
+    /**
+     * @var Account
+     */
+    private Account $account;
 
     /**
      * SubjectReference constructor.

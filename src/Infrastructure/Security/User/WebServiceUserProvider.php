@@ -19,11 +19,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class WebServiceUserProvider implements JWTUserProviderInterface
 {
-    /** @var LoggerInterface */
-    private $logger;
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
 
-    /** @var AccountRepository */
-    private $accountRepository;
+    /**
+     * @var AccountRepository
+     */
+    private AccountRepository $accountRepository;
 
     /** @noinspection PhpUnusedParameterInspection */
     public function __construct(Auth0Service $auth0Service, LoggerInterface $logger, AccountRepository $accountRepository)

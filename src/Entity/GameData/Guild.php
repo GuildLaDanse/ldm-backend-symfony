@@ -17,24 +17,28 @@ class Guild
     const REPOSITORY = 'LaDanseDomainBundle:GameData\Guild';
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
-     * @var Realm $realm The realm this guild was created on
+     * @var Realm
      *
      * @ORM\ManyToOne(targetEntity="Realm")
      * @ORM\JoinColumn(name="realm", referencedColumnName="id", nullable=false)
      */
-    protected $realm;
+    protected Realm $realm;
 
     /**
      * @return mixed

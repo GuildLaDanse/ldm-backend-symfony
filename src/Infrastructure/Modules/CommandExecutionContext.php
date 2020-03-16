@@ -15,10 +15,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CommandExecutionContext
 {
-    /** @var $input InputInterface */
-    private $input;
-    /** @var $output OutputInterface */
-    private $output;
+    /**
+     * @var InputInterface
+     */
+    private InputInterface $input;
+
+    /**
+     * @var OutputInterface
+     */
+    private OutputInterface $output;
 
     /**
      * @param InputInterface $input

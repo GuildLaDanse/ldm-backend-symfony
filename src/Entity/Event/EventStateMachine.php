@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\FSM;
+namespace App\Entity\Event;
 
 use Finite\State\State;
 use Finite\State\StateInterface;

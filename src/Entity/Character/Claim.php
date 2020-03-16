@@ -22,28 +22,36 @@ class Claim extends VersionedEntity
     const REPOSITORY = 'LaDanseDomainBundle:Claim';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
+     * @var Character
+     *
      * @ORM\ManyToOne(targetEntity="Character")
      * @ORM\JoinColumn(name="characterId", referencedColumnName="id", nullable=false)
      */
-    protected $character;
+    protected Character $character;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="PlaysRole", mappedBy="claim", cascade={"persist", "remove"})
      */
-    protected $roles;
+    protected ArrayCollection $roles;
 
     /**
      * Constructor

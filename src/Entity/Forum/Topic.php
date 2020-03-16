@@ -26,51 +26,59 @@ class Topic
      * @ORM\Column(name="topicId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private string $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="postDate", type="datetime")
      */
-    private $createDate;
+    private DateTime $createDate;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=false)
      */
-    private $creator;
+    private Account $creator;
 
     /**
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
      */
-    private $subject;
+    private string $subject;
 
     /**
+     * @var Forum
+     *
      * @ORM\ManyToOne(targetEntity="Forum", inversedBy="topics")
      * @ORM\JoinColumn(name="forumId", referencedColumnName="forumId", nullable=true)
      */
-    private $forum;
+    private Forum $forum;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Post", mappedBy="topic", cascade={"persist", "remove"})
      */
-    protected $posts;
+    protected ArrayCollection $posts;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="lastPostDate", type="datetime", nullable=true)
      */
-    private $lastPostDate;
+    private DateTime $lastPostDate;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
-    private $lastPostPoster;
+    private Account $lastPostPoster;
 
     /**
      * Constructor

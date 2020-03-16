@@ -10,7 +10,7 @@ namespace App\Entity;
  * Class Role
  * @package LaDanse\DomainBundle\Entity
  */
-class Role
+final class Role
 {
     const TANK      = "Tank";
     const HEALER    = "Healer";

@@ -7,7 +7,7 @@
 namespace LaDanse\ServicesBundle\Service\Event\Command;
 
 use App\Entity\Account\Account;
-use App\FSM\EventStateMachine;
+use App\Entity\Event\EventStateMachine;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Authorization\NotAuthorizedException;
 use App\Infrastructure\Authorization\ResourceByValue;

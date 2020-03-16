@@ -11,14 +11,25 @@ use Exception;
 
 class EvaluationCtx
 {
-    /** @var SubjectReference */
-    private $subject;
-    /** @var string */
-    private $action;
-    /** @var ResourceReference */
-    private $resource;
-    /** @var ResourceFinder */
-    private $resourceFinder;
+    /**
+     * @var SubjectReference
+     */
+    private SubjectReference $subject;
+
+    /**
+     * @var string
+     */
+    private string $action;
+
+    /**
+     * @var ResourceReference
+     */
+    private ResourceReference $resource;
+
+    /**
+     * @var ResourceFinder
+     */
+    private ResourceFinder $resourceFinder;
 
     public function __construct(
         SubjectReference $subject,

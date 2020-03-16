@@ -13,32 +13,32 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * Topic
- *
  * @ORM\Entity(repositoryClass="App\Repository\Comments\CommentGroupRepository")
  * @ORM\Table(name="CommentGroup", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
  */
 class CommentGroup
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="groupId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private int $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="postDate", type="datetime")
      */
-    private $createDate;
+    private DateTime $createDate;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="group", cascade={"persist", "remove"})
      */
-    protected $comments;
+    protected ArrayCollection $comments;
     /**
      * Constructor
      */

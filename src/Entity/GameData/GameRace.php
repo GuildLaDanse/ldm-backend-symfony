@@ -17,35 +17,35 @@ class GameRace
     const REPOSITORY = 'LaDanseDomainBundle:GameData\GameRace';
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string $id
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer", nullable=false)
-     *
-     * @var integer $armoryId
      */
-    protected $armoryId;
+    protected int $armoryId;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=20, nullable=false)
-     *
-     * @var string $name
      */
-    protected $name;
+    protected string $name;
 
     /**
-     * @var GameFaction $faction the faction of this race
+     * @var GameFaction
      *
      * @ORM\ManyToOne(targetEntity="GameFaction")
      * @ORM\JoinColumn(name="faction", referencedColumnName="id", nullable=false)
      */
-    protected $faction;
+    protected GameFaction $faction;
 
     /**
      * @return string

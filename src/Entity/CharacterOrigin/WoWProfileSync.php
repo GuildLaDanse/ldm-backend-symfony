@@ -18,12 +18,12 @@ class WoWProfileSync extends CharacterSource
     const REPOSITORY = 'LaDanseDomainBundle:CharacterOrigin\WoWProfileSync';
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity=Account::class)
      * @ORM\JoinColumn(name="account", referencedColumnName="id", nullable=false)
-     *
-     * @var Account $account
      */
-    protected $account;
+    protected Account $account;
 
     /**
      * @return Account
@@ -35,6 +35,7 @@ class WoWProfileSync extends CharacterSource
 
     /**
      * @param Account $account
+     *
      * @return WoWProfileSync
      */
     public function setAccount(Account $account): WoWProfileSync

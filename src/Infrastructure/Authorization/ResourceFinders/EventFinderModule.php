@@ -20,10 +20,10 @@ class EventFinderModule extends LaDanseService
     const SERVICE_NAME = 'LaDanse.EventFinderModule';
 
     /**
-     * @var $logger Logger
+     * @var Logger
      * @DI\Inject("monolog.logger.ladanse")
      */
-    public $logger;
+    public Logger $logger;
 
     /**
      * @param ContainerInterface $container

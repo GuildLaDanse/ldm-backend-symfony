@@ -18,11 +18,12 @@ class StringReference
 {
     /**
      * @var string
+     *
      * @Type("string")
      * @SerializedName("id")
      * @Assert\NotBlank()
      */
-    private $id;
+    private string $id;
 
     public function __construct(string $id = null)
     {

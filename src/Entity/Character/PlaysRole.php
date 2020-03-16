@@ -18,22 +18,28 @@ class PlaysRole extends VersionedEntity
     const REPOSITORY = 'LaDanseDomainBundle:PlaysRole';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=15, nullable=false)
      */
-    protected $role;
+    protected string $role;
 
     /**
+     * @var Claim
+     *
      * @ORM\ManyToOne(targetEntity="Claim", inversedBy="roles")
      * @ORM\JoinColumn(name="claimId", referencedColumnName="id", nullable=false)
      */
-    protected $claim;
+    protected Claim $claim;
 
     /**
      * Get id

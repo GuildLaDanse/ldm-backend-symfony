@@ -99,7 +99,7 @@ class DeleteSignUpCommandHandler implements CommandHandlerInterface
         $em = $this->doctrine->getManager();
 
         /* @var EntityRepository $repository */
-        $repository = $this->doctrine->getRepository(EventEntity\SignUp::REPOSITORY);
+        $repository = $this->doctrine->getRepository(EventEntity\SignUp::class);
 
         /* @var EventEntity\SignUp $signUp */
         $signUp = $repository->find($command->getSignUpId());

@@ -18,27 +18,35 @@ class Setting
     const REPOSITORY = 'LaDanseDomainBundle:Setting';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=2048, nullable=false)
      */
-    protected $value;
+    protected string $value;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
      * Get id

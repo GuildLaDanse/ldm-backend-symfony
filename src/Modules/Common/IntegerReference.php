@@ -17,10 +17,11 @@ class IntegerReference
 {
     /**
      * @var int
+     *
      * @Type("int")
      * @SerializedName("id")
      */
-    private $id;
+    private int $id;
 
     public function __construct($id)
     {

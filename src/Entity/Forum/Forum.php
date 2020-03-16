@@ -26,45 +26,51 @@ class Forum
      * @ORM\Column(name="forumId", type="guid")
      * @ORM\Id
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="text")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="lastPostDate", type="datetime", nullable=true)
      */
-    private $lastPostDate;
+    private DateTime $lastPostDate;
 
     /**
+     * @var Topic
+     *
      * @ORM\ManyToOne(targetEntity="Topic")
      * @ORM\JoinColumn(name="lastPostTopic", referencedColumnName="topicId", nullable=true)
      */
-    private $lastPostTopic;
+    private Topic $lastPostTopic;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
-    private $lastPostPoster;
+    private Account $lastPostPoster;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
-    protected $topics;
+    protected ArrayCollection $topics;
 
     /**
      * Constructor
@@ -172,6 +178,7 @@ class Forum
 
     /**
      * @param Topic $lastPostTopic
+     *
      * @return Forum
      */
     public function setLastPostTopic(Topic $lastPostTopic)
@@ -191,6 +198,7 @@ class Forum
 
     /**
      * @param Account $lastPostPoster
+     *
      * @return Forum
      */
     public function setLastPostPoster(Account $lastPostPoster)

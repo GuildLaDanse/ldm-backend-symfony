@@ -18,34 +18,42 @@ use Doctrine\ORM\Mapping as ORM;
 class SignUp
 {
     /**
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var Event
+     *
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="signUps")
      * @ORM\JoinColumn(name="eventId", referencedColumnName="id", nullable=false)
      */
-    protected $event;
+    protected Event $event;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=15, nullable=false)
      */
-    protected $type;
+    protected string $type;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="ForRole", mappedBy="signUp", cascade={"persist", "remove"})
-     * @var $roles ArrayCollection
      */
-    protected $roles;
+    protected ArrayCollection $roles;
 
     /**
      * Constructor

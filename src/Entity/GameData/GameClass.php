@@ -17,27 +17,27 @@ class GameClass
     const REPOSITORY = 'LaDanseDomainBundle:GameData\GameClass';
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string $id
      */
-    protected $id;
+    protected string $id;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer", nullable=false)
-     *
-     * @var integer $armoryId
      */
-    protected $armoryId;
+    protected int $armoryId;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=false)
+     * @var string
      *
-     * @var string $name
+     * @ORM\Column(type="string", length=20, nullable=false)
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @return string

@@ -20,34 +20,34 @@ class FeatureUse
     const REPOSITORY = 'LaDanseDomainBundle:FeatureUse';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $usedOn;
+    protected DateTime $usedOn;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $feature;
+    protected string $feature;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $rawData;
+    protected ?string $rawData;
 
     /**
      * @var Account
@@ -55,7 +55,7 @@ class FeatureUse
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="usedBy", referencedColumnName="id", nullable=true)
      */
-    protected $usedBy;
+    protected Account $usedBy;
 
     /**
      * @return int

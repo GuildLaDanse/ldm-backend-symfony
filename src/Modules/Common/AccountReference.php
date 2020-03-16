@@ -15,14 +15,14 @@ class AccountReference
      *
      * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @SerializedName("name")
      *
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * AccountReference constructor.

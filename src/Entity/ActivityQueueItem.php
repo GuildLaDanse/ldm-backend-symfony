@@ -20,27 +20,27 @@ class ActivityQueueItem
     const REPOSITORY = 'LaDanseDomainBundle:ActivityQueueItem';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $activityType;
+    protected string $activityType;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $activityOn;
+    protected DateTime $activityOn;
 
     /**
      * @var Account
@@ -48,21 +48,21 @@ class ActivityQueueItem
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="activityBy", referencedColumnName="id", nullable=true)
      */
-    protected $activityBy;
+    protected Account $activityBy;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $rawData;
+    protected ?string $rawData;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $processedOn;
+    protected DateTime $processedOn;
 
     /**
      * @return int
@@ -178,9 +178,9 @@ class ActivityQueueItem
      */
     public function setData($data)
     {
-        if ($data == NULL)
+        if ($data == null)
         {
-            $this->rawData = NULL;
+            $this->rawData = null;
         }
         else
         {

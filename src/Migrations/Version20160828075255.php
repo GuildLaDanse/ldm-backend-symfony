@@ -18,8 +18,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Version20160828075255 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface $container */
-    private $container;
+    /**
+     * @var ContainerInterface $container
+     */
+    private ContainerInterface $container;
 
     public function setContainer(ContainerInterface $container = null)
     {

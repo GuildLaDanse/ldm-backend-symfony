@@ -16,18 +16,20 @@ use JMS\Serializer\Annotation\Type;
 class ErrorResponse
 {
     /**
-     * @var integer
+     * @var int
+     *
      * @Type("string")
      * @SerializedName("errorCode")
      */
-    private $errorCode;
+    private int $errorCode;
 
     /**
      * @var string
+     *
      * @Type("string")
      * @SerializedName("errorMessage")
      */
-    private $errorMessage;
+    private string $errorMessage;
 
     /**
      * @return int

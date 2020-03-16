@@ -15,28 +15,28 @@ class Forum
      *
      * @var string
      */
-    protected $id;
+    protected string $id;
 
     /**
      * @SerializedName("name")
      *
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @SerializedName("description")
      *
      * @var string
      */
-    protected $description;
+    protected string $description;
 
     /**
      * @SerializedName("topics")
      *
      * @var array
      */
-    protected $topicEntries;
+    protected array $topicEntries;
 
     /**
      * Forum constructor.

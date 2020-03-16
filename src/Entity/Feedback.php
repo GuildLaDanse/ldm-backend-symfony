@@ -20,27 +20,27 @@ class Feedback
     const REPOSITORY = 'LaDanseDomainBundle:Feedback';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
      */
-    protected $postedOn;
+    protected DateTime $postedOn;
 
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=false)
      */
-    protected $feedback;
+    protected string $feedback;
 
     /**
      * @var Account
@@ -48,7 +48,7 @@ class Feedback
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="postedBy", referencedColumnName="id", nullable=false)
      */
-    protected $postedBy;
+    protected Account $postedBy;
 
     /**
      * @return int

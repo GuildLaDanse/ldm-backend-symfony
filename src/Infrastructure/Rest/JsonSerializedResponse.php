@@ -16,7 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JsonSerializedResponse extends Response
 {
-    protected $data;
+    /**
+     * @var string
+     */
+    protected string $data;
 
     /**
      * Creates a JsonResponse representing the given $object.

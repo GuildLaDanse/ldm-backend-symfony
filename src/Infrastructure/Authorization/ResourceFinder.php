@@ -13,11 +13,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ResourceFinder
 {
-    /** @var array */
-    private $resourceModules;
+    /**
+     * @var array
+     */
+    private array $resourceModules;
 
-    /** @var ContainerInterface */
-    private $container;
+    /**
+     * @var ContainerInterface
+     */
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {

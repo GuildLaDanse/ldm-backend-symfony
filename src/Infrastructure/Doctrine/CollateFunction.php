@@ -16,9 +16,15 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class CollateFunction extends FunctionNode
 {
-    /** @var PathExpression */
-    public $expressionToCollate = null;
-    public $collation = null;
+    /**
+     * @var PathExpression
+     */
+    public ?PathExpression $expressionToCollate = null;
+
+    /**
+     * @var string
+     */
+    public ?string $collation = null;
 
     /**
      * @param Parser $parser

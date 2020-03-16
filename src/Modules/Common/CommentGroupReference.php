@@ -15,7 +15,7 @@ class CommentGroupReference
      *
      * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * AccountReference constructor.

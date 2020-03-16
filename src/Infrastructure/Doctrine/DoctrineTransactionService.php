@@ -14,7 +14,7 @@ final class DoctrineTransactionService implements TransactionServiceInterface
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * DoctrineTransactionService constructor.

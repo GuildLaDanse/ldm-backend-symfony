@@ -34,15 +34,16 @@ class ForumService extends LaDanseService
     const SERVICE_NAME = 'LaDanse.ForumService';
 
     /**
-     * @var $eventDispatcher EventDispatcherInterface
+     * @var EventDispatcherInterface
+     *
      * @DI\Inject("event_dispatcher")
      */
-    public $eventDispatcher;
+    public EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var AuthenticationService
      */
-    public $authenticationService;
+    public AuthenticationService $authenticationService;
 
     /**
      * @param ContainerInterface $container

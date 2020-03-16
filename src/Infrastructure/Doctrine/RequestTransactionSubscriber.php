@@ -14,7 +14,7 @@ final class RequestTransactionSubscriber implements EventSubscriberInterface
     /**
      * @var TransactionServiceInterface
      */
-    private $transactionService;
+    private TransactionServiceInterface $transactionService;
 
     public function __construct(TransactionServiceInterface $transactionService)
     {

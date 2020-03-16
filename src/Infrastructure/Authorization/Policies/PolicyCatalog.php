@@ -11,8 +11,10 @@ use App\Modules\Activity\ActivityType;
 
 class PolicyCatalog
 {
-    /** @var array */
-    private $topPolicies;
+    /**
+     * @var array
+     */
+    private array $topPolicies;
 
     public function __construct()
     {

@@ -11,7 +11,7 @@ class AuthenticationService
     /**
      * @var AuthenticationContext
      */
-    private $authenticationContext;
+    private AuthenticationContext $authenticationContext;
 
     /**
      * @param AuthenticationContext $authenticationContext

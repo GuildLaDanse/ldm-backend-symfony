@@ -8,6 +8,9 @@ namespace App\Infrastructure\Authorization;
 
 class ResourceById extends ResourceReference
 {
+    /**
+     * @var mixed
+     */
     private $resourceId;
 
     public function __construct($resourceType, $resourceId)

@@ -25,9 +25,9 @@ use Symfony\Component\HttpFoundation\Response;
 class CommentsResource extends AbstractRestController
 {
     /**
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function  __construct(LoggerInterface $logger)
     {

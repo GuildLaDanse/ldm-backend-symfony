@@ -19,110 +19,130 @@ class CalendarExport
     const REPOSITORY = 'LaDanseDomainBundle:CalendarExport';
 
     /**
+     *
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $exportNew;
+    protected bool $exportNew;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $exportAbsence;
+    protected bool $exportAbsence;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    protected $secret;
+    protected string $secret;
 
     /**
+     * @var Account
+     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
-    protected $account;
+    protected Account $account;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
+     * @return CalendarExport
      */
-    public function setId($id)
+    public function setId(int $id): CalendarExport
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function getExportNew()
+    public function isExportNew(): bool
     {
         return $this->exportNew;
     }
 
     /**
      * @param bool $exportNew
+     * @return CalendarExport
      */
-    public function setExportNew($exportNew)
+    public function setExportNew(bool $exportNew): CalendarExport
     {
         $this->exportNew = $exportNew;
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function getExportAbsence()
+    public function isExportAbsence(): bool
     {
         return $this->exportAbsence;
     }
 
     /**
      * @param bool $exportAbsence
+     * @return CalendarExport
      */
-    public function setExportAbsence($exportAbsence)
+    public function setExportAbsence(bool $exportAbsence): CalendarExport
     {
         $this->exportAbsence = $exportAbsence;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getSecret()
+    public function getSecret(): string
     {
         return $this->secret;
     }
 
     /**
      * @param string $secret
+     * @return CalendarExport
      */
-    public function setSecret($secret)
+    public function setSecret(string $secret): CalendarExport
     {
         $this->secret = $secret;
+        return $this;
     }
 
     /**
      * @return Account
      */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
     /**
      * @param Account $account
+     * @return CalendarExport
      */
-    public function setAccount($account)
+    public function setAccount(Account $account): CalendarExport
     {
         $this->account = $account;
+        return $this;
     }
 }

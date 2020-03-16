@@ -15,7 +15,10 @@ use Doctrine\DBAL\Types\DateTimeType;
 
 class UTCDateTimeType extends DateTimeType
 {
-    static private $utc;
+    /**
+     * @var DateTimeZone
+     */
+    private static DateTimeZone $utc;
 
     /**
      * {@inheritdoc}

@@ -18,13 +18,13 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class CharacterSource
 {
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string $id
      */
-    protected $id;
+    protected string $id;
 
     /**
      * @return string

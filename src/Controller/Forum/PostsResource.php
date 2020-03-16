@@ -26,7 +26,7 @@ class PostsResource extends AbstractRestController
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function  __construct(LoggerInterface $logger)
     {

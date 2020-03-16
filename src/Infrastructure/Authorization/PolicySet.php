@@ -8,14 +8,25 @@ namespace App\Infrastructure\Authorization;
 
 class PolicySet extends AbstractPolicy
 {
-    /** @var $string */
-    private $name;
-    /** @var array */
-    private $children;
-    /** @var string */
-    private $target;
-    /** @var bool */
-    private $default;
+    /**
+     * @var string
+     */
+    private string $name;
+
+    /**
+     * @var array
+     */
+    private array $children;
+
+    /**
+     * @var string
+     */
+    private string $target;
+
+    /**
+     * @var bool
+     */
+    private bool $default;
 
     /**
      * PolicySet constructor.

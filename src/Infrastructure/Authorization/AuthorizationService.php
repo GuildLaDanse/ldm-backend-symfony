@@ -24,16 +24,21 @@ class AuthorizationService extends LaDanseService
     const SERVICE_NAME = 'LaDanse.AuthorizationService';
 
     /**
-     * @var $logger Logger
+     * @var Logger
+     *
      * @DI\Inject("monolog.logger.ladanse")
      */
-    public $logger;
+    public Logger $logger;
 
-    /** @var PolicyCatalog */
-    private $policyCatalog;
+    /**
+     * @var PolicyCatalog
+     */
+    private PolicyCatalog $policyCatalog;
 
-    /** @var ResourceFinder */
-    private $resourceFinder;
+    /**
+     * @var ResourceFinder
+     */
+    private ResourceFinder $resourceFinder;
 
     /**
      * @param ContainerInterface $container

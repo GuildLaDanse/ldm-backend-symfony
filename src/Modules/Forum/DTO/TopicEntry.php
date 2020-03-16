@@ -17,35 +17,35 @@ class TopicEntry
      *
      * @var string
      */
-    protected $id;
+    protected string $id;
 
     /**
      * @SerializedName("subject")
      *
      * @var string
      */
-    protected $subject;
+    protected string $subject;
 
     /**
      * @SerializedName("createDate")
      *
      * @var DateTime
      */
-    protected $createDate;
+    protected DateTime $createDate;
 
     /**
      * @SerializedName("creatorRef")
      *
      * @var AccountReference
      */
-    protected $creatorRef;
+    protected AccountReference $creatorRef;
 
     /**
      * @SerializedName("lastPost")
      *
      * @var LastPostEntry
      */
-    protected $lastPost;
+    protected LastPostEntry $lastPost;
 
     public function __construct($id,
                                 $subject,

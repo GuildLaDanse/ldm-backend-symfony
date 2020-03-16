@@ -16,44 +16,58 @@ class CharacterVersion
     const REPOSITORY = 'LaDanseDomainBundle:CharacterVersion';
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
+     * @var Character
+     *
      * @ORM\ManyToOne(targetEntity="Character", inversedBy="versions")
      * @ORM\JoinColumn(name="characterId", referencedColumnName="id", nullable=false)
      */
-    protected $character;
+    protected Character $character;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", length=255, nullable=false)
      */
-    protected $fromTime;
+    protected DateTime $fromTime;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="datetime", length=255, nullable=true)
      */
-    protected $endTime;
+    protected DateTime $endTime;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="smallint", nullable=false)
      */
-    protected $level;
+    protected int $level;
 
     /**
+     * @var GameClass
+     *
      * @ORM\ManyToOne(targetEntity="\App\Entity\GameData\GameClass")
      * @ORM\JoinColumn(name="gameClassId", referencedColumnName="id", nullable=false)
      */
-    protected $gameClass;
+    protected GameClass $gameClass;
 
     /**
+     * @var GameRace
+     *
      * @ORM\ManyToOne(targetEntity="\App\Entity\GameData\GameRace")
      * @ORM\JoinColumn(name="gameRaceId", referencedColumnName="id", nullable=false)
      */
-    protected $gameRace;
+    protected GameRace $gameRace;
 
     /**
      * Get id

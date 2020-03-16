@@ -18,12 +18,12 @@ class GuildSync extends CharacterSource
     const REPOSITORY = 'LaDanseDomainBundle:CharacterOrigin\GuildSync';
 
     /**
+     * @var Guild
+     *
      * @ORM\ManyToOne(targetEntity=Guild::class)
      * @ORM\JoinColumn(name="guild", referencedColumnName="id", nullable=false)
-     *
-     * @var Guild $guild
      */
-    protected $guild;
+    protected Guild $guild;
 
     /**
      * @return Guild

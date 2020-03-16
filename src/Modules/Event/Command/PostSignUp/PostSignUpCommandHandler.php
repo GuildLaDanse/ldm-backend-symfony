@@ -8,7 +8,7 @@ namespace App\Modules\Event\Command\PostSignUp;
 
 use App\Entity\Account\Account;
 use App\Entity\Event as EventEntity;
-use App\FSM\EventStateMachine;
+use App\Entity\Event\EventStateMachine;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Authorization\NotAuthorizedException;
 use App\Infrastructure\Authorization\ResourceByValue;
