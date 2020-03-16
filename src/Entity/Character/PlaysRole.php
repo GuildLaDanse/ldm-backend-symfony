@@ -6,7 +6,6 @@
 
 namespace App\Entity\Character;
 
-use App\Entity\Character\Claim;
 use App\Entity\VersionedEntity;
 use Doctrine\ORM\Mapping as ORM;
 

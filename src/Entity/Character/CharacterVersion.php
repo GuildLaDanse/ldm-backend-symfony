@@ -2,7 +2,6 @@
 
 namespace App\Entity\Character;
 
-use App\Entity\Character\Character;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\GameData\GameClass;

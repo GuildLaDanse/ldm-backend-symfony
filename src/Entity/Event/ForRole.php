@@ -6,17 +6,14 @@
 
 namespace App\Entity\Event;
 
-use App\Entity\Event\SignUp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\Event\ForRoleRepository")
  * @ORM\Table(name="ForRole")
  */
 class ForRole
 {
-    const REPOSITORY = 'LaDanseDomainBundle:ForRole';
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

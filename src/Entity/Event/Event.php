@@ -7,7 +7,6 @@
 namespace App\Entity\Event;
 
 use App\Entity\Account\Account;
-use App\Entity\Event\SignUp;
 use App\FSM\EventStateMachine;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;

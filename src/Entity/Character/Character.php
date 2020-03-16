@@ -2,7 +2,6 @@
 
 namespace App\Entity\Character;
 
-use App\Entity\Character\CharacterVersion;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

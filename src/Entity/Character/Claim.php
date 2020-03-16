@@ -7,8 +7,6 @@
 namespace App\Entity\Character;
 
 use App\Entity\Account\Account;
-use App\Entity\Character\Character;
-use App\Entity\Character\PlaysRole;
 use App\Entity\VersionedEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
