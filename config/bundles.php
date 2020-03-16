@@ -16,4 +16,5 @@ return [
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     RS\DiExtraBundle\RSDiExtraBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+    League\Tactician\Bundle\TacticianBundle::class => ['all' => true],
 ];

@@ -11,6 +11,16 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    instanceof:
+        App\Infrastructure\Tactician\CommandHandlerInterface:
+            public: true
+            tags:
+                - { name: tactician.handler, typehints: true }
+        App\Infrastructure\Tactician\QueryHandlerInterface:
+            public: true
+            tags:
+                - { name: tactician.handler, typehints: true }
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

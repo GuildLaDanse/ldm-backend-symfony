@@ -10,6 +10,8 @@
         "ext-json": "*",
         "auth0/jwt-auth-bundle": "~3.0",
         "jms/serializer-bundle": "^3.5",
+        "league/tactician-bundle": "^1.2",
+        "league/tactician-doctrine": "^1.1",
         "nelmio/cors-bundle": "^2.0",
         "rickysu/di-extra-bundle": "^1.0",
         "sensio/framework-extra-bundle": "^5.5",
