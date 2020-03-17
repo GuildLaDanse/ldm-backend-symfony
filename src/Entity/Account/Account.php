@@ -12,13 +12,11 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Account\AccountRepository")
  * @ORM\Table(name="Account")
  */
 class Account implements UserInterface, EquatableInterface
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Account';
-
     /**
      * @var int
      *
