@@ -4,9 +4,8 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Entity;
+namespace App\Entity\Character;
 
-use App\Entity\Character\Character;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\GameData\Guild;
@@ -17,8 +16,6 @@ use App\Entity\GameData\Guild;
  */
 class InGuild
 {
-    const REPOSITORY = 'LaDanseDomainBundle:InGuild';
-
     /**
      * @var string
      *
