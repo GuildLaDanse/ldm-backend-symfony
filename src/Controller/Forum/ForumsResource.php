@@ -7,6 +7,7 @@
 namespace App\Controller\Forum;
 
 use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Rest\ResourceHelper;
 use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Event\Forum\ForumDoesNotExistException;
 use App\Modules\Event\Forum\ForumService;
@@ -17,9 +18,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 /**
  * Class ForumsResource
@@ -62,10 +60,6 @@ class ForumsResource extends AbstractRestController
      * @param ForumService $forumService
      *
      * @return Response
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      *
      * @Route("/activity", name="getActivityForForums", methods={"GET"})
      */
@@ -126,10 +120,6 @@ class ForumsResource extends AbstractRestController
      * @param string $forumId
      *
      * @return Response
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      *
      * @Route("/{forumId}/activity", name="getActivityForForum", methods={"GET"})
      */

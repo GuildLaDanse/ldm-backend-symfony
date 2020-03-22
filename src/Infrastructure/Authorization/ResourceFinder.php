@@ -93,6 +93,6 @@ class ResourceFinder
     {
         $this->resourceModules = [];
 
-        $this->resourceModules[Event::class] = EventFinderModule::SERVICE_NAME;
+        $this->resourceModules[Event::class] = EventFinderModule::class;
     }
 }

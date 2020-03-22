@@ -8,55 +8,44 @@ namespace App\Modules\Event\Forum;
 
 use App\Entity\Account\Account;
 use App\Entity\Forum as ForumEntity;
-use App\Infrastructure\Modules\LaDanseService;
 use App\Infrastructure\Modules\UUIDUtils;
 use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use DateTime;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
-use RS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
-/**
- * Class ForumService
- *
- * @package LaDanse\ForumBundle\Service
- *
- * @DI\Service(ForumService::SERVICE_NAME, public=true)
- */
-class ForumService extends LaDanseService
+class ForumService
 {
-    const SERVICE_NAME = 'LaDanse.ForumService';
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
 
     /**
      * @var EventDispatcherInterface
-     *
-     * @DI\Inject("event_dispatcher")
      */
-    public EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var AuthenticationService
      */
-    public AuthenticationService $authenticationService;
+    private AuthenticationService $authenticationService;
 
     /**
-     * @param ContainerInterface $container
+     * @param Registry $doctrine
+     * @param EventDispatcherInterface $eventDispatcher
      * @param AuthenticationService $authenticationService
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
      */
-    public function __construct(ContainerInterface $container, AuthenticationService $authenticationService)
+    public function __construct(
+        Registry $doctrine,
+        EventDispatcherInterface $eventDispatcher,
+        AuthenticationService $authenticationService)
     {
-        parent::__construct($container);
-
+        $this->doctrine = $doctrine;
+        $this->eventDispatcher = $eventDispatcher;
         $this->authenticationService = $authenticationService;
     }
 
@@ -65,9 +54,7 @@ class ForumService extends LaDanseService
      */
     public function getAllForums()
     {
-        $doc = $this->getDoctrine();
-
-        $forumRepo = $doc->getRepository(ForumEntity\Forum::class);
+        $forumRepo = $this->doctrine->getRepository(ForumEntity\Forum::class);
 
         return $forumRepo->findAll();
     }
@@ -81,9 +68,7 @@ class ForumService extends LaDanseService
      */
     public function getForum($forumId)
     {
-        $doc = $this->getDoctrine();
-
-        $forumRepo = $doc->getRepository(ForumEntity\Forum::class);
+        $forumRepo = $this->doctrine->getRepository(ForumEntity\Forum::class);
 
         /** @var ForumEntity\Forum $forum */
         $forum = $forumRepo->find($forumId);
@@ -100,18 +85,20 @@ class ForumService extends LaDanseService
 
     /**
      * @return array
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function getActivityForForums()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
 
         /* @var Query $query */
         $query = $em->createQuery(
-            $this->createSQLFromTemplate('LaDanseDomainBundle::forum\selectActivityForForums.sql.twig')
+            <<<'EOD'
+                SELECT p, t, f
+                FROM App\Entity\Forum\Post p
+                    LEFT JOIN p.topic t
+                    LEFT JOIN t.forum f
+                ORDER BY p.postDate DESC
+            EOD
         );
         $query->setMaxResults(10);
 
@@ -122,18 +109,22 @@ class ForumService extends LaDanseService
      * @param $forumId
      *
      * @return array
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function getActivityForForum($forumId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
 
         /* @var $query Query */
         $query = $em->createQuery(
-            $this->createSQLFromTemplate('LaDanseDomainBundle::forum\selectActivityForForum.sql.twig')
+            <<<'EOD'
+                SELECT p, t, f
+                FROM App\Entity\Forum\Post p
+                    LEFT JOIN p.topic t
+                    LEFT JOIN t.forum f
+                WHERE
+                    (f.id = :forumId)
+                ORDER BY p.postDate DESC
+            EOD
         );
         $query->setParameter('forumId', $forumId);
         $query->setMaxResults(10);
@@ -150,9 +141,7 @@ class ForumService extends LaDanseService
      */
     public function getAllTopicsInForum($forumId)
     {
-        $doc = $this->getDoctrine();
-
-        $topicRepo = $doc->getRepository(ForumEntity\Forum::class);
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Forum::class);
 
         /** @var ForumEntity\Forum $forum */
         $forum = $topicRepo->find($forumId);
@@ -185,9 +174,7 @@ class ForumService extends LaDanseService
      */
     public function getAllPosts($topicId)
     {
-        $doc = $this->getDoctrine();
-
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Topic::class);
 
         $topic = $topicRepo->find($topicId);
 
@@ -219,9 +206,7 @@ class ForumService extends LaDanseService
      */
     public function getPost($postId)
     {
-        $doc = $this->getDoctrine();
-
-        $postRepo = $doc->getRepository(ForumEntity\Post::class);
+        $postRepo = $this->doctrine->getRepository(ForumEntity\Post::class);
 
         /** @var ForumEntity\Post $post */
         $post = $postRepo->find($postId);
@@ -245,9 +230,7 @@ class ForumService extends LaDanseService
      */
     public function getTopic($topicId)
     {
-        $doc = $this->getDoctrine();
-
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Topic::class);
 
         /** @var ForumEntity\Topic $topic */
         $topic = $topicRepo->find($topicId);
@@ -274,8 +257,7 @@ class ForumService extends LaDanseService
      */
     public function createTopicInForum(Account $account, $forumId, $subject, $text)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
         $forum = $this->getForum($forumId);
 
@@ -344,10 +326,9 @@ class ForumService extends LaDanseService
      */
     public function removeTopic(Account $account, $topicId)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Topic::class);
 
         /** @var ForumEntity\Topic $topic */
         $topic = $topicRepo->find($topicId);
@@ -392,10 +373,8 @@ class ForumService extends LaDanseService
      */
     public function createPost(Account $account, $topicId, $message)
     {
-        $doc = $this->getDoctrine();
-
-        $em = $doc->getManager();
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
+        $em = $this->doctrine->getManager();
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Topic::class);
 
         /* @var $topic ForumEntity\Topic */
         $topic = $topicRepo->find($topicId);
@@ -461,10 +440,8 @@ class ForumService extends LaDanseService
      */
     public function updatePost(Account $account, $postId, $message)
     {
-        $doc = $this->getDoctrine();
-
-        $em = $doc->getManager();
-        $postRepo = $doc->getRepository(ForumEntity\Post::class);
+        $em = $this->doctrine->getManager();
+        $postRepo = $this->doctrine->getRepository(ForumEntity\Post::class);
 
         $post = $postRepo->find($postId);
 
@@ -515,10 +492,8 @@ class ForumService extends LaDanseService
      */
     public function updateTopic(Account $account, $topicId, $subject)
     {
-        $doc = $this->getDoctrine();
-
-        $em = $doc->getManager();
-        $topicRepo = $doc->getRepository(ForumEntity\Topic::class);
+        $em = $this->doctrine->getManager();
+        $topicRepo = $this->doctrine->getRepository(ForumEntity\Topic::class);
 
         $topic = $topicRepo->find($topicId);
 
@@ -564,8 +539,7 @@ class ForumService extends LaDanseService
      */
     public function updateLastPosts()
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
         $forums = $this->getAllForums();
 

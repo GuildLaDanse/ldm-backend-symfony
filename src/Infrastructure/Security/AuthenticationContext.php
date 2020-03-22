@@ -7,18 +7,22 @@
 namespace App\Infrastructure\Security;
 
 use App\Entity\Account\Account;
-use App\Infrastructure\Modules\LaDanseService;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class AuthenticationContext extends LaDanseService
+class AuthenticationContext
 {
     /**
-     * @param ContainerInterface $container
+     * @var TokenStorageInterface
      */
-    public function __construct(ContainerInterface $container)
+    private TokenStorageInterface $tokenStorage;
+
+    /**
+     * @param TokenStorageInterface $tokenStorage
+     */
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        parent::__construct($container);
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -36,7 +40,7 @@ class AuthenticationContext extends LaDanseService
     {
         if ($this->isAuthenticated())
         {
-            return $this->get('security.token_storage')->getToken()->getUser()->getId();
+            return $this->tokenStorage->getToken()->getUser()->getId();
         }
         else
         {
@@ -47,8 +51,11 @@ class AuthenticationContext extends LaDanseService
     /**
      * @return Account
      */
-    public function getAccount()
+    public function getAccount(): Account
     {
-        return $this->get('security.token_storage')->getToken()->getUser();
+        /** @var Account $account */
+        $account = $this->tokenStorage->getToken()->getUser();
+
+        return $account;
     }
 }

@@ -9,13 +9,11 @@ namespace App\Entity\GameData;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\GameData\GuildRepository")
  * @ORM\Table(name="Guild", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
  */
 class Guild
 {
-    const REPOSITORY = 'LaDanseDomainBundle:GameData\Guild';
-
     /**
      * @var string
      *
@@ -31,6 +29,13 @@ class Guild
      * @ORM\Column(type="string", length=100, nullable=false)
      */
     protected string $name;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected ?int $gameId;
 
     /**
      * @var Realm
@@ -73,6 +78,24 @@ class Guild
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGameId(): ?int
+    {
+        return $this->gameId;
+    }
+
+    /**
+     * @param int|null $gameId
+     * @return Guild
+     */
+    public function setGameId(?int $gameId): Guild
+    {
+        $this->gameId = $gameId;
         return $this;
     }
 

@@ -33,6 +33,14 @@ class Guild
     private string $name;
 
     /**
+     * @var int|null
+     *
+     * @Type("integer")
+     * @SerializedName("gameId")
+     */
+    private ?int $gameId;
+
+    /**
      * @var StringReference
      *
      * @Type(StringReference::class)
@@ -73,6 +81,24 @@ class Guild
     public function setName(string $name): Guild
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGameId(): ?int
+    {
+        return $this->gameId;
+    }
+
+    /**
+     * @param int|null $gameId
+     * @return Guild
+     */
+    public function setGameId(?int $gameId): Guild
+    {
+        $this->gameId = $gameId;
         return $this;
     }
 

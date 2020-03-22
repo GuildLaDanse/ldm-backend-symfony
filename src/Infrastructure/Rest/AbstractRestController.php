@@ -7,10 +7,6 @@
 namespace App\Infrastructure\Rest;
 
 use App\Entity\Account\Account;
-use App\Infrastructure\Authorization\AuthorizationService;
-use App\Infrastructure\Authorization\CannotEvaluateException;
-use App\Infrastructure\Authorization\ResourceReference;
-use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\ServiceException;
 use Exception;
 use JMS\Serializer\SerializerBuilder;
@@ -18,11 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
-/**
- * Class LaDanseController
- *
- * @package LaDanse\RestBundle\Common
- */
 class AbstractRestController extends AbstractController
 {
     /**
@@ -47,25 +38,6 @@ class AbstractRestController extends AbstractController
     protected function getAccount()
     {
         return null;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param SubjectReference $subject
-     * @param string $action
-     * @param ResourceReference $resource
-     *
-     * @return bool
-     *
-     * @throws CannotEvaluateException
-     */
-    protected function isAuthorized(SubjectReference $subject, $action, ResourceReference $resource)
-    {
-        /** @var AuthorizationService $authzService */
-        $authzService = $this->get(AuthorizationService::SERVICE_NAME);
-
-        return $authzService->evaluate($subject, $action, $resource);
     }
 
     /** @noinspection PhpUnusedParameterInspection */

@@ -6,7 +6,6 @@
 
 namespace LaDanse\ServicesBundle\Service\Event\Command;
 
-
 use App\Entity\Account\Account;
 use App\Entity\Event as EventEntity;
 use App\Infrastructure\Authorization\AuthorizationService;
@@ -25,9 +24,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @DI\Service(PutEventCommand::SERVICE_NAME, public=true, shared=false)
- */
 class PutEventCommandHandler implements CommandHandlerInterface
 {
     /**

@@ -7,28 +7,15 @@
 namespace App\Infrastructure\Authorization;
 
 use App\Infrastructure\Authorization\Policies\PolicyCatalog;
-use App\Infrastructure\Modules\LaDanseService;
 use Exception;
-use Monolog\Logger;
-use RS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
-/**
- * Class AuthorizationService
- * @package LaDanse\ServicesBundle\Service\Authorization
- *
- * @DI\Service(AuthorizationService::SERVICE_NAME, public=true)
- */
-class AuthorizationService extends LaDanseService
+class AuthorizationService
 {
-    const SERVICE_NAME = 'LaDanse.AuthorizationService';
-
     /**
-     * @var Logger
-     *
-     * @DI\Inject("monolog.logger.ladanse")
+     * @var LoggerInterface
      */
-    public Logger $logger;
+    public LoggerInterface $logger;
 
     /**
      * @var PolicyCatalog
@@ -41,18 +28,15 @@ class AuthorizationService extends LaDanseService
     private ResourceFinder $resourceFinder;
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
+     * @param LoggerInterface $logger
+     * @param ResourceFinder $resourceFinder
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(LoggerInterface $logger, ResourceFinder $resourceFinder)
     {
-        parent::__construct($container);
+        $this->logger = $logger;
 
         $this->policyCatalog = new PolicyCatalog();
-        $this->resourceFinder = new ResourceFinder($this->container);
+        $this->resourceFinder = $resourceFinder;
     }
 
     /**

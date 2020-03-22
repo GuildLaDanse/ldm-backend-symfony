@@ -6,45 +6,39 @@
 
 namespace App\Infrastructure\Authorization\ResourceFinders;
 
-use App\Infrastructure\Modules\LaDanseService;
-use Monolog\Logger;
-use RS\DiExtraBundle\Annotation as DI;
+use App\Modules\Event\DTO\Event;
+use App\Modules\Event\EventService;
+use Psr\Log\LoggerInterface;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-/**
- * @DI\Service(EventFinderModule::SERVICE_NAME, public=true)
- */
-class EventFinderModule extends LaDanseService
+class EventFinderModule implements ResourceFinderModule
 {
-    const SERVICE_NAME = 'LaDanse.EventFinderModule';
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
 
     /**
-     * @var Logger
-     * @DI\Inject("monolog.logger.ladanse")
+     * @var EventService
      */
-    public Logger $logger;
+    private EventService $eventService;
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
+     * @param LoggerInterface $logger
+     * @param EventService $eventService
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(LoggerInterface $logger, EventService $eventService)
     {
-        parent::__construct($container);
+        $this->logger = $logger;
+        $this->eventService = $eventService;
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
+    /**
+     * @param $resourceId
+     *
+     * @return Event
+     */
     function findResourceById($resourceId)
     {
-        return null;
-
-        // /** @var EventService $eventService */
-        //$eventService = $this->get(EventService::SERVICE_NAME);
-
-        //return $eventService->getEventById($resourceId);
+        return $this->eventService->getEventById($resourceId);
     }
 }

@@ -8,33 +8,24 @@ namespace App\Modules\Comment;
 
 use App\Entity\Comments\Comment;
 use App\Entity\Comments\CommentGroup;
-use App\Infrastructure\Modules\LaDanseService;
 use App\Infrastructure\Modules\UUIDUtils;
 use DateTime;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Exception;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RS\DiExtraBundle\Annotation as DI;
 
-
-/**
- * Class CommentService
- *
- * @DI\Service(CommentService::SERVICE_NAME, public=true)
- */
-class CommentService extends LaDanseService
+class CommentService
 {
-    const SERVICE_NAME = 'LaDanse.CommentService';
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
+     * @param Registry $doctrine
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Registry $doctrine)
     {
-        parent::__construct($container);
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -46,9 +37,7 @@ class CommentService extends LaDanseService
      */
     public function getCommentGroup($groupId)
     {
-        $doc = $this->getDoctrine();
-
-        $groupRepo = $doc->getRepository(CommentGroup::class);
+        $groupRepo = $this->doctrine->getRepository(CommentGroup::class);
 
         /** @var CommentGroup $group */
         $group = $groupRepo->find($groupId);
@@ -70,8 +59,7 @@ class CommentService extends LaDanseService
      */
     public function createCommentGroup(): string
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+       $em = $this->doctrine->getManager();
 
         $groupId = UUIDUtils::createUUID();
         
@@ -92,10 +80,9 @@ class CommentService extends LaDanseService
      */
     public function removeCommentGroup($groupId)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
-        $groupRepo = $doc->getRepository(CommentGroup::class);
+        $groupRepo = $this->doctrine->getRepository(CommentGroup::class);
 
         $group = $groupRepo->find($groupId);
 
@@ -118,9 +105,7 @@ class CommentService extends LaDanseService
      */
     public function getComment($commentId)
     {
-        $doc = $this->getDoctrine();
-
-        $commentRepo = $doc->getRepository(Comment::class);
+        $commentRepo = $this->doctrine->getRepository(Comment::class);
 
         /** @var Comment $comment */
         $comment = $commentRepo->find($commentId);
@@ -144,10 +129,8 @@ class CommentService extends LaDanseService
      */
     public function createComment($groupId, $account, $message)
     {
-        $doc = $this->getDoctrine();
-
-        $em = $doc->getManager();
-        $groupRepo = $doc->getRepository(CommentGroup::class);
+        $em = $this->doctrine->getManager();
+        $groupRepo = $this->doctrine->getRepository(CommentGroup::class);
 
         /** @var CommentGroup $group */
         $group = $groupRepo->find($groupId);
@@ -180,10 +163,8 @@ class CommentService extends LaDanseService
      */
     public function updateComment($commentId, $message)
     {
-        $doc = $this->getDoctrine();
-
-        $em = $doc->getManager();
-        $commentRepo = $doc->getRepository(Comment::class);
+        $em = $this->doctrine->getManager();
+        $commentRepo = $this->doctrine->getRepository(Comment::class);
 
         $comment = $commentRepo->find($commentId);
 

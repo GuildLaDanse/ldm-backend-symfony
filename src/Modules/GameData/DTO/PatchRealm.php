@@ -26,6 +26,14 @@ class PatchRealm
     private string $name;
 
     /**
+     * @var int|null
+     *
+     * @Type("integer")
+     * @SerializedName("gameId")
+     */
+    private ?int $gameId;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -40,6 +48,24 @@ class PatchRealm
     public function setName(string $name): PatchRealm
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGameId(): ?int
+    {
+        return $this->gameId;
+    }
+
+    /**
+     * @param int|null $gameId
+     * @return PatchRealm
+     */
+    public function setGameId(?int $gameId): PatchRealm
+    {
+        $this->gameId = $gameId;
         return $this;
     }
 }

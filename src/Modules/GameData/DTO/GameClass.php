@@ -1,6 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     https://github.com/GuildLaDanse
+ */
 
-namespace LaDanse\ServicesBundle\Service\DTO\GameData;
+namespace App\Modules\GameData\DTO;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\SerializedName;

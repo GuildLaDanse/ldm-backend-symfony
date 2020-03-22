@@ -22,15 +22,25 @@ class PatchGuild
      *
      * @Type("string")
      * @SerializedName("name")
+     *
      * @Assert\NotBlank()
      */
     private string $name;
+
+    /**
+     * @var int|null
+     *
+     * @Type("integer")
+     * @SerializedName("gameId")
+     */
+    private ?int $gameId;
 
     /**
      * @var StringReference
      *
      * @Type(StringReference::class)
      * @SerializedName("realmId")
+     *
      * @Assert\NotNull()
      * @Assert\Valid()
      */
@@ -51,6 +61,24 @@ class PatchGuild
     public function setName(string $name): PatchGuild
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGameId(): ?int
+    {
+        return $this->gameId;
+    }
+
+    /**
+     * @param int|null $gameId
+     * @return PatchGuild
+     */
+    public function setGameId(?int $gameId): PatchGuild
+    {
+        $this->gameId = $gameId;
         return $this;
     }
 

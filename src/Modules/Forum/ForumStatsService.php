@@ -7,58 +7,48 @@
 namespace App\Modules\Event\Forum;
 
 use App\Entity\Account\Account;
-use App\Infrastructure\Modules\LaDanseService;
 use App\Infrastructure\Modules\UUIDUtils;
 use DateTime;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use RS\DiExtraBundle\Annotation as DI;
 use App\Entity\Forum as ForumEntity;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
-/**
- * Class ForumStatisService
- *
- * @package LaDanse\ForumBundle\Service
- *
- * @DI\Service(ForumStatsService::SERVICE_NAME, public=true)
- */
-class ForumStatsService extends LaDanseService
+class ForumStatsService
 {
-    const SERVICE_NAME = 'LaDanse.ForumStatsService';
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
-     * })
+     * @param Registry $doctrine
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Registry $doctrine)
     {
-        parent::__construct($container);
+        $this->doctrine = $doctrine;
     }
 
     /**
      * @param DateTime $sinceDateTime
      *
      * @return array
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function getNewPostsSince($sinceDateTime)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
 
         /* @var $query Query */
         $query = $em->createQuery(
-            $this->createSQLFromTemplate('LaDanseDomainBundle::forum\selectNewPostsSince.sql.twig')
+            <<<'EOD'
+                SELECT p, t, f
+                FROM App\Entity\Forum\Post p
+                    LEFT JOIN p.topic t
+                    LEFT JOIN t.forum f
+                WHERE
+                    (p.postDate > :sinceDateTime)
+            EOD
         );
         $query->setParameter('sinceDateTime', $sinceDateTime);
 
@@ -69,16 +59,12 @@ class ForumStatsService extends LaDanseService
      * @param Account $account
      *
      * @return array
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+
      * @throws Exception
      */
     public function getUnreadPostsForAccount(Account $account)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
         $lastVisit = $this->getLastVisitForAccount($account, new DateTime());
 
@@ -106,7 +92,17 @@ class ForumStatsService extends LaDanseService
 
         /* @var $query Query */
         $query = $em->createQuery(
-            $this->createSQLFromTemplate('LaDanseDomainBundle::forum\selectUnreadPostsForAccount.sql.twig')
+            <<<'EOD'
+                SELECT u, p, t, f
+                FROM App\Entity\Forum\UnreadPost u
+                    LEFT JOIN u.post p
+                    LEFT JOIN p.topic t
+                    LEFT JOIN t.forum f
+                WHERE
+                    (u.account = :forAccount)
+                    AND
+                    (p.poster != :forAccount)
+            EOD
         );
         $query->setParameter('forAccount', $account);
 
@@ -127,18 +123,20 @@ class ForumStatsService extends LaDanseService
      * @param DateTime $sinceDateTime
      *
      * @return array
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function getNewTopicsSince($sinceDateTime)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
 
         /* @var $query Query */
         $query = $em->createQuery(
-            $this->createSQLFromTemplate('LaDanseDomainBundle::forum\selectNewTopicsSince.sql.twig')
+            <<<'EOD'
+                SELECT t, f
+                FROM App\Entity\Forum\Topic t
+                    LEFT JOIN t.forum f
+                WHERE
+                    (t.createDate > :sinceDateTime)
+            EOD
         );
         $query->setParameter('sinceDateTime', $sinceDateTime);
 
@@ -151,7 +149,7 @@ class ForumStatsService extends LaDanseService
      */
     public function markPostAsRead(Account $account, $postId)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
 
         /** @var QueryBuilder $qb */
         $qb = $em->createQueryBuilder();
@@ -172,13 +170,10 @@ class ForumStatsService extends LaDanseService
      * @param DateTime $default
      *
      * @return DateTime
-     *
-     * @noinspection DuplicatedCode
      */
     private function getLastVisitForAccount($account, DateTime $default = null)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
         /** @var QueryBuilder $qb */
         $qb = $em->createQueryBuilder();
@@ -210,13 +205,10 @@ class ForumStatsService extends LaDanseService
      * @param Account $account
      *
      * @throws Exception
-     *
-     * @noinspection DuplicatedCode
      */
     private function resetLastVisitForAccount($account)
     {
-        $doc = $this->getDoctrine();
-        $em = $doc->getManager();
+        $em = $this->doctrine->getManager();
 
         /** @var QueryBuilder $qb */
         $qb = $em->createQueryBuilder();

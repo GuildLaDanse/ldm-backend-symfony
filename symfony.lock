@@ -245,9 +245,6 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
-    "rickysu/di-extra-bundle": {
-        "version": "1.0.9"
-    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {

@@ -20,6 +20,8 @@ services:
             public: true
             tags:
                 - { name: tactician.handler, typehints: true }
+        App\Infrastructure\Authorization\ResourceFinders\ResourceFinderModule:
+            public: true
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

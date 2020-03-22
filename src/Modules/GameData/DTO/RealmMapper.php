@@ -22,6 +22,7 @@ class RealmMapper
 
         $dtoRealm->setId($realm->getId());
         $dtoRealm->setName($realm->getName());
+        $dtoRealm->setGameId($realm->getGameId());
 
         return $dtoRealm;
     }

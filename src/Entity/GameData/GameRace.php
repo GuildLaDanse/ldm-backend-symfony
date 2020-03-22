@@ -9,13 +9,11 @@ namespace App\Entity\GameData;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\GameData\GameRaceepository")
  * @ORM\Table(name="GameRace", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"}))
  */
 class GameRace
 {
-    const REPOSITORY = 'LaDanseDomainBundle:GameData\GameRace';
-
     /**
      * @var string
      *

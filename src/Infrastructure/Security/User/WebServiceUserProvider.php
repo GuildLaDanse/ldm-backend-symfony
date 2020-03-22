@@ -7,7 +7,7 @@
 namespace App\Infrastructure\Security\User;
 
 use App\Entity\Account\Account;
-use App\Repository\AccountRepository;
+use App\Repository\Account\AccountRepository;
 use Auth0\JWTAuthBundle\Security\Auth0Service;
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\NonUniqueResultException;

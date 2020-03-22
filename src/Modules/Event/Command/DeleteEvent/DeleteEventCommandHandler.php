@@ -6,7 +6,7 @@
 
 namespace App\Modules\Event\Command\DeleteEvent;
 
-use App\Entity\Event as EntityEvent;
+use App\Entity\Event as EventEntity;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Authorization\NotAuthorizedException;
 use App\Infrastructure\Authorization\ResourceByValue;
@@ -115,9 +115,9 @@ class DeleteEventCommandHandler implements CommandHandlerInterface
         $em = $this->doctrine->getManager();
 
         /* @var EntityRepository $repository */
-        $repository = $this->doctrine->getRepository(EntityEvent\Event::class);
+        $repository = $this->doctrine->getRepository(EventEntity\Event::class);
 
-        /* @var EntityEvent\Event $event */
+        /* @var EventEntity\Event $event */
         $event = $repository->find($command->getEventId());
 
         $currentDateTime = new DateTime();
