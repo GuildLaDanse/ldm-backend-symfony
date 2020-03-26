@@ -116,7 +116,7 @@ class TopicMapper
 
     private function createLastPost(ForumEntity\Topic $topic)
     {
-        if ($topic->getLastPostPoster() != null)
+        if ($topic->getLastPostPoster() !== null)
         {
             return (object)[
                 "date" => $topic->getLastPostDate()->format(DateTime::ISO8601),

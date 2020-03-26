@@ -108,7 +108,7 @@ class PostSignUpCommandHandler implements CommandHandlerInterface
 
         if (($signupType == EventEntity\SignUpType::ABSENCE)
                 &&
-            ($command->getPostSignUp()->getRoles() != null
+            ($command->getPostSignUp()->getRoles() !== null
                 ||
              count($command->getPostSignUp()->getRoles()) > 0)
         )

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Character\Character;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CharacterOrigin\TrackedByRepository")
  * @ORM\Table(name="TrackedBy", options={"collate":"utf8mb4_0900_ai_ci", "charset":"utf8mb4"})
  */
 class TrackedBy

@@ -142,9 +142,9 @@ class FeatureUse
      */
     public function getData()
     {
-        if ($this->rawData == NULL)
+        if ($this->rawData === null)
         {
-            return NULL;
+            return null;
         }
 
         return json_decode($this->rawData);
@@ -155,9 +155,9 @@ class FeatureUse
      */
     public function setData($data)
     {
-        if ($data == NULL)
+        if ($data === null)
         {
-            $this->rawData = NULL;
+            $this->rawData = null;
         }
         else
         {

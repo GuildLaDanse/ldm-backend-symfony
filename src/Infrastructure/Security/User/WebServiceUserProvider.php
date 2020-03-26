@@ -48,7 +48,7 @@ class WebServiceUserProvider implements JWTUserProviderInterface
     {
         $account = $this->accountRepository->findByExternalId($jwt->sub);
 
-        if ($account != null)
+        if ($account !== null)
         {
             $roles = array();
             $roles[] = 'ROLE_OAUTH_AUTHENTICATED';

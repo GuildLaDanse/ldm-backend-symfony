@@ -102,7 +102,7 @@ class CharacterHydrator
     {
         $this->init();
 
-        if ($this->claimVersions == null)
+        if ($this->claimVersions === null)
         {
             return false;
         }
@@ -128,7 +128,7 @@ class CharacterHydrator
     {
         $this->init();
 
-        if ($this->claimVersions == null)
+        if ($this->claimVersions === null)
         {
             return null;
         }
@@ -149,7 +149,7 @@ class CharacterHydrator
     {
         $this->init();
 
-        if ($this->playsRoles == null)
+        if ($this->playsRoles === null)
         {
             return [];
         }
@@ -172,7 +172,7 @@ class CharacterHydrator
     {
         $this->init();
 
-        if ($this->inGuilds == null)
+        if ($this->inGuilds === null)
         {
             return null;
         }
@@ -196,7 +196,7 @@ class CharacterHydrator
         if ($this->initialized)
             return;
 
-        if ($this->getCharacterIds() == null || count($this->getCharacterIds()) == 0)
+        if ($this->getCharacterIds() === null || count($this->getCharacterIds()) == 0)
         {
             $this->claimVersions = [];
             $this->playsRoles = [];

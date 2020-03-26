@@ -563,7 +563,7 @@ class ForumService
                 foreach($posts as $post)
                 {
                     // Update $lastPostInTopic
-                    if ($lastPostInTopic == null)
+                    if ($lastPostInTopic === null)
                     {
                         $lastPostInTopic = $post;
                     }
@@ -573,7 +573,7 @@ class ForumService
                     }
 
                     // Update $lastPostInForum
-                    if ($lastPostInForum == null)
+                    if ($lastPostInForum === null)
                     {
                         $lastPostInForum = $post;
                     }
@@ -584,7 +584,7 @@ class ForumService
                 }
 
                 // Update $lastPostInTopic
-                if ($lastPostInTopic != null)
+                if ($lastPostInTopic !== null)
                 {
                     $topic->setLastPostDate($lastPostInTopic->getPostDate());
                     $topic->setLastPostPoster($lastPostInTopic->getPoster());
@@ -592,7 +592,7 @@ class ForumService
             }
 
             // Update $lastPostInTopic
-            if ($lastPostInForum != null)
+            if ($lastPostInForum !== null)
             {
                 $forum->setLastPostDate($lastPostInForum->getPostDate());
                 $forum->setLastPostPoster($lastPostInForum->getPoster());

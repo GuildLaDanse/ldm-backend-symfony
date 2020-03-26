@@ -14,13 +14,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\Character\ClaimRepository")
  * @ORM\Table(name="CharacterClaim")
  */
 class Claim extends VersionedEntity
 {
-    const REPOSITORY = 'LaDanseDomainBundle:Claim';
-
     /**
      * @var int
      *
@@ -74,10 +72,10 @@ class Claim extends VersionedEntity
     /**
      * Set account
      *
-     * @param Account $account
+     * @param Account|object $account
      * @return Claim
      */
-    public function setAccount(Account $account)
+    public function setAccount($account): Claim
     {
         $this->account = $account;
 
@@ -97,10 +95,10 @@ class Claim extends VersionedEntity
     /**
      * Set character
      *
-     * @param Character $character
+     * @param Character|object $character
      * @return Claim
      */
-    public function setCharacter(Character $character)
+    public function setCharacter($character): Claim
     {
         $this->character = $character;
 

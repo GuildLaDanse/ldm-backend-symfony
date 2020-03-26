@@ -104,7 +104,7 @@ class DeleteSignUpCommandHandler implements CommandHandlerInterface
         /* @var EventEntity\SignUp $signUp */
         $signUp = $repository->find($command->getSignUpId());
 
-        if ($signUp == null)
+        if ($signUp === null)
         {
             throw new SignUpDoesNotExistException("Sign up with id " . $command->getSignUpId() . ' does not exist');
         }

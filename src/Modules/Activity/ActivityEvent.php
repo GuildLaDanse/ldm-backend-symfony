@@ -113,9 +113,9 @@ class ActivityEvent extends Event
      */
     static public function annotatedToSimpleObject($annotatedObject)
     {
-        if ($annotatedObject == NULL)
+        if ($annotatedObject === null)
         {
-            return NULL;
+            return null;
         }
         $serializer = SerializerBuilder::create()->build();
         $jsonContent = $serializer->serialize($annotatedObject, 'json');

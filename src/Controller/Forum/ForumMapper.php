@@ -88,7 +88,7 @@ class ForumMapper
 
     private function createLastPost(ForumEntity\Forum $forum)
     {
-        if ($forum->getLastPostPoster() != null)
+        if ($forum->getLastPostPoster() !== null)
         {
             return (object)[
                 "date" => $forum->getLastPostDate()->format(DateTime::ISO8601),

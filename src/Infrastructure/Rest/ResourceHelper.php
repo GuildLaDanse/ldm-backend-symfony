@@ -88,7 +88,7 @@ class ResourceHelper
 
     static public function object($object)
     {
-        if ($object != null)
+        if ($object !== null)
         {
             return $object;
         }
@@ -100,7 +100,7 @@ class ResourceHelper
 
     static public function array($array)
     {
-        if ($array != null)
+        if ($array !== null)
         {
             return $array;
         }

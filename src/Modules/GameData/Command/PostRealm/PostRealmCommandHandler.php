@@ -79,7 +79,7 @@ class PostRealmCommandHadler implements CommandHandlerInterface
      */
     protected function validateInput(PostRealmCommand $command)
     {
-        if ($command->getPatchRealm() == null || $command->getPatchRealm()->getName() == null)
+        if ($command->getPatchRealm() === null || $command->getPatchRealm()->getName() === null)
         {
             throw new InvalidInputException("Given PatchRealm was null or name of realm was null");
         }
@@ -123,7 +123,7 @@ class PostRealmCommandHadler implements CommandHandlerInterface
 
         $realms = $query->getResult();
 
-        if (count($realms) != null)
+        if (count($realms) !== null)
         {
             throw new RealmAlreadyExistsException(
                 "Realm with name '" . $command->getPatchRealm()->getName() . "' already exists", 400

@@ -107,7 +107,7 @@ class PutSignUpCommandHandler implements CommandHandlerInterface
 
         if (($signupType == EventEntity\SignUpType::ABSENCE)
                 &&
-            ($command->getPutSignUp()->getRoles() != null
+            ($command->getPutSignUp()->getRoles() !== null
                 ||
              count($command->getPutSignUp()->getRoles()) > 0)
         )

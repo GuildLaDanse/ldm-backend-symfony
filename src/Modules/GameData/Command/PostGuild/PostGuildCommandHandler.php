@@ -81,9 +81,9 @@ class PostGuildCommandHandler implements CommandHandlerInterface
      */
     protected function validateInput(PostGuildCommand $command)
     {
-        if ($command->getPatchGuild() == null
-            || $command->getPatchGuild()->getName() == null
-            || $command->getPatchGuild()->getRealmId() == null
+        if ($command->getPatchGuild() === null
+            || $command->getPatchGuild()->getName() === null
+            || $command->getPatchGuild()->getRealmId() === null
         )
         {
             throw new InvalidInputException("Given GuildRealm was null or properties were null");
@@ -132,7 +132,7 @@ class PostGuildCommandHandler implements CommandHandlerInterface
 
         $guilds = $query->getResult();
 
-        if (count($guilds) != null)
+        if (count($guilds) !== null)
         {
             throw new GuildAlreadyExistsException(
                 "Guild with name '"
@@ -168,7 +168,7 @@ class PostGuildCommandHandler implements CommandHandlerInterface
         /** @var GameDataEntity\Realm $realm */
         $realm = $realmRepo->find($command->getPatchGuild()->getRealmId());
 
-        if ($realm == null)
+        if ($realm === null)
         {
             throw new RealmDoesNotExistException(
                 "Realm with id '" . $command->getPatchGuild()->getRealmId() . "' does not exist",
@@ -191,7 +191,7 @@ class PostGuildCommandHandler implements CommandHandlerInterface
                 ActivityType::GUILD_CREATE,
                 $account,
                 [
-                    'accountId'  => $account != null ? $account->getId() : null,
+                    'accountId'  => $account !== null ? $account->getId() : null,
                     'patchGuild' => ActivityEvent::annotatedToSimpleObject($command->getPatchGuild())
                 ]
             )

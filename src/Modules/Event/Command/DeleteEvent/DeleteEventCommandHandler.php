@@ -13,7 +13,6 @@ use App\Infrastructure\Authorization\ResourceByValue;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Security\AuthenticationService;
 use App\Infrastructure\Tactician\CommandHandlerInterface;
-
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Comment\CommentGroupDoesNotExistException;
@@ -100,7 +99,7 @@ class DeleteEventCommandHandler implements CommandHandlerInterface
     {
         $eventDto = $this->eventService->getEventById($command->getEventId());
 
-        if ($eventDto == null)
+        if ($eventDto === null)
         {
             throw new EventDoesNotExistException("Event does not exist, id = " . $command->getEventId());
         }

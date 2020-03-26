@@ -100,7 +100,7 @@ class PutEventStateCommandHandler implements CommandHandlerInterface
 
         $oldEventDto = $this->eventService->getEventById($command->getEventId());
 
-        if ($oldEventDto == null)
+        if ($oldEventDto === null)
         {
             throw new EventDoesNotExistException("Event does not exist " . $command->getEventId());
         }
@@ -119,7 +119,7 @@ class PutEventStateCommandHandler implements CommandHandlerInterface
 
         $desiredStateTransition = $this->getStateTransition($command->getPutEventState()->getState());
 
-        if (($desiredStateTransition != null) && $event->getStateMachine()->can($desiredStateTransition))
+        if (($desiredStateTransition !== null) && $event->getStateMachine()->can($desiredStateTransition))
         {
             $event->getStateMachine()->apply($desiredStateTransition);
         }

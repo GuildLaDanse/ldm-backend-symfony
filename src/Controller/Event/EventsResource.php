@@ -1,5 +1,4 @@
-<?php /** @noinspection PhpRedundantCatchClauseInspection */
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://github.com/GuildLaDanse
@@ -34,6 +33,8 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/", name="queryEvents", options = { "expose" = true }, methods={"GET", "HEAD"})
+     *
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function queryEventsAction(Request $request, EventService $eventService): Response
     {
@@ -64,6 +65,8 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}", name="queryEventById", options = { "expose" = true }, methods={"GET", "HEAD"})
+     *
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function queryEventByIdAction(Request $request, EventService $eventService, $eventId): Response
     {
@@ -180,6 +183,8 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}", name="deleteEvent", options = { "expose" = true }, methods={"DELETE"})
+     *
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function deleteEventAction(Request $request, EventService $eventService, $eventId): Response
     {
@@ -269,6 +274,8 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}/signUps/{signUpId}", name="deleteSignUp", options = { "expose" = true }, methods={"DELETE"})
+     *
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function deleteSignUpAction(Request $request, EventService $eventService, $eventId, $signUpId): Response
     {
@@ -290,7 +297,7 @@ class EventsResource extends AbstractRestController
 
     private function getStartOnDate($pStartOnDate)
     {
-        if ($pStartOnDate == null)
+        if ($pStartOnDate === null)
         {
             return new DateTime();
         }

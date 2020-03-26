@@ -81,7 +81,7 @@ class ResourceFinder
     {
         $resourceModule = $this->resourceModules[$resourceType];
 
-        if ($resourceModule == null)
+        if ($resourceModule === null)
         {
             throw new UnresolvableResourceException('Could not find resource module for ' . $resourceType);
         }

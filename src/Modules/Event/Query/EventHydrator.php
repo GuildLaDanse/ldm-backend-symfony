@@ -95,7 +95,7 @@ class EventHydrator
     {
         $this->init();
 
-        if ($this->signUps == null)
+        if ($this->signUps === null)
         {
             return [];
         }
@@ -123,7 +123,7 @@ class EventHydrator
     {
         $this->init();
 
-        if ($this->forRoles == null)
+        if ($this->forRoles === null)
         {
             return [];
         }
@@ -147,7 +147,7 @@ class EventHydrator
         if ($this->initialized)
             return;
 
-        if ($this->getEventIds() == null || count($this->getEventIds()) == 0)
+        if ($this->getEventIds() === null || count($this->getEventIds()) == 0)
         {
             $this->signUps = [];
             $this->initialized = true;

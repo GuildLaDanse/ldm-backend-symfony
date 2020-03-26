@@ -158,7 +158,7 @@ class AuthorizationService
         {
             if ($policy->match($evaluationCtx))
             {
-                if ($matchedPolicy == null)
+                if ($matchedPolicy === null)
                 {
                     $matchedPolicy = $policy;
                 }
@@ -169,7 +169,7 @@ class AuthorizationService
             }
         }
 
-        if ($matchedPolicy == null)
+        if ($matchedPolicy === null)
         {
             throw new NoMatchingPolicyFoundException('No matching top policy found');
         }

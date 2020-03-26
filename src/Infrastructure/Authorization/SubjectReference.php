@@ -31,7 +31,7 @@ class SubjectReference
      */
     public function isAnonymous()
     {
-        return ($this->account == null);
+        return ($this->account === null);
     }
 
     /**

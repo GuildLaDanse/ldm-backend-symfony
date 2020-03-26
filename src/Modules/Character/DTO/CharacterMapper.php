@@ -47,7 +47,7 @@ class CharacterMapper
 
         $inGuild = $characterHydrator->getGuild($characterVersion->getCharacter()->getId());
 
-        if ($inGuild != null)
+        if ($inGuild !== null)
         {
             $dto->setGuildReference(
                 new StringReference($inGuild->getGuild()->getId())

@@ -165,9 +165,9 @@ class NotificationQueueItem
      */
     public function getData()
     {
-        if ($this->rawData == NULL)
+        if ($this->rawData === null)
         {
-            return NULL;
+            return null;
         }
 
         return json_decode($this->rawData, false, 512, JSON_UNESCAPED_UNICODE);
@@ -178,9 +178,9 @@ class NotificationQueueItem
      */
     public function setData($data)
     {
-        if ($data == NULL)
+        if ($data === null)
         {
-            $this->rawData = NULL;
+            $this->rawData = null;
         }
         else
         {

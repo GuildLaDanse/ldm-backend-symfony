@@ -83,7 +83,7 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
      */
     public function __invoke(GetAllEventsPagedQuery $query): EventDTO\EventPage
     {
-        if ($query->getStartOn() == null)
+        if ($query->getStartOn() === null)
         {
             throw new InvalidInputException("A valid date is required for startOn");
         }
