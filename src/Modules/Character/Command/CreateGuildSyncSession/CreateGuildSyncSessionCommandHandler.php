@@ -10,8 +10,8 @@ use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Tactician\CommandHandlerInterface;
 use App\Modules\Character\CharacterSession;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\GameData as GameDataEntity;
@@ -35,18 +35,22 @@ class CreateGuildSyncSessionCommandHandler implements CommandHandlerInterface
     private CharacterSession $characterSession;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * CreateGuildSyncSessionCommandHandler constructor.
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
      * @param CharacterSession $characterSession
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, CharacterSession $characterSession, Registry $doctrine)
+    public function __construct(
+        LoggerInterface $logger,
+        EventDispatcherInterface $eventDispatcher,
+        CharacterSession $characterSession,
+        ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->eventDispatcher = $eventDispatcher;

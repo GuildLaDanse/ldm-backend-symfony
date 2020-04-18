@@ -8,7 +8,7 @@ namespace App\Controller\Forum;
 
 use App\Infrastructure\Rest\AbstractRestController;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Modules\Event\Forum\ForumStatsService;
+use App\Modules\Forum\ForumStatsService;
 use Exception;
 use Psr\Log\LoggerInterface;
 

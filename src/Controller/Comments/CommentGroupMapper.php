@@ -27,10 +27,10 @@ class CommentGroupMapper
     public function mapGroup(UrlGeneratorInterface $generator, CommentGroup $group)
     {
         return (object)[
-            "groupId"    => $group->getId(),
-            "createDate" => $group->getCreateDate()->format(DateTime::ISO8601),
-            "links"      => (object)[
-                "self" => $generator->generate('getCommentsInGroup', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+            'groupId' => $group->getId(),
+            'createDate' => $group->getCreateDate()->format(DateTime::ATOM),
+            'links' => (object)[
+                'self' => $generator->generate('getCommentsInGroup', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ]
         ];
     }

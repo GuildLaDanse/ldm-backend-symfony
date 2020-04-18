@@ -10,20 +10,20 @@ use App\Entity\Comments\Comment;
 use App\Entity\Comments\CommentGroup;
 use App\Infrastructure\Modules\UUIDUtils;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 class CommentService
 {
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }

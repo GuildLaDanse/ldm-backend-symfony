@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace LaDanse\ServicesBundle\Service\Event\Command;
+namespace App\Modules\Event\Command\NotifyEventToday;
 
 use App\Entity\Event as EventEntity;
 use App\Entity\Event\EventStateMachine;

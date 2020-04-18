@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Command\PostGuild;
+namespace App\Modules\GameData\Command\PostGuild;
 
 use App\Entity\Account\Account;
 use App\Infrastructure\Authorization\AuthorizationService;
@@ -18,10 +18,10 @@ use App\Modules\GameData\DTO as GameDataDTO;
 use App\Modules\GameData\DTO\GuildMapper;
 use App\Modules\GameData\GuildAlreadyExistsException;
 use App\Modules\GameData\RealmDoesNotExistException;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -38,9 +38,9 @@ class PostGuildCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var AuthenticationService
@@ -56,14 +56,14 @@ class PostGuildCommandHandler implements CommandHandlerInterface
      * PostGuildCommandHandler constructor.
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      * @param AuthenticationService $authenticationService
      * @param AuthorizationService $authzService
      */
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService)
     {

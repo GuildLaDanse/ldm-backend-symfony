@@ -9,14 +9,15 @@ namespace App\Modules\GameData;
 
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Modules\GameData\DTO as GameDataDTO;
+use App\Modules\GameData\Query\GetAllGameRaces\GetAllGameRacesQuery;
 use Exception;
 use League\Tactician\CommandBus;
-use Modules\GameData\Command\PostGuild\PostGuildCommand;
-use Modules\GameData\Command\PostRealm\PostRealmCommand;
-use Modules\GameData\Query\GetAllGameClasses\GetAllGameClassesQuery;
-use Modules\GameData\Query\GetAllGameFactions\GetAllGameFactionsQuery;
-use Modules\GameData\Query\GetAllGameFactions\GetAllGuildsQuery;
-use Modules\GameData\Query\GetAllRealms\GetAllRealmsQuery;
+use App\Modules\GameData\Command\PostGuild\PostGuildCommand;
+use App\Modules\GameData\Command\PostRealm\PostRealmCommand;
+use App\Modules\GameData\Query\GetAllGameClasses\GetAllGameClassesQuery;
+use App\Modules\GameData\Query\GetAllGameFactions\GetAllGameFactionsQuery;
+use App\Modules\GameData\Query\GetAllGuilds\GetAllGuildsQuery;
+use App\Modules\GameData\Query\GetAllRealms\GetAllRealmsQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
@@ -47,7 +48,7 @@ class GameDataService
      */
     public function getAllGameRaces(): array
     {
-        $query = new GetAllGameClassesQuery();
+        $query = new GetAllGameRacesQuery();
 
         return $this->defaultBus->handle($query);
     }

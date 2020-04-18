@@ -4,21 +4,21 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Modules\Event\Forum\DTO;
+namespace App\Modules\Forum\DTO;
 
 use App\Entity\Forum as ForumEntity;
 use App\Modules\Common\AccountReference;
 
 class ForumFactory
 {
-    public static function create(ForumEntity\Forum $forum)
+    public static function create(ForumEntity\Forum $forum): Forum
     {
-        $factory = new ForumFactory();
+        $factory = new self();
 
         return $factory->createForum($forum);
     }
 
-    private function createForum(ForumEntity\Forum $forum)
+    private function createForum(ForumEntity\Forum $forum): Forum
     {
         return new Forum(
             $forum->getId(),

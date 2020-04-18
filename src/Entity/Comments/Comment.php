@@ -19,12 +19,12 @@ use App\Entity\Account\Account;
 class Comment
 {
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="commentId", type="guid")
      * @ORM\Id
      */
-    private int $id;
+    private string $id;
 
     /**
      * @var DateTime
@@ -36,7 +36,7 @@ class Comment
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=true)
      */
     private Account $poster;
@@ -59,9 +59,9 @@ class Comment
     /**
      * Get id
      *
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -161,10 +161,10 @@ class Comment
     /**
      * Set id
      *
-     * @param integer $id
+     * @param string $id
      * @return Comment
      */
-    public function setId($id)
+    public function setId(string $id): Comment
     {
         $this->id = $id;
 

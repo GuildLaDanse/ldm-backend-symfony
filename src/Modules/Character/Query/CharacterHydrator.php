@@ -8,9 +8,9 @@ namespace App\Modules\Character\Query;
 
 use App\Entity\Character as CharacterEntity;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
 class CharacterHydrator
@@ -21,9 +21,9 @@ class CharacterHydrator
     public LoggerInterface $logger;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    public Registry $doctrine;
+    public ManagerRegistry $doctrine;
 
     /**
      * @var array
@@ -55,7 +55,11 @@ class CharacterHydrator
      */
     private array $inGuilds;
 
-    public function __construct(LoggerInterface $logger, Registry $doctrine)
+    /**
+     * @param LoggerInterface $logger
+     * @param ManagerRegistry $doctrine
+     */
+    public function __construct(LoggerInterface $logger, ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;

@@ -73,7 +73,7 @@ class SocialConnect
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
     protected Account $account;

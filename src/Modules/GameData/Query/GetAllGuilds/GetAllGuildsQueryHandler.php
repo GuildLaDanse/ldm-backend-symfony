@@ -4,15 +4,15 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllGameFactions;
+namespace App\Modules\GameData\Query\GetAllGuilds;
 
 use App\Infrastructure\Tactician\QueryHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\GuildMapper;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
 class GetAllGuildsQueryHandler implements QueryHandlerInterface
@@ -23,18 +23,18 @@ class GetAllGuildsQueryHandler implements QueryHandlerInterface
     private LoggerInterface $logger;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * PostGuildCommandHandler constructor.
      * @param LoggerInterface $logger
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
     public function __construct(
         LoggerInterface $logger,
-        Registry $doctrine)
+        ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;
@@ -65,12 +65,12 @@ class GetAllGuildsQueryHandler implements QueryHandlerInterface
             ]
         );
 
-        /* @var $query Query */
-        $query = $qb->getQuery();
+        /** @var Query $dbQuery */
+        $dbQuery = $qb->getQuery();
 
-        $query->setFetchMode('LaDanse\DomainBundle\Entity\GameData\Realm', "realm", ClassMetadata::FETCH_EAGER);
+        $dbQuery->setFetchMode('LaDanse\DomainBundle\Entity\GameData\Realm', 'realm', ClassMetadata::FETCH_EAGER);
 
-        $guilds = $query->getResult();
+        $guilds = $dbQuery->getResult();
 
         return GuildMapper::mapArray($guilds);
     }

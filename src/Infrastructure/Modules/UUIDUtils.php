@@ -11,8 +11,8 @@ class UUIDUtils
     /**
      * @return string
      */
-    public static function createUUID()
+    public static function createUUID(): string
     {
-        return md5(uniqid());
+        return md5(uniqid('', true));
     }
 }

@@ -16,7 +16,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method GameRace[]    findAll()
  * @method GameRace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GameRaceepository extends ServiceEntityRepository
+class GameRaceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

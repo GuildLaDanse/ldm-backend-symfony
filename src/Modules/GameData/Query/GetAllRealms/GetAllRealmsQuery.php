@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllRealms;
+namespace App\Modules\GameData\Query\GetAllRealms;
 
 class GetAllRealmsQuery
 {

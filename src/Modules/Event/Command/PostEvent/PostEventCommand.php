@@ -4,7 +4,8 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace LaDanse\ServicesBundle\Service\Event\Command;
+namespace App\Modules\Event\Command\PostEvent;
+
 
 use App\Modules\Event\DTO as EventDTO;
 

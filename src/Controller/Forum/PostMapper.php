@@ -26,14 +26,14 @@ class PostMapper
     public function mapPost(UrlGeneratorInterface $generator, ForumEntity\Post $post)
     {
         return (object)[
-            "postId"   => $post->getId(),
-            "posterId" => $post->getPoster()->getId(),
-            "poster"   => $post->getPoster()->getDisplayName(),
-            "message"  => $post->getMessage(),
-            "postDate" => $post->getPostDate()->format(DateTime::ISO8601),
-            "links"    => (object)[
-                "self"   => $generator->generate('getPost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-                "update" => $generator->generate('updatePost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+            'postId' => $post->getId(),
+            'posterId' => $post->getPoster()->getId(),
+            'poster' => $post->getPoster()->getDisplayName(),
+            'message' => $post->getMessage(),
+            'postDate' => $post->getPostDate()->format(DateTime::ATOM),
+            'links' => (object)[
+                'self' => $generator->generate('getPost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+                'update' => $generator->generate('updatePost', ['postId' => $post->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ]
         ];
     }

@@ -19,12 +19,12 @@ use Doctrine\ORM\Mapping as ORM;
 class CommentGroup
 {
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="groupId", type="guid")
      * @ORM\Id
      */
-    private int $id;
+    private string $id;
 
     /**
      * @var DateTime
@@ -34,11 +34,11 @@ class CommentGroup
     private DateTime $createDate;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="group", cascade={"persist", "remove"})
      */
-    protected ArrayCollection $comments;
+    protected Collection $comments;
     /**
      * Constructor
      */
@@ -50,9 +50,9 @@ class CommentGroup
     /**
      * Get id
      *
-     * @return integer
+     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -108,7 +108,7 @@ class CommentGroup
      *
      * @return Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
@@ -116,10 +116,11 @@ class CommentGroup
     /**
      * Set id
      *
-     * @param integer $id
+     * @param string $id
+     *
      * @return CommentGroup
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->id = $id;
 

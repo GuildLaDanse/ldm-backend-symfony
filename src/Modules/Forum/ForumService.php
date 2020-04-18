@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Modules\Event\Forum;
+namespace App\Modules\Forum;
 
 use App\Entity\Account\Account;
 use App\Entity\Forum as ForumEntity;

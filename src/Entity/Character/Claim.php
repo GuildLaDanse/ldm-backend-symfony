@@ -31,7 +31,7 @@ class Claim extends VersionedEntity
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
     protected Account $account;
@@ -87,7 +87,7 @@ class Claim extends VersionedEntity
      *
      * @return Account
      */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
@@ -110,7 +110,7 @@ class Claim extends VersionedEntity
      *
      * @return Character
      */
-    public function getCharacter()
+    public function getCharacter(): Character
     {
         return $this->character;
     }
@@ -121,7 +121,7 @@ class Claim extends VersionedEntity
      * @param PlaysRole $roles
      * @return Claim
      */
-    public function addRole(PlaysRole $roles)
+    public function addRole(PlaysRole $roles): Claim
     {
         $this->roles[] = $roles;
 
@@ -133,7 +133,7 @@ class Claim extends VersionedEntity
      *
      * @param PlaysRole $roles
      */
-    public function removeRole(PlaysRole $roles)
+    public function removeRole(PlaysRole $roles): void
     {
         $this->roles->removeElement($roles);
     }
@@ -143,12 +143,12 @@ class Claim extends VersionedEntity
      *
      * @return Collection
      */
-    public function getRoles()
+    public function getRoles(): Collection
     {
         return $this->roles;
     }
 
-    public function containsRole($roleName, DateTime $onDateTime)
+    public function containsRole($roleName, DateTime $onDateTime): bool
     {
         /* @var $playsRole PlaysRole */
         foreach($this->getRoles() as $playsRole)
@@ -156,7 +156,7 @@ class Claim extends VersionedEntity
             if (($playsRole->isRole($roleName))
                 &&
                 (($playsRole->getFromTime()->getTimestamp() <= $onDateTime->getTimestamp())
-                    && (is_null($playsRole->getEndTime()) ||
+                    && ($playsRole->getEndTime() === null ||
                         ($playsRole->getEndTime()->getTimestamp() > $onDateTime->getTimestamp())))
             )
             {

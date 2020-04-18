@@ -36,7 +36,7 @@ class SignUp
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id", nullable=false)
      */
     protected Account $account;
@@ -181,6 +181,7 @@ class SignUp
 
         for($i = 0; $i < $this->roles->count(); $i++)
         {
+            /** @noinspection NullPointerExceptionInspection */
             $simpleRoles[] = $this->roles->get($i)->getRole();
         }
 

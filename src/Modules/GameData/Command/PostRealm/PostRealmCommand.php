@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Command\PostRealm;
+namespace App\Modules\GameData\Command\PostRealm;
 
 use App\Modules\GameData\DTO as GameDataDTO;
 

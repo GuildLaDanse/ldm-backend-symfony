@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace LaDanse\ServicesBundle\Service\Event\Command;
+namespace App\Modules\Event\Command\PostEvent;
 
 use App\Entity\Account\Account;
 use App\Entity\Event as EventEntity;

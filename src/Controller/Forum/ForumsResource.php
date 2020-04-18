@@ -9,8 +9,8 @@ namespace App\Controller\Forum;
 use App\Infrastructure\Rest\AbstractRestController;
 use App\Infrastructure\Rest\ResourceHelper;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Modules\Event\Forum\ForumDoesNotExistException;
-use App\Modules\Event\Forum\ForumService;
+use App\Modules\Forum\ForumDoesNotExistException;
+use App\Modules\Forum\ForumService;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;

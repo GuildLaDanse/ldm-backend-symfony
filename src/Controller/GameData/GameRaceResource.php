@@ -12,7 +12,7 @@ use App\Modules\GameData\GameDataService;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/gameRaces")
+ * @Route("/api/gameRaces")
  */
 class GameRaceResource extends AbstractRestController
 {

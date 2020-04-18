@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllGameRaces;
+namespace App\Modules\GameData\Query\GetAllGameRaces;
 
 class GetAllGameRacesQuery
 {

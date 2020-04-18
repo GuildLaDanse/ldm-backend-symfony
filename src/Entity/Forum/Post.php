@@ -36,7 +36,7 @@ class Post
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=true)
      */
     private Account $poster;

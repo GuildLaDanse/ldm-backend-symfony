@@ -26,7 +26,7 @@ class AccountRepository extends ServiceEntityRepository
      *
      * @throws ORMException
      */
-    public function save(Account $account)
+    public function save(Account $account): void
     {
         $this->_em->persist($account);
     }
@@ -34,11 +34,11 @@ class AccountRepository extends ServiceEntityRepository
     /**
      * @param string $externalId
      *
-     * @return Account Returns an array of TestEntity objects
+     * @return Account
      *
      * @throws NonUniqueResultException
      */
-    public function findByExternalId(string $externalId)
+    public function findByExternalId(string $externalId): Account
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.externalId = :val')
@@ -48,15 +48,20 @@ class AccountRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?TestEntity
+    /**
+     * @param string $email
+     *
+     * @return Account
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findByEmail(string $email): Account
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.email = :val')
+            ->setParameter('val', $email)
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
 }

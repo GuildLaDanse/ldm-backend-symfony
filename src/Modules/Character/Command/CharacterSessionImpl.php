@@ -11,7 +11,7 @@ use App\Entity\CharacterOrigin\CharacterSyncSession;
 use App\Modules\Character\CharacterSession;
 use App\Modules\Character\InvalidSessionStateException;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -28,9 +28,9 @@ class CharacterSessionImpl implements CharacterSession
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var CharacterSource
@@ -56,9 +56,9 @@ class CharacterSessionImpl implements CharacterSession
      * CharacterSessionImpl constructor.
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, Registry $doctrine)
+    public function __construct(LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->eventDispatcher = $eventDispatcher;

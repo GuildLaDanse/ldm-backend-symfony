@@ -4,14 +4,13 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Modules\Character\Query\GetAllClaimedCharacters;
+namespace App\Modules\Character\Query;
 
 use App\Infrastructure\Security\AuthenticationService;
 use App\Infrastructure\Tactician\QueryHandlerInterface;
-use App\Modules\Character\Query\CharacterHydrator;
 use App\Modules\Common\MapperException;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
@@ -30,9 +29,9 @@ abstract class AbstractClaimedCharactersQueryHandler implements QueryHandlerInte
     protected EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    protected Registry $doctrine;
+    protected ManagerRegistry $doctrine;
 
     /**
      * @var CharacterHydrator
@@ -47,14 +46,14 @@ abstract class AbstractClaimedCharactersQueryHandler implements QueryHandlerInte
     /**
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      * @param CharacterHydrator $characterHydrator
      * @param AuthenticationService $authenticationService
      */
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         CharacterHydrator $characterHydrator,
         AuthenticationService $authenticationService)
     {

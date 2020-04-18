@@ -18,10 +18,10 @@ use App\Modules\Character\CharacterService;
 use App\Modules\Character\Command\CharacterSessionImpl;
 use App\Repository\CharacterOrigin\TrackedByRepository;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
@@ -40,9 +40,9 @@ class UntrackCharacterCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var CharacterService
@@ -63,7 +63,7 @@ class UntrackCharacterCommandHandler implements CommandHandlerInterface
      * PostClaimCommandHandler constructor.
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      * @param CharacterService $characterService
      * @param AuthenticationService $authenticationService
      * @param AuthorizationService $authzService
@@ -71,7 +71,7 @@ class UntrackCharacterCommandHandler implements CommandHandlerInterface
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         CharacterService $characterService,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService)

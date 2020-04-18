@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllGameClasses;
+namespace App\Modules\GameData\Query\GetAllGameClasses;
 
 class GetAllGameClassesQuery
 {

@@ -91,20 +91,18 @@ class ForumMapper
         if ($forum->getLastPostPoster() !== null)
         {
             return (object)[
-                "date" => $forum->getLastPostDate()->format(DateTime::ISO8601),
-                "topic" => (object)[
-                    "id" => $forum->getLastPostTopic()->getId(),
-                    "subject" => $forum->getLastPostTopic()->getSubject()
+                'date' => $forum->getLastPostDate()->format(DateTime::ATOM),
+                'topic' => (object)[
+                    'id' => $forum->getLastPostTopic()->getId(),
+                    'subject' => $forum->getLastPostTopic()->getSubject()
                 ],
-                "poster" => (object)[
-                    "id" => $forum->getLastPostPoster()->getId(),
-                    "displayName" => $forum->getLastPostPoster()->getDisplayName()
+                'poster' => (object)[
+                    'id' => $forum->getLastPostPoster()->getId(),
+                    'displayName' => $forum->getLastPostPoster()->getDisplayName()
                 ]
             ];
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 } 

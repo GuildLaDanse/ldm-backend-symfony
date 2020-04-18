@@ -24,12 +24,12 @@ class GameFaction
     protected string $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @Type("integer")
+     * @Type("string")
      * @SerializedName("armoryId")
      */
-    protected int $armoryId;
+    protected string $armoryId;
 
     /**
      * @var string
@@ -57,18 +57,18 @@ class GameFaction
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getArmoryId()
+    public function getArmoryId(): string
     {
         return $this->armoryId;
     }
 
     /**
-     * @param int $armoryId
+     * @param string $armoryId
      * @return GameFaction
      */
-    public function setArmoryId($armoryId) : GameFaction
+    public function setArmoryId(string $armoryId) : GameFaction
     {
         $this->armoryId = $armoryId;
         return $this;

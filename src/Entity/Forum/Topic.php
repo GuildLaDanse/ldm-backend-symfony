@@ -38,7 +38,7 @@ class Topic
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="posterId", referencedColumnName="id", nullable=false)
      */
     private Account $creator;
@@ -75,7 +75,7 @@ class Topic
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
     private Account $lastPostPoster;

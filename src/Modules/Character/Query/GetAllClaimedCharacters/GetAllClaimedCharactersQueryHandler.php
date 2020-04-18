@@ -13,9 +13,9 @@ use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\Query\CharacterHydrator;
 use App\Modules\Common\MapperException;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
@@ -25,14 +25,14 @@ class GetAllClaimedCharactersQueryHandler extends AbstractClaimedCharactersQuery
     /**
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      * @param CharacterHydrator $characterHydrator
      * @param AuthenticationService $authenticationService
      */
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         CharacterHydrator $characterHydrator,
         AuthenticationService $authenticationService)
     {

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/realms")
+ * @Route("/api/realms")
  */
 class RealmResource extends AbstractRestController
 {

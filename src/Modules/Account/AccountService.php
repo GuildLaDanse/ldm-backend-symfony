@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Modules\Event;
+namespace App\Modules\Account;
 
 use App\Entity\Account\Account;
 use Doctrine\Bundle\DoctrineBundle\Registry;

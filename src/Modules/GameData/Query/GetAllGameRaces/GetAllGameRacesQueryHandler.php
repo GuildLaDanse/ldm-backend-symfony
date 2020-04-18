@@ -4,17 +4,18 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllGameRaces;
+namespace App\Modules\GameData\Query\GetAllGameRaces;
 
+use App\Entity\GameData as GameDataEntity;
 use App\Infrastructure\Tactician\QueryHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\GameRaceMapper;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetAllGameRacesQueryHander implements QueryHandlerInterface
+class GetAllGameRacesQueryHandler implements QueryHandlerInterface
 {
     /**
      * @var LoggerInterface
@@ -22,18 +23,18 @@ class GetAllGameRacesQueryHander implements QueryHandlerInterface
     private LoggerInterface $logger;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * PostGuildCommandHandler constructor.
      * @param LoggerInterface $logger
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
     public function __construct(
         LoggerInterface $logger,
-        Registry $doctrine)
+        ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;
@@ -44,7 +45,7 @@ class GetAllGameRacesQueryHander implements QueryHandlerInterface
      * @return array
      * @throws MapperException
      */
-    public function __invoke(GetAllGameRacesQuery $query)
+    public function handle(GetAllGameRacesQuery $query): array
     {
         $em = $this->doctrine->getManager();
 
@@ -52,7 +53,7 @@ class GetAllGameRacesQueryHander implements QueryHandlerInterface
         $qb = $em->createQueryBuilder();
 
         $qb->select('g', 'faction')
-            ->from('LaDanse\DomainBundle\Entity\GameData\GameRace', 'g')
+            ->from(GameDataEntity\GameRace::class, 'g')
             ->join('g.faction', 'faction')
             ->orderBy('g.name', 'ASC');
 
@@ -63,10 +64,10 @@ class GetAllGameRacesQueryHander implements QueryHandlerInterface
             ]
         );
 
-        /* @var $query Query */
-        $query = $qb->getQuery();
+        /** @var Query $dbQuery */
+        $dbQuery = $qb->getQuery();
 
-        $gameRaces = $query->getResult();
+        $gameRaces = $dbQuery->getResult();
 
         return GameRaceMapper::mapArray($gameRaces);
     }

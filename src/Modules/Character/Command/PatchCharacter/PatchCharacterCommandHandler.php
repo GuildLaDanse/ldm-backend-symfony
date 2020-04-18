@@ -16,10 +16,10 @@ use App\Modules\Activity\ActivityType;
 use App\Modules\Character\Command\CharacterSessionImpl;
 use App\Repository\CharacterOrigin\TrackedByRepository;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\CharacterOrigin as CharacterOriginEntity;
@@ -39,9 +39,9 @@ class PatchCharacterCommandHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * @var AuthenticationService
@@ -52,13 +52,13 @@ class PatchCharacterCommandHandler implements CommandHandlerInterface
      * PatchCharacterCommandHandler constructor.
      * @param LoggerInterface $logger
      * @param EventDispatcherInterface $eventDispatcher
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      * @param AuthenticationService $authenticationService
      */
     public function __construct(
         LoggerInterface $logger,
         EventDispatcherInterface $eventDispatcher,
-        Registry $doctrine,
+        ManagerRegistry $doctrine,
         AuthenticationService $authenticationService)
     {
         $this->logger = $logger;

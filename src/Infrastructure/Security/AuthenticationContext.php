@@ -28,7 +28,7 @@ class AuthenticationContext
     /**
      * @return bool
      */
-    public function isAuthenticated()
+    public function isAuthenticated(): bool
     {
         return !$this->getAccount()->isAnonymous();
     }
@@ -36,25 +36,23 @@ class AuthenticationContext
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         if ($this->isAuthenticated())
         {
-            return $this->tokenStorage->getToken()->getUser()->getId();
+            return $this->tokenStorage->getToken() !== null ? $this->tokenStorage->getToken()->getUser()->getId() : -1;
         }
-        else
-        {
-            return -1;
-        }
+
+        return -1;
     }
 
     /**
-     * @return Account
+     * @return Account|null
      */
-    public function getAccount(): Account
+    public function getAccount(): ?Account
     {
         /** @var Account $account */
-        $account = $this->tokenStorage->getToken()->getUser();
+        $account = $this->tokenStorage->getToken() !== null ? $this->tokenStorage->getToken()->getUser() : null;
 
         return $account;
     }

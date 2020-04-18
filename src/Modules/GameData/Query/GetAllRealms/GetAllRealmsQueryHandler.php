@@ -4,14 +4,14 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace Modules\GameData\Query\GetAllRealms;
+namespace App\Modules\GameData\Query\GetAllRealms;
 
 use App\Infrastructure\Tactician\QueryHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\RealmMapper;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
 class GetAllRealmsQueryHandler implements QueryHandlerInterface
@@ -22,18 +22,18 @@ class GetAllRealmsQueryHandler implements QueryHandlerInterface
     private LoggerInterface $logger;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    private Registry $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * PostGuildCommandHandler constructor.
      * @param LoggerInterface $logger
-     * @param Registry $doctrine
+     * @param ManagerRegistry $doctrine
      */
     public function __construct(
         LoggerInterface $logger,
-        Registry $doctrine)
+        ManagerRegistry $doctrine)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;
@@ -64,10 +64,10 @@ class GetAllRealmsQueryHandler implements QueryHandlerInterface
             ]
         );
 
-        /* @var $query Query */
-        $query = $qb->getQuery();
+        /** @var Query $dbQuery */
+        $dbQuery = $qb->getQuery();
 
-        $Realms = $query->getResult();
+        $Realms = $dbQuery->getResult();
 
         return RealmMapper::mapArray($Realms);
     }

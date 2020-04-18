@@ -45,7 +45,7 @@ class Feedback
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="postedBy", referencedColumnName="id", nullable=false)
      */
     protected Account $postedBy;

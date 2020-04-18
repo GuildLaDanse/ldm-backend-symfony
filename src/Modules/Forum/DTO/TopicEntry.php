@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Modules\Event\Forum\DTO;
+namespace App\Modules\Forum\DTO;
 
 use App\Modules\Common\AccountReference;
 use DateTime;

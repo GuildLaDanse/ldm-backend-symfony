@@ -26,16 +26,16 @@ class TopicMapper
     public function mapTopic(UrlGeneratorInterface $generator, ForumEntity\Topic $topic)
     {
         return (object)[
-            "topicId"    => $topic->getId(),
-            "creatorId"  => $topic->getCreator()->getId(),
-            "creator"    => $topic->getCreator()->getDisplayName(),
-            "subject"    => $topic->getSubject(),
-            "createDate" => $topic->getCreateDate()->format(DateTime::ISO8601),
-            "lastPost"   => $this->createLastPost($topic),
-            "links"      => (object)[
-                "self"
+            'topicId' => $topic->getId(),
+            'creatorId' => $topic->getCreator()->getId(),
+            'creator' => $topic->getCreator()->getDisplayName(),
+            'subject' => $topic->getSubject(),
+            'createDate' => $topic->getCreateDate()->format(DateTime::ATOM),
+            'lastPost' => $this->createLastPost($topic),
+            'links' => (object)[
+                'self'
                     => $generator->generate('getPostsInTopic', ['topicId' => $topic->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-                "createPostInTopic"
+                'createPostInTopic'
                     => $generator->generate('createPostInTopic', ['topicId' => $topic->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ]
         ];
@@ -119,16 +119,14 @@ class TopicMapper
         if ($topic->getLastPostPoster() !== null)
         {
             return (object)[
-                "date" => $topic->getLastPostDate()->format(DateTime::ISO8601),
-                "poster" => (object)[
-                    "id" => $topic->getLastPostPoster()->getId(),
-                    "displayName" => $topic->getLastPostPoster()->getDisplayName()
+                'date' => $topic->getLastPostDate()->format(DateTime::ATOM),
+                'poster' => (object)[
+                    'id' => $topic->getLastPostPoster()->getId(),
+                    'displayName' => $topic->getLastPostPoster()->getDisplayName()
                 ]
             ];
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 } 

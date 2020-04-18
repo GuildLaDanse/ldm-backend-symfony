@@ -91,7 +91,7 @@ class Event implements StatefulInterface
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="organiserId", referencedColumnName="id", nullable=false)
      */
     protected Account $organiser;
@@ -404,9 +404,9 @@ class Event implements StatefulInterface
             'eventId'     => $this->id,
             'name'        => $this->name,
             'description' => $this->description,
-            'inviteTime'  => $this->inviteTime->format(DateTime::ISO8601),
-            'startTime'   => $this->startTime->format(DateTime::ISO8601),
-            'endTime'     => $this->endTime->format(DateTime::ISO8601),
+            'inviteTime'  => $this->inviteTime->format(DateTime::ATOM),
+            'startTime'   => $this->startTime->format(DateTime::ATOM),
+            'endTime'     => $this->endTime->format(DateTime::ATOM),
             'organiserId' => $this->organiser->getId(),
             'state'       => $this->state
         ];

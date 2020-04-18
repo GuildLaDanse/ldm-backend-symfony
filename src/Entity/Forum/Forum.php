@@ -60,7 +60,7 @@ class Forum
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account")
      * @ORM\JoinColumn(name="lastPostPoster", referencedColumnName="id", nullable=true)
      */
     private Account $lastPostPoster;

@@ -62,7 +62,7 @@ class DiscordAuthCode
     /**
      * @var Account
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Account", fetch="EAGER")
      * @ORM\JoinColumn(name="account", referencedColumnName="id", nullable=false)
      */
     protected Account $account;
