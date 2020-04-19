@@ -9,6 +9,7 @@ namespace App\Modules\Comment;
 use App\Entity\Comments\Comment;
 use App\Entity\Comments\CommentGroup;
 use App\Infrastructure\Modules\UUIDUtils;
+use App\Modules\Common\BadRequestException;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -126,8 +127,9 @@ class CommentService
      * @param $message
      *
      * @throws CommentGroupDoesNotExistException
+     * @throws BadRequestException
      */
-    public function createComment($groupId, $account, $message)
+    public function createComment($groupId, $account, $message): void
     {
         $em = $this->doctrine->getManager();
         $groupRepo = $this->doctrine->getRepository(CommentGroup::class);
@@ -137,22 +139,30 @@ class CommentService
 
         if (null === $group)
         {
-            throw new CommentGroupDoesNotExistException("CommentGroup does not exist: " . $groupId);
+            throw new CommentGroupDoesNotExistException('CommentGroup does not exist: ' . $groupId);
         }
-        else
+
+        if ($message === null || '' === $message)
         {
-            $comment = new Comment();
-
-            $comment->setId(UUIDUtils::createUUID());
-            $comment->setPostDate(new DateTime());
-            $comment->setPoster($account);
-            $comment->setMessage($message);
-            $comment->setGroup($group);
-
-            $group->addComment($comment);
-
-            $em->persist($comment);
+            throw new BadRequestException('Message cannot be empty or null');
         }
+
+        if (strlen($message) > 250)
+        {
+            throw new BadRequestException('Message cannot be larger than 250 characters');
+        }
+
+        $comment = new Comment();
+
+        $comment->setId(UUIDUtils::createUUID());
+        $comment->setPostDate(new DateTime());
+        $comment->setPoster($account);
+        $comment->setMessage($message);
+        $comment->setGroup($group);
+
+        $group->addComment($comment);
+
+        $em->persist($comment);
     }
 
     /**
@@ -160,8 +170,9 @@ class CommentService
      * @param $message
      *
      * @throws CommentDoesNotExistException
+     * @throws BadRequestException
      */
-    public function updateComment($commentId, $message)
+    public function updateComment($commentId, $message): void
     {
         $em = $this->doctrine->getManager();
         $commentRepo = $this->doctrine->getRepository(Comment::class);
@@ -170,13 +181,21 @@ class CommentService
 
         if (null === $comment)
         {
-            throw new CommentDoesNotExistException("Post does not exist: " . $commentId);
+            throw new CommentDoesNotExistException('Post does not exist: ' . $commentId);
         }
-        else
+
+        if ($message === null || '' === $message)
         {
-            $comment->setMessage($message);
-            
-            $em->persist($comment);
+            throw new BadRequestException('Message cannot be empty or null');
         }
+
+        if (strlen($message) > 250)
+        {
+            throw new BadRequestException('Message cannot be larger than 250 characters');
+        }
+
+        $comment->setMessage($message);
+
+        $em->persist($comment);
     }
 }

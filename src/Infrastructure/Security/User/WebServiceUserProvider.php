@@ -85,11 +85,15 @@ class WebServiceUserProvider implements JWTUserProviderInterface
     /**
      * @param string $username
      *
-     * @return void
+     * @return Account
+     *
+     * @throws NonUniqueResultException
      */
-    public function loadUserByUsername($username): void
+    public function loadUserByUsername($username): Account
     {
-        throw new NotImplementedException('loadUserByUsername - method not implemented - ' . $username);
+        return $this->accountRepository->findByEmail($username);
+
+        //throw new NotImplementedException('loadUserByUsername - method not implemented - ' . $username);
     }
 
     /**
@@ -98,6 +102,8 @@ class WebServiceUserProvider implements JWTUserProviderInterface
      * @param UserInterface $user
      *
      * @return Account|UserInterface
+     *
+     * @throws NonUniqueResultException
      */
     public function refreshUser(UserInterface $user)
     {
@@ -108,7 +114,7 @@ class WebServiceUserProvider implements JWTUserProviderInterface
             );
         }
 
-        return $user;
+        return $this->loadUserByUsername($user->getEmail());
     }
 
     public function supportsClass($class): bool

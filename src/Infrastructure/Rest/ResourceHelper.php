@@ -17,9 +17,10 @@ class ResourceHelper
      * @param $httpStatusCode
      * @param $errorMessage
      * @param array $headers
+     *
      * @return JsonSerializedResponse
      */
-    public static function createErrorResponse($request, $httpStatusCode, $errorMessage, $headers = [])
+    public static function createErrorResponse($request, $httpStatusCode, $errorMessage, $headers = []): JsonSerializedResponse
     {
         $errorResponse = new ErrorResponse();
         $errorResponse
@@ -33,7 +34,7 @@ class ResourceHelper
             $response->headers->set($header, $value);
         }
 
-        ResourceHelper::addAccessControlAllowOrigin($request, $response);
+        self::addAccessControlAllowOrigin($request, $response);
 
         return $response;
     }
@@ -42,11 +43,16 @@ class ResourceHelper
      * @param $request
      * @param $response
      */
-    public static function addAccessControlAllowOrigin($request, $response)
+    public static function addAccessControlAllowOrigin($request, $response): void
     {
         $origin = $request->headers->get('Origin');
 
-        if (ResourceHelper::isOriginAllowed($origin))
+        if ($origin === null)
+        {
+            return;
+        }
+
+        if (self::isOriginAllowed($origin))
         {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
             $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
@@ -56,9 +62,10 @@ class ResourceHelper
 
     /**
      * @param $origin
+     *
      * @return bool
      */
-    static public function isOriginAllowed($origin)
+    public static function isOriginAllowed($origin): bool
     {
         $allowedOrigins = [
             'http://localhost:8080/',
@@ -67,7 +74,7 @@ class ResourceHelper
 
         foreach($allowedOrigins as $allowedOrigin)
         {
-            if (ResourceHelper::startsWith($origin, $allowedOrigin))
+            if (self::startsWith($origin, $allowedOrigin))
             {
                 return false;
             }
@@ -79,34 +86,31 @@ class ResourceHelper
     /**
      * @param $mainstring
      * @param $substring
+     *
      * @return bool
      */
-    static public function startsWith($mainstring, $substring)
+    public static function startsWith($mainstring, $substring): bool
     {
-        return $substring === "" || strpos($mainstring, $substring) === 0;
+        return $substring === '' || strpos($mainstring, $substring) === 0;
     }
 
-    static public function object($object)
+    public static function object($object)
     {
         if ($object !== null)
         {
             return $object;
         }
-        else
-        {
-            return (object)[];
-        }
+
+        return (object)[];
     }
 
-    static public function array($array)
+    public static function array($array): ?array
     {
         if ($array !== null)
         {
             return $array;
         }
-        else
-        {
-            return [];
-        }
+
+        return [];
     }
 }

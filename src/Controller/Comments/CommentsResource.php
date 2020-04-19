@@ -12,6 +12,7 @@ use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Comment\CommentDoesNotExistException;
 use App\Modules\Comment\CommentGroupDoesNotExistException;
 use App\Modules\Comment\CommentService;
+use App\Modules\Common\BadRequestException;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,7 +44,7 @@ class CommentsResource extends AbstractRestController
      *
      * @Route("/groups/{groupId}", name="getCommentsInGroup", methods={"GET"})
      */
-    public function getCommentsInGroupAction(Request $request, CommentService $commentService, $groupId)
+    public function getCommentsInGroupAction(Request $request, CommentService $commentService, $groupId): Response
     {
         try
         {
@@ -55,7 +56,7 @@ class CommentsResource extends AbstractRestController
                 $request,
                 Response::HTTP_NOT_FOUND,
                 $e->getMessage(),
-                ["Allow" => "GET"]
+                ['Allow' => 'GET']
             );
         }
 
@@ -80,7 +81,7 @@ class CommentsResource extends AbstractRestController
         Request $request,
         AuthenticationService $authenticationService,
         CommentService $commentService,
-        $groupId)
+        $groupId): Response
     {
         $authContext = $authenticationService->getCurrentContext();
 
@@ -89,7 +90,7 @@ class CommentsResource extends AbstractRestController
             $this->logger->warning(__CLASS__ . ' the user was not authenticated in createComment');
 
             $jsonObject = (object)[
-                "status" => "must be authenticated"
+                'status' => 'must be authenticated'
             ];
 
             return new JsonResponse($jsonObject);
@@ -97,11 +98,13 @@ class CommentsResource extends AbstractRestController
 
         $jsonData = $request->getContent(false);
 
-        $jsonObject = json_decode($jsonData);
+        $this->logger->info('Got jsonData ' . $jsonData);
+
+        $jsonObject = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
         try
         {
-            $commentService->createComment($groupId, $authContext->getAccount(), $jsonObject->message);
+            $commentService->createComment($groupId, $authContext->getAccount(), $jsonObject['message']);
         }
         catch (CommentGroupDoesNotExistException $e)
         {
@@ -109,12 +112,21 @@ class CommentsResource extends AbstractRestController
                 $request,
                 Response::HTTP_NOT_FOUND,
                 $e->getMessage(),
-                ["Allow" => "GET"]
+                ['Allow' => 'GET']
+            );
+        }
+        catch (BadRequestException $e)
+        {
+            return ResourceHelper::createErrorResponse(
+                $request,
+                Response::HTTP_BAD_REQUEST,
+                $e->getMessage(),
+                ['Allow' => 'GET']
             );
         }
 
         $jsonObject = (object)[
-            "status" => "comment created in group"
+            'status' => 'comment created in group'
         ];
 
         return new JsonResponse($jsonObject);
@@ -134,7 +146,7 @@ class CommentsResource extends AbstractRestController
         Request $request,
         CommentService $commentService,
         AuthenticationService $authenticationService,
-        $commentId)
+        $commentId): Response
     {
         $authContext = $authenticationService->getCurrentContext();
 
@@ -150,27 +162,27 @@ class CommentsResource extends AbstractRestController
                 $request,
                 Response::HTTP_NOT_FOUND,
                 $e->getMessage(),
-                ["Allow" => "GET"]
+                ['Allow' => 'GET']
             );
         }
 
-        if (!($comment->getPoster()->getId() == $authContext->getAccount()->getId()))
+        if (!($comment->getPoster()->getId() === $authContext->getAccount()->getId()))
         {
             return ResourceHelper::createErrorResponse(
                 $request,
                 Response::HTTP_FORBIDDEN,
                 'Not allowed',
-                ["Allow" => "GET"]
+                ['Allow' => 'GET']
             );
         }
 
         $jsonData = $request->getContent(false);
 
-        $jsonObject = json_decode($jsonData);
+        $jsonObject = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
         try
         {
-            $commentService->updateComment($commentId, $jsonObject->message);
+            $commentService->updateComment($commentId, $jsonObject['message']);
         }
         catch (CommentDoesNotExistException $e)
         {
@@ -178,12 +190,21 @@ class CommentsResource extends AbstractRestController
                 $request,
                 Response::HTTP_NOT_FOUND,
                 $e->getMessage(),
-                ["Allow" => "GET"]
+                ['Allow' => 'GET']
+            );
+        }
+        catch (BadRequestException $e)
+        {
+            return ResourceHelper::createErrorResponse(
+                $request,
+                Response::HTTP_BAD_REQUEST,
+                $e->getMessage(),
+                ['Allow' => 'GET']
             );
         }
 
         $jsonObject = (object)[
-            "status" => "OK"
+            'status' => 'OK'
         ];
 
         return new JsonResponse($jsonObject);

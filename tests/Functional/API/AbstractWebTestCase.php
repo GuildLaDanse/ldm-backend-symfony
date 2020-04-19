@@ -17,8 +17,9 @@ abstract class AbstractWebTestCase extends WebTestCase
 {
     /**
      * @param KernelBrowser $client
+     * @param string $email
      */
-    protected function logIn(KernelBrowser $client): void
+    protected function logIn(KernelBrowser $client, string $email): void
     {
         $session = self::$container->get('session');
 
@@ -27,7 +28,7 @@ abstract class AbstractWebTestCase extends WebTestCase
         // See https://symfony.com/doc/current/reference/configuration/security.html#firewall-context
         $firewallContext = 'secured_area';
 
-        $token = new PostAuthenticationGuardToken($this->createAccount(), $firewallName, ['ROLE_OAUTH_AUTHENTICATED']);
+        $token = new PostAuthenticationGuardToken($this->createAccount($email), $firewallName, ['ROLE_OAUTH_AUTHENTICATED']);
         $session->set('_security_'.$firewallContext, serialize($token));
         $session->save();
 
@@ -35,12 +36,12 @@ abstract class AbstractWebTestCase extends WebTestCase
         $client->getCookieJar()->set($cookie);
     }
 
-    protected function createAccount(): Account
+    protected function createAccount(string $email): Account
     {
         $account = new Account();
 
-        $account->setEmail('bavo@bavoderidder.com');
-        $account->setDisplayName('Leto');
+        $account->setEmail($email);
+        $account->setDisplayName('display name');
 
         return $account;
     }

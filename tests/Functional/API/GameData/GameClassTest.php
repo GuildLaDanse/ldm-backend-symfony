@@ -45,7 +45,7 @@ class GameClassTest extends AbstractWebTestCase
             GameClassFixtures::class
         ));
 
-        $this->logIn($this->client);
+        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->followRedirects(true);
 

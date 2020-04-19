@@ -99,6 +99,9 @@
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.2"
     },
@@ -217,6 +220,19 @@
     },
     "myclabs/deep-copy": {
         "version": "1.9.5"
+    },
+    "nelmio/alice": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.2",
+            "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
+        },
+        "files": [
+            "config/packages/dev/nelmio_alice.yaml",
+            "config/packages/test/nelmio_alice.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
