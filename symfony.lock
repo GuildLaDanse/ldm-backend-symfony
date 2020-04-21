@@ -323,6 +323,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "roave/security-advisories": {
+        "version": "dev-master"
+    },
     "sebastian/code-unit": {
         "version": "1.0.0"
     },
