@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/")
+ * @Route("/api/events")
  */
 class EventsResource extends AbstractRestController
 {
@@ -94,7 +94,7 @@ class EventsResource extends AbstractRestController
      *
      * @Route("/", name="postEvent", options = { "expose" = true }, methods={"POST"})
      */
-    public function postEventAction(Request $request, EventService $eventService)
+    public function postEventAction(Request $request, EventService $eventService): Response
     {
         try
         {
@@ -124,7 +124,7 @@ class EventsResource extends AbstractRestController
      *
      * @Route("/{eventId}", name="putEvent", options = { "expose" = true }, methods={"PUT"})
      */
-    public function putEventAction(Request $request, EventService $eventService, $eventId)
+    public function putEventAction(Request $request, EventService $eventService, $eventId): Response
     {
         try
         {
@@ -154,7 +154,7 @@ class EventsResource extends AbstractRestController
      *
      * @Route("/{eventId}/state", name="putEventState", options = { "expose" = true }, methods={"PUT"})
      */
-    public function putEventStateAction(Request $request, EventService $eventService, $eventId)
+    public function putEventStateAction(Request $request, EventService $eventService, $eventId): Response
     {
         try
         {
@@ -190,7 +190,7 @@ class EventsResource extends AbstractRestController
     {
         try
         {
-            $eventService->deleteEvent(intval($eventId));
+            $eventService->deleteEvent((int)$eventId);
 
             return new Response();
         }
@@ -213,7 +213,7 @@ class EventsResource extends AbstractRestController
      *
      * @Route("/{eventId}/signUps", name="postSignUp", options = { "expose" = true }, methods={"POST"})
      */
-    public function postSignUpAction(Request $request, EventService $eventService, $eventId)
+    public function postSignUpAction(Request $request, EventService $eventService, $eventId): Response
     {
         try
         {
@@ -281,7 +281,7 @@ class EventsResource extends AbstractRestController
     {
         try
         {
-            $eventDto = $eventService->deleteSignUp(intval($eventId), intval($signUpId));
+            $eventDto = $eventService->deleteSignUp((int)$eventId, (int)$signUpId);
 
             return new JsonResponse(ResourceHelper::object($eventDto));
         }
