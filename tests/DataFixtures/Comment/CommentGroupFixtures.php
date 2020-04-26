@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Tests\DataFixtures\Comments;
+namespace App\Tests\DataFixtures\Comment;
 
 
 use App\Entity\Account\Account;

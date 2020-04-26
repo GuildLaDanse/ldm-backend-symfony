@@ -8,7 +8,7 @@ namespace App\Tests\Functional\API\Comments;
 
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
-use App\Tests\DataFixtures\Comments\CommentGroupFixtures;
+use App\Tests\DataFixtures\Comment\CommentGroupFixtures;
 use App\Tests\Functional\API\AbstractWebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
