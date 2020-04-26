@@ -8,12 +8,12 @@ namespace App\Tests\Functional\API\GameData;
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\GameData\GameClassFixtures;
-use App\Tests\Functional\API\AbstractWebTestCase;
+use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameClassTest extends AbstractWebTestCase
+class GameClassTest extends ApiTestCase
 {
     use FixturesTrait;
 

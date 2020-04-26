@@ -4,17 +4,17 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Tests\Functional\API\Comments;
+namespace App\Tests\Functional\API\Comment;
 
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\Comment\CommentGroupFixtures;
-use App\Tests\Functional\API\AbstractWebTestCase;
+use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetCommentsInGroupTest extends AbstractWebTestCase
+class GetCommentsInGroupTest extends ApiTestCase
 {
     use FixturesTrait;
 

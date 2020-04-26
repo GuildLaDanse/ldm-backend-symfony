@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
-abstract class AbstractWebTestCase extends WebTestCase
+abstract class ApiTestCase extends WebTestCase
 {
     /**
      * @param KernelBrowser $client

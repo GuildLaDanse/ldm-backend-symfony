@@ -4,18 +4,18 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Tests\Functional\API\Comments;
+namespace App\Tests\Functional\API\Comment;
 
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\Comment\CommentGroupFixtures;
-use App\Tests\Functional\API\AbstractWebTestCase;
+use App\Tests\Functional\API\ApiTestCase;
 use Faker\Provider\Lorem;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class CreateCommentTest extends AbstractWebTestCase
+class CreateCommentTest extends ApiTestCase
 {
     use FixturesTrait;
 

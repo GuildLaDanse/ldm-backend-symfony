@@ -9,12 +9,12 @@ namespace App\Tests\Functional\API\GameData;
 use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\GameData\GameFactionFixtures;
 use App\Tests\DataFixtures\GameData\GameRaceFixtures;
-use App\Tests\Functional\API\AbstractWebTestCase;
+use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameRaceTest extends AbstractWebTestCase
+class GameRaceTest extends ApiTestCase
 {
     use FixturesTrait;
 

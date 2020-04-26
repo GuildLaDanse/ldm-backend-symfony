@@ -4,14 +4,14 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Tests\Functional\API\Events;
+namespace App\Tests\Functional\API\Event;
 
 
-use App\Tests\Functional\API\AbstractWebTestCase;
+use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
-class PutEventStateTest extends AbstractWebTestCase
+class DeleteEventTest extends ApiTestCase
 {
     use FixturesTrait;
 
