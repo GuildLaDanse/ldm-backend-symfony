@@ -22,7 +22,6 @@ use App\Modules\Event\Query\EventHydrator;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GetEventByIdQueryHandler implements QueryHandlerInterface
 {
@@ -30,11 +29,6 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var ManagerRegistry
@@ -58,14 +52,12 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
 
     public function __construct(
         LoggerInterface $logger,
-        EventDispatcherInterface $eventDispatcher,
         ManagerRegistry $doctrine,
         EventHydrator $eventHydrator,
         AuthenticationService $authenticationService,
         AuthorizationService $authzService)
     {
         $this->logger = $logger;
-        $this->eventDispatcher = $eventDispatcher;
         $this->doctrine = $doctrine;
         $this->eventHydrator = $eventHydrator;
         $this->authenticationService = $authenticationService;
@@ -81,7 +73,7 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
      * @throws NotAuthorizedException
      * @throws MapperException
      */
-    public function __invoke(GetEventByIdQuery $query): EventDTO\Event
+    public function handle(GetEventByIdQuery $query): EventDTO\Event
     {
         /** @var EntityRepository $repository */
         $repository = $this->doctrine->getRepository(EntityEvent\Event::class);
@@ -89,7 +81,7 @@ class GetEventByIdQueryHandler implements QueryHandlerInterface
         /** @var EntityEvent\Event $event */
         $event = $repository->find($query->getEventId());
 
-        if (is_null($event))
+        if ($event === null)
         {
             throw new EventDoesNotExistException('Event does not exist');
         }

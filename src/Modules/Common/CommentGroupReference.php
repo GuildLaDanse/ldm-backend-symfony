@@ -13,24 +13,24 @@ class CommentGroupReference
     /**
      * @SerializedName("id")
      *
-     * @var int
+     * @var string
      */
-    protected int $id;
+    protected string $id;
 
     /**
      * AccountReference constructor.
      *
-     * @param int $id
+     * @param string $id
      */
-    public function __construct($id)
+    public function __construct(string $id)
     {
         $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

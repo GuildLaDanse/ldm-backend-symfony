@@ -12,48 +12,50 @@ use Finite\StateMachine\StateMachine;
 
 class EventStateMachine
 {
-    const PENDING     = "Pending";
-    const CONFIRMED   = "Confirmed";
-    const CANCELLED   = "Cancelled";
-    const NOTHAPPENED = "NotHappened";
-    const HAPPENED    = "Happened";
-    const DELETED     = "Deleted";
-    const ARCHIVED    = "Archived";
+    public const PENDING     = 'Pending';
+    public const CONFIRMED   = 'Confirmed';
+    public const CANCELLED   = 'Cancelled';
+    public const NOTHAPPENED = 'NotHappened';
+    public const HAPPENED    = 'Happened';
+    public const DELETED     = 'Deleted';
+    public const ARCHIVED    = 'Archived';
 
-    const TR_CONFIRM = "confirm";
-    const TR_CANCEL = "cancel";
-    const TR_CONFIRM_HAPPENED = "confirmHappened";
-    const TR_CONFIRM_NOT_HAPPENED = "confirmNotHappened";
-    const TR_ARCHIVE = "archive";
-    const TR_DELETE = "delete";
+    public const TR_CONFIRM              = 'confirm';
+    public const TR_CANCEL               = 'cancel';
+    public const TR_CONFIRM_HAPPENED     = 'confirmHappened';
+    public const TR_CONFIRM_NOT_HAPPENED = 'confirmNotHappened';
+    public const TR_ARCHIVE              = 'archive';
+    public const TR_DELETE               = 'delete';
 
     /**
+     * @param $object
+     * 
      * @return StateMachine
      */
-    public static function create()
+    public static function create($object): StateMachine
     {
-        $sm = new StateMachine();
+        $sm = new StateMachine($object);
 
         // Define states
-        $sm->addState(new State(EventStateMachine::PENDING, StateInterface::TYPE_INITIAL));
-        $sm->addState(EventStateMachine::CONFIRMED);
-        $sm->addState(EventStateMachine::CANCELLED);
-        $sm->addState(EventStateMachine::NOTHAPPENED);
-        $sm->addState(EventStateMachine::HAPPENED);
-        $sm->addState(new State(EventStateMachine::DELETED, StateInterface::TYPE_FINAL));
-        $sm->addState(new State(EventStateMachine::ARCHIVED, StateInterface::TYPE_FINAL));
+        $sm->addState(new State(self::PENDING, StateInterface::TYPE_INITIAL));
+        $sm->addState(self::CONFIRMED);
+        $sm->addState(self::CANCELLED);
+        $sm->addState(self::NOTHAPPENED);
+        $sm->addState(self::HAPPENED);
+        $sm->addState(new State(self::DELETED, StateInterface::TYPE_FINAL));
+        $sm->addState(new State(self::ARCHIVED, StateInterface::TYPE_FINAL));
 
         // Define transitions
-        $sm->addTransition(EventStateMachine::TR_CONFIRM,              EventStateMachine::PENDING,     EventStateMachine::CONFIRMED);
-        $sm->addTransition(EventStateMachine::TR_CANCEL,               EventStateMachine::PENDING,     EventStateMachine::CANCELLED);
-        $sm->addTransition(EventStateMachine::TR_CANCEL,               EventStateMachine::CONFIRMED,   EventStateMachine::CANCELLED);
-        $sm->addTransition(EventStateMachine::TR_CONFIRM_HAPPENED,     EventStateMachine::CONFIRMED,   EventStateMachine::HAPPENED);
-        $sm->addTransition(EventStateMachine::TR_CONFIRM_NOT_HAPPENED, EventStateMachine::CONFIRMED,   EventStateMachine::NOTHAPPENED);
-        $sm->addTransition(EventStateMachine::TR_ARCHIVE,              EventStateMachine::PENDING,     EventStateMachine::ARCHIVED);
-        $sm->addTransition(EventStateMachine::TR_ARCHIVE,              EventStateMachine::CANCELLED,   EventStateMachine::ARCHIVED);
-        $sm->addTransition(EventStateMachine::TR_ARCHIVE,              EventStateMachine::NOTHAPPENED, EventStateMachine::ARCHIVED);
-        $sm->addTransition(EventStateMachine::TR_ARCHIVE,              EventStateMachine::HAPPENED,    EventStateMachine::ARCHIVED);
-        $sm->addTransition(EventStateMachine::TR_DELETE,               EventStateMachine::PENDING,     EventStateMachine::DELETED);
+        $sm->addTransition(self::TR_CONFIRM,              self::PENDING,     self::CONFIRMED);
+        $sm->addTransition(self::TR_CANCEL,               self::PENDING,     self::CANCELLED);
+        $sm->addTransition(self::TR_CANCEL,               self::CONFIRMED,   self::CANCELLED);
+        $sm->addTransition(self::TR_CONFIRM_HAPPENED,     self::CONFIRMED,   self::HAPPENED);
+        $sm->addTransition(self::TR_CONFIRM_NOT_HAPPENED, self::CONFIRMED,   self::NOTHAPPENED);
+        $sm->addTransition(self::TR_ARCHIVE,              self::PENDING,     self::ARCHIVED);
+        $sm->addTransition(self::TR_ARCHIVE,              self::CANCELLED,   self::ARCHIVED);
+        $sm->addTransition(self::TR_ARCHIVE,              self::NOTHAPPENED, self::ARCHIVED);
+        $sm->addTransition(self::TR_ARCHIVE,              self::HAPPENED,    self::ARCHIVED);
+        $sm->addTransition(self::TR_DELETE,               self::PENDING,     self::DELETED);
 
         return $sm;
     }

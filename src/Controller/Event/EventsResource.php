@@ -8,6 +8,8 @@ namespace App\Controller\Event;
 
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Rest\JsonSerializedResponse;
+use App\Infrastructure\Rest\ParameterUtils;
 use App\Infrastructure\Rest\ResourceHelper;
 use App\Modules\Event\DTO\PostEvent;
 use App\Modules\Event\DTO\PostSignUp;
@@ -45,7 +47,7 @@ class EventsResource extends AbstractRestController
 
             $eventPage = $eventService->getAllEventsPaged($startOnDate);
 
-            return new JsonResponse($eventPage);
+            return new JsonSerializedResponse($eventPage);
         }
         catch(ServiceException $serviceException)
         {
@@ -60,21 +62,25 @@ class EventsResource extends AbstractRestController
     /**
      * @param Request $request
      * @param EventService $eventService
-     * @param int $eventId
+     * @param string $eventId
      *
      * @return Response
      *
      * @Route("/{eventId}", name="queryEventById", options = { "expose" = true }, methods={"GET", "HEAD"})
      *
      * @noinspection PhpRedundantCatchClauseInspection
+     *
+     * @throws ServiceException
      */
-    public function queryEventByIdAction(Request $request, EventService $eventService, $eventId): Response
+    public function queryEventByIdAction(Request $request, EventService $eventService, string $eventId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+
         try
         {
-            $event = $eventService->getEventById($eventId);
+            $event = $eventService->getEventById((int)$eventId);
 
-            return new JsonResponse($event);
+            return new JsonSerializedResponse($event);
         }
         catch(ServiceException $serviceException)
         {
@@ -103,7 +109,7 @@ class EventsResource extends AbstractRestController
 
             $eventDto = $eventService->postEvent($postEventDto);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {
@@ -123,17 +129,21 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}", name="putEvent", options = { "expose" = true }, methods={"PUT"})
+     *
+     * @throws ServiceException
      */
-    public function putEventAction(Request $request, EventService $eventService, $eventId): Response
+    public function putEventAction(Request $request, EventService $eventService, string $eventId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+
         try
         {
             /** @var PutEvent $putEventDto */
             $putEventDto = $this->getDtoFromContent($request, PutEvent::class);
 
-            $eventDto = $eventService->putEvent(intval($eventId), $putEventDto);
+            $eventDto = $eventService->putEvent((int)$eventId, $putEventDto);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {
@@ -153,17 +163,21 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}/state", name="putEventState", options = { "expose" = true }, methods={"PUT"})
+     *
+     * @throws ServiceException
      */
-    public function putEventStateAction(Request $request, EventService $eventService, $eventId): Response
+    public function putEventStateAction(Request $request, EventService $eventService, string $eventId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+
         try
         {
             /** @var PutEventState $putEventStateDto */
             $putEventStateDto = $this->getDtoFromContent($request, PutEventState::class);
 
-            $eventDto = $eventService->putEventState(intval($eventId), $putEventStateDto);
+            $eventDto = $eventService->putEventState((int)$eventId, $putEventStateDto);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {
@@ -185,9 +199,13 @@ class EventsResource extends AbstractRestController
      * @Route("/{eventId}", name="deleteEvent", options = { "expose" = true }, methods={"DELETE"})
      *
      * @noinspection PhpRedundantCatchClauseInspection
+     *
+     * @throws ServiceException
      */
-    public function deleteEventAction(Request $request, EventService $eventService, $eventId): Response
+    public function deleteEventAction(Request $request, EventService $eventService, string $eventId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+
         try
         {
             $eventService->deleteEvent((int)$eventId);
@@ -212,17 +230,21 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}/signUps", name="postSignUp", options = { "expose" = true }, methods={"POST"})
+     *
+     * @throws ServiceException
      */
-    public function postSignUpAction(Request $request, EventService $eventService, $eventId): Response
+    public function postSignUpAction(Request $request, EventService $eventService, string $eventId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+
         try
         {
             /** @var PostSignUp $postSignUpDto */
             $postSignUpDto = $this->getDtoFromContent($request, PostSignUp::class);
 
-            $eventDto = $eventService->postSignUp(intval($eventId), $postSignUpDto);
+            $eventDto = $eventService->postSignUp((int)$eventId, $postSignUpDto);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {
@@ -243,9 +265,14 @@ class EventsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/{eventId}/signUps/{signUpId}", name="putSignUp", options = { "expose" = true }, methods={"PUT"})
+     *
+     * @throws ServiceException
      */
-    public function putSignUpAction(Request $request, EventService $eventService, $eventId, $signUpId): Response
+    public function putSignUpAction(Request $request, EventService $eventService, string $eventId, string $signUpId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+        ParameterUtils::isIntegerOrThrow($signUpId, 'signUpId');
+
         try
         {
             /** @var PutSignUp $putSignUpDto */
@@ -253,7 +280,7 @@ class EventsResource extends AbstractRestController
 
             $eventDto = $eventService->putSignUp(intval($eventId), intval($signUpId), $putSignUpDto);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {
@@ -276,14 +303,19 @@ class EventsResource extends AbstractRestController
      * @Route("/{eventId}/signUps/{signUpId}", name="deleteSignUp", options = { "expose" = true }, methods={"DELETE"})
      *
      * @noinspection PhpRedundantCatchClauseInspection
+     * 
+     * @throws ServiceException
      */
-    public function deleteSignUpAction(Request $request, EventService $eventService, $eventId, $signUpId): Response
+    public function deleteSignUpAction(Request $request, EventService $eventService, string $eventId, string $signUpId): Response
     {
+        ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
+        ParameterUtils::isIntegerOrThrow($signUpId, 'signUpId');
+
         try
         {
             $eventDto = $eventService->deleteSignUp((int)$eventId, (int)$signUpId);
 
-            return new JsonResponse(ResourceHelper::object($eventDto));
+            return new JsonSerializedResponse(ResourceHelper::object($eventDto));
         }
         catch(ServiceException $serviceException)
         {

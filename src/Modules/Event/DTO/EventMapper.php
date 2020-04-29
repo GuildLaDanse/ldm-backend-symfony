@@ -33,9 +33,9 @@ class EventMapper
             ->setId($event->getId())
             ->setName($event->getName())
             ->setDescription($event->getDescription())
-            ->setInviteTime(EventMapper::toRealmServerTime($event->getInviteTime()))
-            ->setStartTime(EventMapper::toRealmServerTime($event->getStartTime()))
-            ->setEndTime(EventMapper::toRealmServerTime($event->getEndTime()))
+            ->setInviteTime(self::toRealmServerTime($event->getInviteTime()))
+            ->setStartTime(self::toRealmServerTime($event->getStartTime()))
+            ->setEndTime(self::toRealmServerTime($event->getEndTime()))
             ->setState($event->getFiniteState())
             ->setOrganiser(
                 new CommonDTO\AccountReference(
@@ -53,7 +53,7 @@ class EventMapper
         {
             $roles = [];
 
-            if ($signUp->getType() != EventEntity\SignUpType::ABSENCE)
+            if ($signUp->getType() !== EventEntity\SignUpType::ABSENCE)
             {
                 /** @var ForRole $role */
                 foreach($eventHydrator->getForRoles($signUp->getId()) as $role)
@@ -102,7 +102,7 @@ class EventMapper
             }
 
             /** @var EventEntity\Event $event */
-            $dtoArray[] = EventMapper::mapSingle($event, $eventHydrator);
+            $dtoArray[] = self::mapSingle($event, $eventHydrator);
         }
 
         return $dtoArray;
@@ -117,13 +117,13 @@ class EventMapper
      */
     private static function toRealmServerTime(DateTime $date) : DateTime
     {
-        if ((new DateTimeZone('UTC'))->getOffset($date) == 0)
+        if ((new DateTimeZone('UTC'))->getOffset($date) === 0)
         {
             return (clone $date)->setTimezone(new DateTimeZone('Europe/Paris'));
         }
         else
         {
-            throw new MapperException("The DateTime return from the database was not in UTC");
+            throw new MapperException('The DateTime return from the database was not in UTC');
         }
     }
 }

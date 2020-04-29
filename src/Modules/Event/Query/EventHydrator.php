@@ -9,8 +9,8 @@ namespace App\Modules\Event\Query;
 use App\Entity\Event as EventEntity;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
 class EventHydrator
@@ -21,9 +21,9 @@ class EventHydrator
     public LoggerInterface $logger;
 
     /**
-     * @var Registry
+     * @var ManagerRegistry
      */
-    public Registry $doctrine;
+    public ManagerRegistry $doctrine;
 
     /**
      * @var array
@@ -49,6 +49,17 @@ class EventHydrator
      * @var array
      */
     private array $forRoles;
+
+    /**
+     * EventHydrator constructor.
+     * @param LoggerInterface $logger
+     * @param ManagerRegistry $doctrine
+     */
+    public function __construct(LoggerInterface $logger, ManagerRegistry $doctrine)
+    {
+        $this->logger = $logger;
+        $this->doctrine = $doctrine;
+    }
 
     /**
      * @return array
@@ -91,7 +102,7 @@ class EventHydrator
      *
      * @return array
      */
-    public function getSignUps(int $eventId)
+    public function getSignUps(int $eventId): array
     {
         $this->init();
 
@@ -105,7 +116,7 @@ class EventHydrator
         foreach($this->signUps as $signUp)
         {
             /** @var EventEntity\SignUp $signUp */
-            if ($signUp->getEvent()->getId() == $eventId)
+            if ($signUp->getEvent()->getId() === $eventId)
             {
                 $result[] = $signUp;
             }
@@ -119,7 +130,7 @@ class EventHydrator
      *
      * @return array
      */
-    public function getForRoles(int $signUpId)
+    public function getForRoles(int $signUpId): array
     {
         $this->init();
 
@@ -133,7 +144,7 @@ class EventHydrator
         foreach($this->forRoles as $forRole)
         {
             /** @var EventEntity\ForRole $forRole */
-            if ($forRole->getSignUp()->getId() == $signUpId)
+            if ($forRole->getSignUp()->getId() === $signUpId)
             {
                 $result[] = $forRole;
             }
@@ -142,12 +153,14 @@ class EventHydrator
         return $result;
     }
 
-    private function init()
+    private function init(): void
     {
         if ($this->initialized)
+        {
             return;
+        }
 
-        if ($this->getEventIds() === null || count($this->getEventIds()) == 0)
+        if ($this->getEventIds() === null || count($this->getEventIds()) === 0)
         {
             $this->signUps = [];
             $this->initialized = true;
@@ -171,7 +184,6 @@ class EventHydrator
                 )
             );
 
-        /* @var $query Query */
         $query = $qb->getQuery();
 
         $this->signUps = $query->getResult();
@@ -185,7 +197,7 @@ class EventHydrator
             $signUpIds[] = $signUp->getId();
         }
 
-        if (count($signUpIds) == 0)
+        if (count($signUpIds) === 0)
         {
             $this->forRoles = [];
         }
@@ -204,7 +216,6 @@ class EventHydrator
                     )
                 );
 
-            /* @var $query Query */
             $query = $qb->getQuery();
 
             $this->forRoles = $query->getResult();

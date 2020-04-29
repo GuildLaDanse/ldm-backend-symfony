@@ -4,7 +4,7 @@
  * @link     https://github.com/GuildLaDanse
  */
 
-namespace App\Tests\Functional\API\Event;
+namespace App\Tests\Functional\API\Test;
 
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
@@ -14,7 +14,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-class QueryEventByIdTest extends ApiTestCase
+class ExceptionTest extends ApiTestCase
 {
     use FixturesTrait;
 
@@ -27,67 +27,65 @@ class QueryEventByIdTest extends ApiTestCase
         $this->client->followRedirects(true);
     }
 
-    public function testUnauthenticatedGet(): void
+    public function testServiceExceptionGet(): void
     {
         // Given
         $this->loadFixtures(array(
-            AccountFixtures::class,
-            FuturePendingEventsFixtures::class
-        ));
-
-        // When
-        $this->client->request('GET', '/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
-
-        // Then
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testGet(): void
-    {
-        // Given
-        $this->loadFixtures(array(
-            AccountFixtures::class,
-            FuturePendingEventsFixtures::class
+            AccountFixtures::class
         ));
 
         $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
+        $this->client->request('GET', '/api/test/throwServiceException');
+
+        // Then
+        $this->assertEquals(Response::HTTP_ALREADY_REPORTED, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testParameterTypeIntegerGet(): void
+    {
+        // Given
+        $this->loadFixtures(array(
+            AccountFixtures::class
+        ));
+
+        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+
+        // When
+        $this->client->request('GET', '/api/test/throwTypeError/123');
 
         // Then
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testUnexistingGet(): void
+    public function testParameterTypeFloatGet(): void
     {
         // Given
         $this->loadFixtures(array(
-            AccountFixtures::class,
-            FuturePendingEventsFixtures::class
+            AccountFixtures::class
         ));
 
         $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/9876');
+        $this->client->request('GET', '/api/test/throwTypeError/12.3');
 
         // Then
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testMalformedIdGet(): void
+    public function testParameterTypeStringGet(): void
     {
         // Given
         $this->loadFixtures(array(
-            AccountFixtures::class,
-            FuturePendingEventsFixtures::class
+            AccountFixtures::class
         ));
 
         $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/abc');
+        $this->client->request('GET', '/api/test/throwTypeError/abc');
 
         // Then
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());

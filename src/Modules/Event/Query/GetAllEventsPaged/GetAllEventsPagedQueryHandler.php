@@ -81,11 +81,11 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
      * @throws NotAuthorizedException
      * @throws MapperException
      */
-    public function __invoke(GetAllEventsPagedQuery $query): EventDTO\EventPage
+    public function handle(GetAllEventsPagedQuery $query): EventDTO\EventPage
     {
         if ($query->getStartOn() === null)
         {
-            throw new InvalidInputException("A valid date is required for startOn");
+            throw new InvalidInputException('A valid date is required for startOn');
         }
 
         $this->authzService->allowOrThrow(
@@ -116,9 +116,9 @@ class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
             ->setParameter('beforeDate', $beforeDate);
 
         $this->logger->debug(
-            self::class . " created DQL for retrieving Events ",
+            self::class . ' created DQL for retrieving Events ',
             [
-                "query" => $qb->getDQL()
+                'query' => $qb->getDQL()
             ]
         );
 

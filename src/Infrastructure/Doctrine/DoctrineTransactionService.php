@@ -35,10 +35,12 @@ final class DoctrineTransactionService implements TransactionServiceInterface
      */
     public function commit(): void
     {
-        $this->entityManager->flush();
-        if ($this->entityManager->getConnection()->isTransactionActive()
-            && false === $this->entityManager->getConnection()->isRollbackOnly())
+        if ($this->entityManager->getConnection()->isConnected()
+            && $this->entityManager->getConnection()->isTransactionActive()
+            && !$this->entityManager->getConnection()->isRollbackOnly())
         {
+            $this->entityManager->flush();
+
             $this->entityManager->getConnection()->commit();
         }
     }

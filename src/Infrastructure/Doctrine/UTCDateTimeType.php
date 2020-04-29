@@ -86,10 +86,8 @@ class UTCDateTimeType extends DateTimeType
         return $converted;
     }
 
-    static private function getUtcDateTimeZone() : DateTimeZone
+    private static function getUtcDateTimeZone() : DateTimeZone
     {
-        self::$utc ? self::$utc : self::$utc = new DateTimeZone('UTC');
-
-        return self::$utc;
+        return self::$utc ?? self::$utc = new DateTimeZone('UTC');
     }
 }

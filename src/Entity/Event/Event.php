@@ -82,11 +82,11 @@ class Event implements StatefulInterface
     protected string $topicId;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="SignUp", mappedBy="event", cascade={"persist", "remove"})
      */
-    protected ArrayCollection $signUps;
+    protected Collection $signUps;
 
     /**
      * @var Account
@@ -97,11 +97,11 @@ class Event implements StatefulInterface
     protected Account $organiser;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="string", length=100, nullable=false)
      */
-    private string $state;
+    private ?string $state = null;
 
     private StateMachine $stateMachine;
 
@@ -120,10 +120,9 @@ class Event implements StatefulInterface
     /**
      * @throws ObjectException
      */
-    private function initStateMachine()
+    private function initStateMachine(): void
     {
-        $this->stateMachine = EventStateMachine::create();
-        $this->stateMachine->setObject($this);
+        $this->stateMachine = EventStateMachine::create($this);
         $this->stateMachine->initialize();
     }
 
@@ -143,6 +142,17 @@ class Event implements StatefulInterface
     public function doPrePersist()
     {
         $this->lastModifiedTime = new DateTime('now');
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Event
+     */
+    public function setId(int $id): Event
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -275,7 +285,7 @@ class Event implements StatefulInterface
      *
      * @return Collection
      */
-    public function getSignUps()
+    public function getSignUps(): Collection
     {
         return $this->signUps;
     }
@@ -286,7 +296,7 @@ class Event implements StatefulInterface
      * @param Account $organiser
      * @return Event
      */
-    public function setOrganiser(Account $organiser = null)
+    public function setOrganiser(Account $organiser)
     {
         $this->organiser = $organiser;
 
@@ -375,17 +385,21 @@ class Event implements StatefulInterface
     /**
      * Get state
      *
-     * @param string $state
+     * @param string|null $state
+     *
+     * @return Event
      */
-    public function setFiniteState($state)
+    public function setFiniteState($state): Event
     {
         $this->state = $state;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFiniteState()
+    public function getFiniteState(): ?String
     {
         return $this->state;
     }
