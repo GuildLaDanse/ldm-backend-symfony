@@ -8,18 +8,13 @@ namespace App\Tests\Functional\API\Test;
 
 
 use App\Tests\DataFixtures\Account\AccountFixtures;
-use App\Tests\DataFixtures\Event\FuturePendingEventsFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionTest extends ApiTestCase
 {
     use FixturesTrait;
-
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -34,7 +29,7 @@ class ExceptionTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/test/throwServiceException');
@@ -50,7 +45,7 @@ class ExceptionTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/test/throwTypeError/123');
@@ -66,7 +61,7 @@ class ExceptionTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/test/throwTypeError/12.3');
@@ -82,7 +77,7 @@ class ExceptionTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/test/throwTypeError/abc');

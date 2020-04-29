@@ -11,15 +11,11 @@ use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\Event\FuturePendingEventsFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class QueryEventByIdTest extends ApiTestCase
 {
     use FixturesTrait;
-
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -50,7 +46,7 @@ class QueryEventByIdTest extends ApiTestCase
             FuturePendingEventsFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
@@ -67,7 +63,7 @@ class QueryEventByIdTest extends ApiTestCase
             FuturePendingEventsFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/events/9876');
@@ -84,7 +80,7 @@ class QueryEventByIdTest extends ApiTestCase
             FuturePendingEventsFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/events/abc');

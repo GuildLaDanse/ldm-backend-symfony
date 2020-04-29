@@ -18,9 +18,6 @@ class QueryEventsTest extends ApiTestCase
 {
     use FixturesTrait;
 
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
-
     public function setUp(): void
     {
         $this->client = static::createClient();
@@ -50,7 +47,7 @@ class QueryEventsTest extends ApiTestCase
             FuturePendingEventsFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/events');
@@ -70,7 +67,7 @@ class QueryEventsTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
         $this->client->request('GET', '/api/events');

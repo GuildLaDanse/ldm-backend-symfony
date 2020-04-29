@@ -11,15 +11,11 @@ use App\Tests\DataFixtures\GameData\GameFactionFixtures;
 use App\Tests\DataFixtures\GameData\GameRaceFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class GameRaceTest extends ApiTestCase
 {
     use FixturesTrait;
-
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -47,7 +43,7 @@ class GameRaceTest extends ApiTestCase
             GameRaceFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->followRedirects(true);
 

@@ -12,15 +12,11 @@ use App\Tests\DataFixtures\Comment\CommentGroupFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Faker\Provider\Lorem;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class UpdateCommentTest extends ApiTestCase
 {
     use FixturesTrait;
-
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -51,7 +47,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->request('POST', '/api/comments/comments/10fa11c796543a2151161f5d99b05c11',
             [], [], [],
@@ -69,7 +65,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
             [], [], [],
@@ -87,7 +83,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT2);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT2);
 
         $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
             [], [], [],
@@ -105,7 +101,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
             [], [], [],
@@ -123,7 +119,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
             [], [], [],
@@ -141,7 +137,7 @@ class UpdateCommentTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
             [], [], [],

@@ -11,15 +11,11 @@ use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\Comment\CommentGroupFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class GetCommentsInGroupTest extends ApiTestCase
 {
     use FixturesTrait;
-
-    /** @var KernelBrowser|null  */
-    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -33,7 +29,7 @@ class GetCommentsInGroupTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->client->request('GET', '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
+        $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
 
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
@@ -44,9 +40,9 @@ class GetCommentsInGroupTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('GET', '/api/comments/groups/10fa11c796543a2151161f5d99b05c11');
+        $this->apiGet('/api/comments/groups/10fa11c796543a2151161f5d99b05c11');
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
@@ -58,15 +54,15 @@ class GetCommentsInGroupTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('GET', '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
+        $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->responseAsObject();
 
-        $this->assertCount(2, $jsonResponse['comments']);
+        $this->assertCount(2, $response['comments']);
     }
 
     public function testEmptyGroup(): void
@@ -76,15 +72,15 @@ class GetCommentsInGroupTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('GET', '/api/comments/groups/' . CommentGroupFixtures::EMPTY_GROUP_UUID);
+        $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::EMPTY_GROUP_UUID);
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->responseAsObject();
 
-        $this->assertCount(0, $jsonResponse['comments']);
+        $this->assertCount(0, $response['comments']);
     }
 
     public function testGroupWithSingleComment(): void
@@ -94,14 +90,14 @@ class GetCommentsInGroupTest extends ApiTestCase
             CommentGroupFixtures::class
         ));
 
-        $this->logIn($this->client, AccountFixtures::EMAIL_ACCOUNT1);
+        $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('GET', '/api/comments/groups/' . CommentGroupFixtures::SINGLE_GROUP_UUID);
+        $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::SINGLE_GROUP_UUID);
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->responseAsObject();
 
-        $this->assertCount(1, $jsonResponse['comments']);
+        $this->assertCount(1, $response['comments']);
     }
 }
