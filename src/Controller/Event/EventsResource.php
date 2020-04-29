@@ -303,7 +303,7 @@ class EventsResource extends AbstractRestController
      * @Route("/{eventId}/signUps/{signUpId}", name="deleteSignUp", options = { "expose" = true }, methods={"DELETE"})
      *
      * @noinspection PhpRedundantCatchClauseInspection
-     * 
+     *
      * @throws ServiceException
      */
     public function deleteSignUpAction(Request $request, EventService $eventService, string $eventId, string $signUpId): Response

@@ -18,6 +18,31 @@ final class ParameterUtils
      *
      * @throws ServiceException
      */
+    public static function isGuidOrThrow($value, $parameterName): void
+    {
+        if ((string)$value === $value)
+        {
+            return;
+        }
+
+        $valueLength = strlen($value);
+
+        if ($valueLength >= 32 && $valueLength <= 36)
+        {
+            return;
+        }
+
+        throw new ServiceException(
+            sprintf('Value for %s should be a valid guid', $parameterName),
+            Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param $value
+     * @param $parameterName
+     *
+     * @throws ServiceException
+     */
     public static function isIntegerOrThrow($value, $parameterName): void
     {
         if ((string)(int)$value === $value)

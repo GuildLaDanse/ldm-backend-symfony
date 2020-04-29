@@ -36,7 +36,7 @@ class CommentService
      *
      * @throws CommentGroupDoesNotExistException
      */
-    public function getCommentGroup($groupId)
+    public function getCommentGroup($groupId): CommentGroup
     {
         $groupRepo = $this->doctrine->getRepository(CommentGroup::class);
 
@@ -45,12 +45,10 @@ class CommentService
 
         if (null === $group)
         {
-            throw new CommentGroupDoesNotExistException("CommentGroup does not exist: " . $groupId);
+            throw new CommentGroupDoesNotExistException('CommentGroup does not exist: ' . $groupId);
         }
-        else
-        {
-            return $group;
-        }
+
+        return $group;
     }
 
     /**

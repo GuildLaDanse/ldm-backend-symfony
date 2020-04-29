@@ -6,13 +6,16 @@
 
 namespace App\Controller\Comments;
 
+use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Rest\AbstractRestController;
+use App\Infrastructure\Rest\ParameterUtils;
 use App\Infrastructure\Rest\ResourceHelper;
 use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Comment\CommentDoesNotExistException;
 use App\Modules\Comment\CommentGroupDoesNotExistException;
 use App\Modules\Comment\CommentService;
 use App\Modules\Common\BadRequestException;
+use JsonException;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,9 +46,16 @@ class CommentsResource extends AbstractRestController
      * @return Response
      *
      * @Route("/groups/{groupId}", name="getCommentsInGroup", methods={"GET"})
+     *
+     * @throws ServiceException
      */
-    public function getCommentsInGroupAction(Request $request, CommentService $commentService, $groupId): Response
+    public function getCommentsInGroupAction(
+        Request $request,
+        CommentService $commentService,
+        string $groupId): Response
     {
+        ParameterUtils::isGuidOrThrow($groupId, 'groupId');
+
         try
         {
             $group = $commentService->getCommentGroup($groupId);
@@ -75,6 +85,8 @@ class CommentsResource extends AbstractRestController
      *
      * @return Response
      *
+     * @throws ServiceException
+     *
      * @Route("/groups/{groupId}/comments", name="createComment", methods={"POST", "PUT"})
      */
     public function createCommentAction(
@@ -83,6 +95,8 @@ class CommentsResource extends AbstractRestController
         CommentService $commentService,
         $groupId): Response
     {
+        ParameterUtils::isGuidOrThrow($groupId, 'groupId');
+
         $authContext = $authenticationService->getCurrentContext();
 
         if (!$authContext->isAuthenticated())
@@ -100,6 +114,7 @@ class CommentsResource extends AbstractRestController
 
         $this->logger->info('Got jsonData ' . $jsonData);
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $jsonObject = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
         try
@@ -178,6 +193,7 @@ class CommentsResource extends AbstractRestController
 
         $jsonData = $request->getContent(false);
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $jsonObject = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
         try
