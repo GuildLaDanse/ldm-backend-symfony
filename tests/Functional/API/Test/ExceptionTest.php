@@ -32,10 +32,10 @@ class ExceptionTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/test/throwServiceException');
+        $this->apiGet('/api/test/throwServiceException');
 
         // Then
-        $this->assertEquals(Response::HTTP_ALREADY_REPORTED, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_ALREADY_REPORTED);
     }
 
     public function testParameterTypeIntegerGet(): void
@@ -48,10 +48,10 @@ class ExceptionTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/test/throwTypeError/123');
+        $this->apiGet('/api/test/throwTypeError/123');
 
         // Then
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testParameterTypeFloatGet(): void
@@ -64,10 +64,10 @@ class ExceptionTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/test/throwTypeError/12.3');
+        $this->apiGet('/api/test/throwTypeError/12.3');
 
         // Then
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 
     public function testParameterTypeStringGet(): void
@@ -80,9 +80,9 @@ class ExceptionTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/test/throwTypeError/abc');
+        $this->apiGet('/api/test/throwTypeError/abc');
 
         // Then
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }
