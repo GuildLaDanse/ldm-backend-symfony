@@ -19,6 +19,7 @@ class GameClassTest extends ApiTestCase
     public function setUp(): void
     {
         $this->client = static::createClient();
+        $this->client->followRedirects(true);
     }
 
     public function testUnauthenticatedGet(): void
@@ -27,11 +28,9 @@ class GameClassTest extends ApiTestCase
             AccountFixtures::class
         ));
 
-        $this->client->followRedirects(true);
+        $this->apiGet('/api/gameClasses');
 
-        $this->client->request('GET', '/api/gameClasses');
-
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testAuthenticatedGet(): void
@@ -43,14 +42,12 @@ class GameClassTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->followRedirects(true);
+        $this->apiGet('/api/gameClasses');
 
-        $this->client->request('GET', '/api/gameClasses');
+        $this->assertStatusCode(Response::HTTP_OK);
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $response = $this->responseAsObject();
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
-        $this->assertCount(4, $jsonResponse);
+        $this->assertCount(4, $response);
     }
 }
