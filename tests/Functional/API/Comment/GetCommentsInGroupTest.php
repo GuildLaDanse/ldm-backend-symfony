@@ -25,30 +25,37 @@ class GetCommentsInGroupTest extends ApiTestCase
 
     public function testUnauthenticatedExistingCommentGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class
         ));
 
+        // When
         $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
 
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testAuthenticatedNonExistingCommentGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class
         ));
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiGet('/api/comments/groups/10fa11c796543a2151161f5d99b05c11');
 
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
     public function testGroupWithMultipleComments(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -56,9 +63,11 @@ class GetCommentsInGroupTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID);
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
 
         $response = $this->responseAsObject();
 
@@ -67,6 +76,7 @@ class GetCommentsInGroupTest extends ApiTestCase
 
     public function testEmptyGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -74,9 +84,11 @@ class GetCommentsInGroupTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::EMPTY_GROUP_UUID);
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
 
         $response = $this->responseAsObject();
 
@@ -85,6 +97,7 @@ class GetCommentsInGroupTest extends ApiTestCase
 
     public function testGroupWithSingleComment(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -92,9 +105,11 @@ class GetCommentsInGroupTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiGet('/api/comments/groups/' . CommentGroupFixtures::SINGLE_GROUP_UUID);
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
 
         $response = $this->responseAsObject();
 

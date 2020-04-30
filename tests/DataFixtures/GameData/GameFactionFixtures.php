@@ -7,9 +7,7 @@
 namespace App\Tests\DataFixtures\GameData;
 
 
-use App\Entity\GameData\GameClass;
 use App\Entity\GameData\GameFaction;
-use App\Entity\GameData\GameRace;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

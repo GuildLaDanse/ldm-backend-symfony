@@ -11,7 +11,6 @@ use App\Tests\DataFixtures\Account\AccountFixtures;
 use App\Tests\DataFixtures\Event\FuturePendingEventsFixtures;
 use App\Tests\Functional\API\ApiTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class QueryEventsTest extends ApiTestCase
@@ -33,10 +32,10 @@ class QueryEventsTest extends ApiTestCase
         ));
 
         // When
-        $this->client->request('GET', '/api/events');
+        $this->apiGet('/api/events');
 
         // Then
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testGet(): void
@@ -50,14 +49,14 @@ class QueryEventsTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events');
+        $this->apiGet('/api/events');
 
         // Then
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_OK);
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->responseAsObject();
 
-        $this->assertCount(3, $jsonResponse['events']);
+        $this->assertCount(3, $response['events']);
     }
 
     public function testEmptyGet(): void
@@ -70,13 +69,13 @@ class QueryEventsTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events');
+        $this->apiGet('/api/events');
 
         // Then
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_OK);
 
-        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->responseAsObject();
 
-        $this->assertCount(0, $jsonResponse['events']);
+        $this->assertCount(0, $response['events']);
     }
 }

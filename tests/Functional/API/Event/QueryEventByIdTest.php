@@ -32,10 +32,10 @@ class QueryEventByIdTest extends ApiTestCase
         ));
 
         // When
-        $this->client->request('GET', '/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
+        $this->apiGet('/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
 
         // Then
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testGet(): void
@@ -49,10 +49,10 @@ class QueryEventByIdTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
+        $this->apiGet('/api/events/' . FuturePendingEventsFixtures::PENDING_ID);
 
         // Then
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testUnexistingGet(): void
@@ -66,10 +66,10 @@ class QueryEventByIdTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/9876');
+        $this->apiGet('/api/events/9876');
 
         // Then
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
     public function testMalformedIdGet(): void
@@ -83,9 +83,9 @@ class QueryEventByIdTest extends ApiTestCase
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
         // When
-        $this->client->request('GET', '/api/events/abc');
+        $this->apiGet('/api/events/abc');
 
         // Then
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }

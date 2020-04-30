@@ -24,17 +24,21 @@ class GameClassTest extends ApiTestCase
 
     public function testUnauthenticatedGet(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class
         ));
 
+        // When
         $this->apiGet('/api/gameClasses');
 
+        // Then
         $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testAuthenticatedGet(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             GameClassFixtures::class
@@ -42,8 +46,10 @@ class GameClassTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiGet('/api/gameClasses');
 
+        // Then
         $this->assertStatusCode(Response::HTTP_OK);
 
         $response = $this->responseAsObject();

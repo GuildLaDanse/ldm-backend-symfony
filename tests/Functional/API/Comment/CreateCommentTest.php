@@ -26,11 +26,13 @@ class CreateCommentTest extends ApiTestCase
 
     public function testUnauthenticatedCreate(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
         ));
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID . '/comments',
             [
@@ -38,11 +40,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testCreateInNonExistingGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -50,6 +54,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/10fa11c796543a2151161f5d99b05c11/comments',
             [
@@ -57,11 +62,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
     public function testCreateInEmptyGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -69,6 +76,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::EMPTY_GROUP_UUID . '/comments',
             [
@@ -76,11 +84,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testCreateInNonEmptyGroup(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -88,6 +98,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID . '/comments',
             [
@@ -95,11 +106,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testCreateEmptyComment(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -107,6 +120,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID . '/comments',
             [
@@ -114,11 +128,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 
     public function testCreateNullComment(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -126,6 +142,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID . '/comments',
             [
@@ -133,11 +150,13 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 
     public function testCreateTooLargeComment(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -145,6 +164,7 @@ class CreateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
+        // When
         $this->apiPost(
             '/api/comments/groups/' . CommentGroupFixtures::MULTI_GROUP_UUID . '/comments',
             [
@@ -152,6 +172,7 @@ class CreateCommentTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }

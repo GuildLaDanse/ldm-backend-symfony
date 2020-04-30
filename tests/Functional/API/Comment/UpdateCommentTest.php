@@ -26,22 +26,27 @@ class UpdateCommentTest extends ApiTestCase
 
     public function testUnauthenticatedPost(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
         ));
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => 'some message'
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testNonExistingComment(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -49,17 +54,21 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('POST', '/api/comments/comments/10fa11c796543a2151161f5d99b05c11',
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/10fa11c796543a2151161f5d99b05c11',
+            [
                 'message' => 'some message'
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
     public function testUpdateAsPoster(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -67,17 +76,21 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => 'some message'
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testUpdateAsSomeoneElse(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -85,17 +98,21 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT2);
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => 'some message'
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_FORBIDDEN);
     }
 
     public function testUpdateEmptyMessage(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -103,17 +120,21 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => ''
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 
     public function testUpdateNullMessage(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -121,17 +142,21 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => null
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 
     public function testUpdateTooLargeMessage(): void
     {
+        // Given
         $this->loadFixtures(array(
             AccountFixtures::class,
             CommentGroupFixtures::class
@@ -139,12 +164,15 @@ class UpdateCommentTest extends ApiTestCase
 
         $this->logIn(AccountFixtures::EMAIL_ACCOUNT1);
 
-        $this->client->request('POST', '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
-            [], [], [],
-            json_encode([
+        // When
+        $this->apiPost(
+            '/api/comments/comments/' . CommentGroupFixtures::MULTI_GROUP_COMMENT1_UUID,
+            [
                 'message' => Lorem::lexify(str_repeat('?', 300))
-            ], JSON_THROW_ON_ERROR, 512));
+            ]
+        );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // Then
+        $this->assertStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }
