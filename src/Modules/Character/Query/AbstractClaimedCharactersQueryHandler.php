@@ -7,7 +7,7 @@
 namespace App\Modules\Character\Query;
 
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Common\MapperException;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
 use App\Modules\Character\DTO as CharacterDTO;
 
-abstract class AbstractClaimedCharactersQueryHandler implements QueryHandlerInterface
+abstract class AbstractClaimedCharactersQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

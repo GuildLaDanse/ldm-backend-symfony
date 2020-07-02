@@ -10,6 +10,7 @@ use App\Modules\Common\StringReference;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ExclusionPolicy("none")

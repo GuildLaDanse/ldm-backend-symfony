@@ -6,7 +6,7 @@
 
 namespace App\Modules\GameData\Query\GetAllGuilds;
 
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\GuildMapper;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -15,7 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetAllGuildsQueryHandler implements QueryHandlerInterface
+class GetAllGuildsQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

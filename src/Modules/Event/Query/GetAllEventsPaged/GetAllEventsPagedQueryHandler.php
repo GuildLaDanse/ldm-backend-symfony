@@ -13,7 +13,7 @@ use App\Infrastructure\Authorization\NullResourceReference;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Common\MapperException;
 use App\Modules\Event\Query\EventHydrator;
@@ -25,7 +25,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class GetAllEventsPagedQueryHandler implements QueryHandlerInterface
+class GetAllEventsPagedQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

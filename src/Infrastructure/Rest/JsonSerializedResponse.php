@@ -39,9 +39,9 @@ class JsonSerializedResponse extends Response
     /**
      * {@inheritdoc}
      */
-    public static function create($object = null, $status = 200, $headers = [])
+    public static function create(?string $content = '', $status = 200, $headers = [])
     {
-        return new static($object, $status, $headers);
+        return new static($content, $status, $headers);
     }
 
     /**
@@ -51,7 +51,7 @@ class JsonSerializedResponse extends Response
      *
      * @return JsonSerializedResponse
      */
-    public function setData($object)
+    public function setData($object): JsonSerializedResponse
     {
         $serializer = SerializerBuilder::create()->build();
         $jsonContent = $serializer->serialize($object, 'json');

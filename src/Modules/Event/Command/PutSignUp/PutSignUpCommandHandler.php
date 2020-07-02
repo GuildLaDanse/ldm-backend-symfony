@@ -14,7 +14,7 @@ use App\Infrastructure\Authorization\ResourceByValue;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Entity\Event as EventEntity;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
@@ -31,7 +31,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PutSignUpCommandHandler implements CommandHandlerInterface
+class PutSignUpCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

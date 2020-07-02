@@ -14,7 +14,7 @@ use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Entity\Character as CharacterEntity;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
@@ -28,7 +28,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PutClaimCommandHandler implements CommandHandlerInterface
+class PutClaimCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

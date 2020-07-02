@@ -15,7 +15,6 @@ use App\Modules\Comment\CommentDoesNotExistException;
 use App\Modules\Comment\CommentGroupDoesNotExistException;
 use App\Modules\Comment\CommentService;
 use App\Modules\Common\BadRequestException;
-use JsonException;
 use Psr\Log\LoggerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -85,7 +84,7 @@ class CommentsResource extends AbstractRestController
      *
      * @return Response
      *
-     * @throws ServiceException
+     * @throws ServiceException|\JsonException
      *
      * @Route("/groups/{groupId}/comments", name="createComment", methods={"POST", "PUT"})
      */

@@ -7,7 +7,7 @@
 namespace App\Modules\GameData\Query\GetAllGameFactions;
 
 use App\Entity\GameData as GameDataEntity;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\GameFactionMapper;
 use Doctrine\ORM\Query;
@@ -15,7 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetAllGameFactionsQueryHandler implements QueryHandlerInterface
+class GetAllGameFactionsQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

@@ -294,7 +294,6 @@ class ForumService
         $em->persist($topic);
         $em->flush();
 
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $this->eventDispatcher->dispatch(
             new ActivityEvent(
                 ActivityType::FORUM_TOPIC_CREATE,
@@ -342,7 +341,6 @@ class ForumService
             $em->remove($topic);
             $em->flush();
 
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_TOPIC_REMOVE,
@@ -408,7 +406,6 @@ class ForumService
             $em->persist($post);
             $em->flush();
 
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_POST_CREATE,
@@ -458,7 +455,6 @@ class ForumService
             $em->persist($post);
             $em->flush();
 
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_POST_UPDATE,
@@ -510,7 +506,6 @@ class ForumService
             $em->persist($topic);
             $em->flush();
 
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $this->eventDispatcher->dispatch(
                 new ActivityEvent(
                     ActivityType::FORUM_TOPIC_UPDATE,

@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace App\Modules\GameData;
 
+use App\Infrastructure\Messenger\CommandBusTrait;
+use App\Infrastructure\Messenger\QueryBusTrait;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Modules\GameData\DTO as GameDataDTO;
 use App\Modules\GameData\Query\GetAllGameRaces\GetAllGameRacesQuery;
-use Exception;
-use League\Tactician\CommandBus;
 use App\Modules\GameData\Command\PostGuild\PostGuildCommand;
 use App\Modules\GameData\Command\PostRealm\PostRealmCommand;
 use App\Modules\GameData\Query\GetAllGameClasses\GetAllGameClassesQuery;
@@ -20,27 +20,31 @@ use App\Modules\GameData\Query\GetAllGuilds\GetAllGuildsQuery;
 use App\Modules\GameData\Query\GetAllRealms\GetAllRealmsQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Intl\Exception\NotImplementedException;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class GameDataService
 {
+    use CommandBusTrait;
+    use QueryBusTrait;
+
     /**
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
 
     /**
-     * @var CommandBus
-     */
-    private CommandBus $defaultBus;
-
-    /**
      * @param LoggerInterface $logger
-     * @param CommandBus $defaultBus
+     * @param MessageBusInterface $commandBus
+     * @param MessageBusInterface $queryBus
      */
-    public function __construct(LoggerInterface $logger, CommandBus $defaultBus)
+    public function __construct(
+        LoggerInterface $logger,
+        MessageBusInterface $commandBus,
+        MessageBusInterface $queryBus)
     {
         $this->logger = $logger;
-        $this->defaultBus = $defaultBus;
+        $this->_commandBus = $commandBus;
+        $this->_queryBus = $queryBus;
     }
 
     /**
@@ -50,7 +54,7 @@ class GameDataService
     {
         $query = new GetAllGameRacesQuery();
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -60,7 +64,7 @@ class GameDataService
     {
         $query = new GetAllGameClassesQuery();
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -70,7 +74,7 @@ class GameDataService
     {
         $query = new GetAllGameFactionsQuery();
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -80,7 +84,7 @@ class GameDataService
     {
         $query = new GetAllGuildsQuery();
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -96,16 +100,14 @@ class GameDataService
     {
         $command = new PostGuildCommand($patchGuild);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
      * @param string $guildId
      * @param GameDataDTO\PatchGuild $patchGuild
-     *
-     * @throws Exception
      */
-    public function patchGuild(string $guildId, GameDataDTO\PatchGuild $patchGuild)
+    public function patchGuild(string $guildId, GameDataDTO\PatchGuild $patchGuild): void
     {
         $this->logger->warning(
             "patchGuild not implemented",
@@ -114,13 +116,11 @@ class GameDataService
                 "patchGuild" => $patchGuild
             ]);
 
-        throw new Exception("Not yet implemented");
+        throw new NotImplementedException("Not yet implemented");
     }
 
     /**
      * @param string $guildId
-     *
-     * @throws Exception
      */
     public function deleteGuild(string $guildId): void
     {
@@ -130,7 +130,7 @@ class GameDataService
                 "guildId" => $guildId
             ]);
 
-        throw new Exception("Not yet implemented");
+        throw new NotImplementedException("deleteGuild is not yet implemented");
     }
 
     /**
@@ -140,7 +140,7 @@ class GameDataService
     {
         $query = new GetAllRealmsQuery();
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -155,15 +155,14 @@ class GameDataService
     {
         $command = new PostRealmCommand($patchRealm);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
      * @param string $realmId
      * @param DTO\PatchRealm $patchRealm
-
      */
-    public function patchRealm(string $realmId, GameDataDTO\PatchRealm $patchRealm)
+    public function patchRealm(string $realmId, GameDataDTO\PatchRealm $patchRealm): void
     {
         $this->logger->warning(
             "patchRealm not implemented",
@@ -172,13 +171,13 @@ class GameDataService
                 "patchRealm" => $patchRealm
             ]);
 
-        throw new NotImplementedException("Not yet implemented");
+        throw new NotImplementedException("patchRealm is not yet implemented");
     }
 
     /**
      * @param string $realmId
      */
-    public function deleteRealm(string $realmId)
+    public function deleteRealm(string $realmId): void
     {
         $this->logger->warning(
             "deleteRealm not implemented",
@@ -186,6 +185,6 @@ class GameDataService
                 "realmId" => $realmId
             ]);
 
-        throw new NotImplementedException("Not yet implemented");
+        throw new NotImplementedException("deleteRealm is not yet implemented");
     }
 }

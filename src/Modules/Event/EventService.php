@@ -6,6 +6,8 @@
 
 namespace App\Modules\Event;
 
+use App\Infrastructure\Messenger\CommandBusTrait;
+use App\Infrastructure\Messenger\QueryBusTrait;
 use App\Modules\Event\Command\DeleteEvent\DeleteEventCommand;
 use App\Modules\Event\Command\DeleteSignUp\DeleteSignUpCommand;
 use App\Modules\Event\Command\NotifyEventToday\NotifyEventTodayCommand;
@@ -17,30 +19,33 @@ use App\Modules\Event\Command\PutSignUp\PutSignUpCommand;
 use App\Modules\Event\Query\GetAllEventsPaged\GetAllEventsPagedQuery;
 use App\Modules\Event\Query\GetEventById\GetEventByIdQuery;
 use DateTime;
-use League\Tactician\CommandBus;
 use Psr\Log\LoggerInterface;
 use App\Modules\Event\DTO as EventDTO;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class EventService
 {
+    use CommandBusTrait;
+    use QueryBusTrait;
+
     /**
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
 
     /**
-     * @var CommandBus
-     */
-    private CommandBus $defaultBus;
-
-    /**
      * @param LoggerInterface $logger
-     * @param CommandBus $defaultBus
+     * @param MessageBusInterface $commandBus
+     * @param MessageBusInterface $queryBus
      */
-    public function __construct(LoggerInterface $logger, CommandBus $defaultBus)
+    public function __construct(
+        LoggerInterface $logger,
+        MessageBusInterface $commandBus,
+        MessageBusInterface $queryBus)
     {
         $this->logger = $logger;
-        $this->defaultBus = $defaultBus;
+        $this->_commandBus = $commandBus;
+        $this->_queryBus = $queryBus;
     }
 
     /**
@@ -52,11 +57,11 @@ class EventService
      *
      * @return EventDTO\EventPage
      */
-    public function getAllEventsPaged(DateTime $fromTime)
+    public function getAllEventsPaged(DateTime $fromTime): EventDTO\EventPage
     {
         $query = new GetAllEventsPagedQuery($fromTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -70,7 +75,7 @@ class EventService
     {
         $query = new GetEventByIdQuery($eventId);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -84,7 +89,7 @@ class EventService
     {
         $command = new PostEventCommand($postEvent);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -99,7 +104,7 @@ class EventService
     {
         $command = new PutEventCommand($eventId, $putEvent);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -114,7 +119,7 @@ class EventService
     {
         $command = new PutEventStateCommand($eventId, $putEventState);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -124,10 +129,9 @@ class EventService
      */
     public function deleteEvent($eventId): void
     {
-        /** @var DeleteEventCommand $command */
         $command = new DeleteEventCommand($eventId);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
     }
 
     /**
@@ -142,7 +146,7 @@ class EventService
     {
         $command = new PostSignUpCommand($eventId, $postSignUp);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -159,7 +163,7 @@ class EventService
     {
         $command = new PutSignUpCommand($eventId, $signUpId, $putSignUp);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -174,16 +178,16 @@ class EventService
     {
         $command = new DeleteSignUpCommand($eventId, $signUpId);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
      * Create notification events for all events that happen today
      */
-    public function notifyEventsToday()
+    public function notifyEventsToday(): void
     {
         $command = new NotifyEventTodayCommand();
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
     }
 }

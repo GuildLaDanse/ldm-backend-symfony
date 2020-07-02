@@ -9,7 +9,7 @@ namespace App\Modules\Character\Query\GetAllCharactersInGuild;
 use App\Entity\Account\Account;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\Query\CharacterHydrator;
@@ -24,7 +24,7 @@ use App\Entity\GameData as GameDataEntity;
 use App\Entity\Character as CharacterEntity;
 use App\Modules\Character\DTO as CharacterDTO;
 
-class GetAllCharactersInGuildQueryHandler implements QueryHandlerInterface
+class GetAllCharactersInGuildQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

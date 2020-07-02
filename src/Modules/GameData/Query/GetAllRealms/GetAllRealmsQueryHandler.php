@@ -6,7 +6,7 @@
 
 namespace App\Modules\GameData\Query\GetAllRealms;
 
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\RealmMapper;
 use Doctrine\ORM\Query;
@@ -14,7 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetAllRealmsQueryHandler implements QueryHandlerInterface
+class GetAllRealmsQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

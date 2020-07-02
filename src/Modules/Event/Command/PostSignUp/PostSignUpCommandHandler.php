@@ -15,7 +15,7 @@ use App\Infrastructure\Authorization\ResourceByValue;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Comment\CommentService;
@@ -32,7 +32,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PostSignUpCommandHandler implements CommandHandlerInterface
+class PostSignUpCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

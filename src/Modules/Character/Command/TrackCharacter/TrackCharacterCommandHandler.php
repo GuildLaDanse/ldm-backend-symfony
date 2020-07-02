@@ -11,7 +11,7 @@ use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\CharacterService;
@@ -27,7 +27,7 @@ use App\Entity\Character as CharacterEntity;
 use App\Entity\GameData as GameDataEntity;
 use App\Entity\CharacterOrigin as CharacterOriginEntity;
 
-class TrackCharacterCommandHandler implements CommandHandlerInterface
+class TrackCharacterCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

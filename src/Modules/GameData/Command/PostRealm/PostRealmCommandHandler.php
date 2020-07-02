@@ -10,7 +10,7 @@ use App\Entity\Account\Account;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Entity\GameData as GameDataEntity;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
@@ -23,7 +23,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PostRealmCommandHandler implements CommandHandlerInterface
+class PostRealmCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

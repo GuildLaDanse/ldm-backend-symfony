@@ -9,7 +9,7 @@ namespace App\Modules\Character\Query\GetCharacterById;
 use App\Entity\Account\Account;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\Query\CharacterHydrator;
@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
 use App\Modules\Character\DTO as CharacterDTO;
 
-class GetCharacterByIdQueryHandler implements QueryHandlerInterface
+class GetCharacterByIdQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

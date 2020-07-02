@@ -11,6 +11,7 @@ use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
+use App\Modules\Character\Query\AbstractClaimedCharactersQueryHandler;
 use App\Modules\Character\Query\CharacterHydrator;
 use App\Modules\Common\MapperException;
 use Doctrine\ORM\Query;

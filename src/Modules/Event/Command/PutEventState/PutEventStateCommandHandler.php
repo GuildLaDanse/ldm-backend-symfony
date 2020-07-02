@@ -13,7 +13,7 @@ use App\Infrastructure\Authorization\NotAuthorizedException;
 use App\Infrastructure\Authorization\ResourceByValue;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Comment\CommentService;
@@ -27,7 +27,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Event as EventEntity;
 use App\Modules\Event\DTO as EventDTO;
 
-class PutEventStateCommandHandler implements CommandHandlerInterface
+class PutEventStateCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

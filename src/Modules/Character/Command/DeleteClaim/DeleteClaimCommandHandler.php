@@ -12,7 +12,7 @@ use App\Infrastructure\Authorization\ResourceByValue;
 use App\Infrastructure\Authorization\SubjectReference;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Repository\Character\ClaimRepository;
@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\Character as CharacterEntity;
 
-class DeleteClaimCommandHandler implements CommandHandlerInterface
+class DeleteClaimCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

@@ -10,7 +10,7 @@ use App\Entity\Account\Account;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Modules\ServiceException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\Command\CharacterSessionImpl;
@@ -26,7 +26,7 @@ use App\Entity\CharacterOrigin as CharacterOriginEntity;
 use App\Entity\Character as CharacterEntity;
 use App\Entity\GameData as GameDataEntity;
 
-class PatchCharacterCommandHandler implements CommandHandlerInterface
+class PatchCharacterCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

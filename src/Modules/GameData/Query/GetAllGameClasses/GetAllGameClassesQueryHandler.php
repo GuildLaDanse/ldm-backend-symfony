@@ -7,7 +7,7 @@
 namespace App\Modules\GameData\Query\GetAllGameClasses;
 
 use App\Entity\GameData as GameDataEntity;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Common\MapperException;
 use App\Modules\GameData\DTO\GameClassMapper;
 use Doctrine\ORM\Query;
@@ -15,7 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetAllGameClassesQueryHandler implements QueryHandlerInterface
+class GetAllGameClassesQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

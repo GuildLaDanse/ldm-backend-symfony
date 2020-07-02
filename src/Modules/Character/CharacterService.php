@@ -6,6 +6,8 @@
 
 namespace App\Modules\Character;
 
+use App\Infrastructure\Messenger\CommandBusTrait;
+use App\Infrastructure\Messenger\QueryBusTrait;
 use App\Modules\Character\Command\CharacterSessionImpl;
 use App\Modules\Character\Command\CreateGuildSyncSession\CreateGuildSyncSessionCommand;
 use App\Modules\Character\Command\DeleteClaim\DeleteClaimCommand;
@@ -26,29 +28,33 @@ use App\Modules\Character\Query\GetCharacterById\GetCharacterByIdQuery;
 use App\Modules\Common\StringReference;
 use DateTime;
 use Exception;
-use League\Tactician\CommandBus;
+use RuntimeException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class CharacterService
 {
+    use CommandBusTrait;
+    use QueryBusTrait;
+
     /**
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
 
     /**
-     * @var CommandBus
-     */
-    private CommandBus $defaultBus;
-
-    /**
      * @param LoggerInterface $logger
-     * @param CommandBus $defaultBus
+     * @param MessageBusInterface $commandBus
+     * @param MessageBusInterface $queryBus
      */
-    public function __construct(LoggerInterface $logger, CommandBus $defaultBus)
+    public function __construct(
+        LoggerInterface $logger,
+        MessageBusInterface $commandBus,
+        MessageBusInterface $queryBus)
     {
         $this->logger = $logger;
-        $this->defaultBus = $defaultBus;
+        $this->_commandBus = $commandBus;
+        $this->_queryBus = $queryBus;
     }
 
     /**
@@ -68,7 +74,7 @@ class CharacterService
 
         $query = new GetCharacterByIdQuery($characterId, $onDateTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -91,7 +97,7 @@ class CharacterService
 
         $query = new GetAllCharactersInGuildQuery($guildReference, $onDateTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -111,7 +117,7 @@ class CharacterService
 
         $query = new CharactersClaimedByAccountQuery($accountId, $onDateTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -130,7 +136,7 @@ class CharacterService
 
         $query = new GetAllClaimedCharactersQuery($onDateTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -150,7 +156,7 @@ class CharacterService
 
         $query = new CharactersByCriteriaQuery($searchCriteria,$onDateTime);
 
-        return $this->defaultBus->handle($query);
+        return $this->dispatchQuery($query);
     }
 
     /**
@@ -165,7 +171,7 @@ class CharacterService
     {
         $command = new TrackCharacterCommand($characterSession, $patchCharacter);
 
-        $characterId = $this->defaultBus->handle($command);
+        $characterId = $this->dispatchCommand($command);
 
         return $this->getCharacterById($characterId);
     }
@@ -178,7 +184,7 @@ class CharacterService
     {
         $command = new UntrackCharacterCommand($characterSession, $characterId);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
     }
 
     /**
@@ -197,7 +203,7 @@ class CharacterService
     {
         $command = new PatchCharacterCommand($characterId, $patchCharacter, $characterSession);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
 
         return $this->getCharacterById($characterId);
     }
@@ -215,7 +221,7 @@ class CharacterService
     {
         $command = new PostClaimCommand($characterId, $accountId, $patchClaim);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
 
         return $this->getCharacterById($characterId);
     }
@@ -232,7 +238,7 @@ class CharacterService
     {
         $command = new PutClaimCommand($characterId, $patchClaim);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
 
         return $this->getCharacterById($characterId);
     }
@@ -248,7 +254,7 @@ class CharacterService
     {
         $command = new DeleteClaimCommand($characterId);
 
-        $this->defaultBus->handle($command);
+        $this->dispatchCommand($command);
 
         return $this->getCharacterById($characterId);
     }
@@ -262,7 +268,7 @@ class CharacterService
     {
         $command = new CreateGuildSyncSessionCommand($guildId);
 
-        return $this->defaultBus->handle($command);
+        return $this->dispatchCommand($command);
     }
 
     /**
@@ -276,7 +282,7 @@ class CharacterService
     {
         if (!($characterSession instanceof CharacterSessionImpl))
         {
-            throw new Exception("Unknown implementation for CharacterSession");
+            throw new RuntimeException("Unknown implementation for CharacterSession");
         }
 
         /** @var CharacterSessionImpl $characterSessionImpl */

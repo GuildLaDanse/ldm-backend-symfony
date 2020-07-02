@@ -8,7 +8,7 @@ namespace App\Modules\Event\Query\GetEventById;
 
 use App\Entity\Event as EntityEvent;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Event\DTO as EventDTO;
 use App\Infrastructure\Authorization\AuthorizationService;
 use App\Infrastructure\Authorization\NotAuthorizedException;
@@ -23,7 +23,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
-class GetEventByIdQueryHandler implements QueryHandlerInterface
+class GetEventByIdQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

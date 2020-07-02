@@ -8,7 +8,7 @@ namespace App\Modules\Character\Command\CreateGuildSyncSession;
 
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Modules\ServiceException;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Character\CharacterSession;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Entity\GameData as GameDataEntity;
 use App\Entity\CharacterOrigin as CharacterOriginEntity;
 
-class CreateGuildSyncSessionCommandHandler implements CommandHandlerInterface
+class CreateGuildSyncSessionCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

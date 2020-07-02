@@ -185,30 +185,6 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
     },
-    "league/tactician": {
-        "version": "v1.0.3"
-    },
-    "league/tactician-bundle": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "222c3d39d38378bc6a9790a0b5baf841ba6679b9"
-        },
-        "files": [
-            "config/packages/league_tactician.yaml"
-        ]
-    },
-    "league/tactician-container": {
-        "version": "2.0.0"
-    },
-    "league/tactician-doctrine": {
-        "version": "v1.1.1"
-    },
-    "league/tactician-logger": {
-        "version": "v0.10.0"
-    },
     "liip/functional-test-bundle": {
         "version": "4.1.0"
     },
@@ -314,6 +290,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -377,6 +356,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "symfony/amqp-messenger": {
+        "version": "v5.1.2"
+    },
     "symfony/browser-kit": {
         "version": "v4.4.7"
     },
@@ -411,8 +393,14 @@
     "symfony/dependency-injection": {
         "version": "v4.4.4"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.1.2"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.4.4"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.1.2"
     },
     "symfony/dom-crawler": {
         "version": "v4.4.7"
@@ -488,6 +476,18 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "8a2675c061737658bed85102e9241c752620e575"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v4.4.4"
     },
@@ -529,11 +529,17 @@
             "tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.17.1"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.14.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.17.1"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.14.0"
@@ -555,6 +561,9 @@
     },
     "symfony/property-info": {
         "version": "v4.4.7"
+    },
+    "symfony/redis-messenger": {
+        "version": "v5.1.2"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -605,6 +614,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.4"
+    },
+    "symfony/string": {
+        "version": "v5.1.2"
     },
     "symfony/test-pack": {
         "version": "v1.0.6"

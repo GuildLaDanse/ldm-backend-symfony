@@ -8,7 +8,7 @@ namespace App\Modules\Event\Command\NotifyEventToday;
 
 use App\Entity\Event as EventEntity;
 use App\Entity\Event\EventStateMachine;
-use App\Infrastructure\Tactician\CommandHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use DateTime;
@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class NotifyEventTodayCommandHandler implements CommandHandlerInterface
+class NotifyEventTodayCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface

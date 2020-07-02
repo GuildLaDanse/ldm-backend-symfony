@@ -10,7 +10,7 @@ use App\Entity\Account\Account;
 use App\Entity\Character as CharacterEntity;
 use App\Infrastructure\Modules\InvalidInputException;
 use App\Infrastructure\Security\AuthenticationService;
-use App\Infrastructure\Tactician\QueryHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Modules\Activity\ActivityEvent;
 use App\Modules\Activity\ActivityType;
 use App\Modules\Character\DTO as CharacterDTO;
@@ -22,7 +22,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CharactersByCriteriaQueryHandler implements QueryHandlerInterface
+class CharactersByCriteriaQueryHandler implements MessageHandlerInterface
 {
     /**
      * @var LoggerInterface
