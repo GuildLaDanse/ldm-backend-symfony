@@ -114,45 +114,6 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
-    "hoa/compiler": {
-        "version": "3.17.08.08"
-    },
-    "hoa/consistency": {
-        "version": "1.17.05.02"
-    },
-    "hoa/event": {
-        "version": "1.17.01.13"
-    },
-    "hoa/exception": {
-        "version": "1.17.01.16"
-    },
-    "hoa/file": {
-        "version": "1.17.07.11"
-    },
-    "hoa/iterator": {
-        "version": "2.17.01.10"
-    },
-    "hoa/math": {
-        "version": "1.17.05.16"
-    },
-    "hoa/protocol": {
-        "version": "1.17.01.14"
-    },
-    "hoa/regex": {
-        "version": "1.17.01.13"
-    },
-    "hoa/stream": {
-        "version": "1.17.02.21"
-    },
-    "hoa/ustring": {
-        "version": "4.17.01.16"
-    },
-    "hoa/visitor": {
-        "version": "2.17.01.16"
-    },
-    "hoa/zformat": {
-        "version": "1.17.01.10"
-    },
     "indigophp/doctrine-annotation-autoload": {
         "version": "v0.1.0"
     },
@@ -267,9 +228,6 @@
     "phpunit/php-timer": {
         "version": "3.1.2"
     },
-    "phpunit/php-token-stream": {
-        "version": "4.0.0"
-    },
     "phpunit/phpunit": {
         "version": "4.7",
         "recipe": {
@@ -314,6 +272,9 @@
     "sebastian/comparator": {
         "version": "4.0.0"
     },
+    "sebastian/complexity": {
+        "version": "2.0.0"
+    },
     "sebastian/diff": {
         "version": "4.0.0"
     },
@@ -325,6 +286,9 @@
     },
     "sebastian/global-state": {
         "version": "4.0.0"
+    },
+    "sebastian/lines-of-code": {
+        "version": "1.0.0"
     },
     "sebastian/object-enumerator": {
         "version": "4.0.0"
@@ -372,16 +336,15 @@
         "version": "v4.4.4"
     },
     "symfony/console": {
-        "version": "4.4",
+        "version": "5.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "4.4",
-            "ref": "ea8c0eda34fda57e7d5cd8cbd889e2a387e3472c"
+            "version": "5.1",
+            "ref": "c6d02bdfba9da13c22157520e32a602dbee8a75c"
         },
         "files": [
-            "bin/console",
-            "config/bootstrap.php"
+            "bin/console"
         ]
     },
     "symfony/css-selector": {
@@ -459,9 +422,6 @@
         "version": "v4.4.4"
     },
     "symfony/http-kernel": {
-        "version": "v4.4.4"
-    },
-    "symfony/inflector": {
         "version": "v4.4.4"
     },
     "symfony/intl": {

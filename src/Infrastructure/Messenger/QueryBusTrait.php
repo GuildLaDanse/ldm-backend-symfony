@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\Messenger;
 
 
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
+use Throwable;
 
 trait QueryBusTrait
 {
@@ -19,15 +21,28 @@ trait QueryBusTrait
      * @param $query
      *
      * @return mixed
+     *
+     * @throws Throwable
      */
     public function dispatchQuery($query)
     {
-        $envelope = $this->_queryBus->dispatch($query);
+        try
+        {
+            $envelope = $this->_commandBus->dispatch($query);
 
-        $handledStamp = $envelope->last(HandledStamp::class);
+            $handledStamp = $envelope->last(HandledStamp::class);
 
-        /** @noinspection NullPointerExceptionInspection */
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        return $handledStamp->getResult();
+            return $handledStamp->getResult();
+        }
+        catch (HandlerFailedException $e)
+        {
+            while ($e instanceof HandlerFailedException)
+            {
+                /** @var Throwable $e */
+                $e = $e->getPrevious();
+            }
+
+            throw $e;
+        }
     }
 }

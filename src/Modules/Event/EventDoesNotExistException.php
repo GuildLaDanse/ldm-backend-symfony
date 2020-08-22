@@ -15,10 +15,4 @@ class EventDoesNotExistException extends ServiceException
     {
         parent::__construct($message, 404, $previous);
     }
-
-    public function __toString()
-    {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
-
 }

@@ -72,7 +72,7 @@ class PatchCharacterCommandHandler implements MessageHandlerInterface
      *
      * @throws InvalidInputException
      */
-    protected function validateInput(PatchCharacterCommand $command)
+    protected function validateInput(PatchCharacterCommand $command): void
     {
         if ($command->getPatchCharacter() === null)
         {
@@ -92,7 +92,7 @@ class PatchCharacterCommandHandler implements MessageHandlerInterface
      * @throws ServiceException
      * @throws ORMException
      */
-    protected function runCommand(PatchCharacterCommand $command): void
+    protected function __invoke(PatchCharacterCommand $command): void
     {
         $this->validateInput($command);
 

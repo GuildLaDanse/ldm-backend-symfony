@@ -18,10 +18,9 @@ use App\Modules\Event\DTO\PutEventState;
 use App\Modules\Event\DTO\PutSignUp;
 use App\Modules\Event\EventService;
 use DateTime;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api/events")
@@ -40,17 +39,14 @@ class EventsResource extends AbstractRestController
      */
     public function queryEventsAction(Request $request, EventService $eventService): Response
     {
-        try
-        {
+        try {
             /** @var DateTime $startOnDate */
             $startOnDate = $this->getStartOnDate($request->query->get('startOn'));
 
             $eventPage = $eventService->getAllEventsPaged($startOnDate);
 
             return new JsonSerializedResponse($eventPage);
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -82,7 +78,7 @@ class EventsResource extends AbstractRestController
 
             return new JsonSerializedResponse($event);
         }
-        catch(ServiceException $serviceException)
+        catch (ServiceException $serviceException)
         {
             return ResourceHelper::createErrorResponse(
                 $request,
@@ -102,17 +98,14 @@ class EventsResource extends AbstractRestController
      */
     public function postEventAction(Request $request, EventService $eventService): Response
     {
-        try
-        {
+        try {
             /** @var PostEvent $postEventDto */
             $postEventDto = $this->getDtoFromContent($request, PostEvent::class);
 
             $eventDto = $eventService->postEvent($postEventDto);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -136,17 +129,14 @@ class EventsResource extends AbstractRestController
     {
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
 
-        try
-        {
+        try {
             /** @var PutEvent $putEventDto */
             $putEventDto = $this->getDtoFromContent($request, PutEvent::class);
 
             $eventDto = $eventService->putEvent((int)$eventId, $putEventDto);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -170,17 +160,14 @@ class EventsResource extends AbstractRestController
     {
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
 
-        try
-        {
+        try {
             /** @var PutEventState $putEventStateDto */
             $putEventStateDto = $this->getDtoFromContent($request, PutEventState::class);
 
             $eventDto = $eventService->putEventState((int)$eventId, $putEventStateDto);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -206,14 +193,11 @@ class EventsResource extends AbstractRestController
     {
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
 
-        try
-        {
+        try {
             $eventService->deleteEvent((int)$eventId);
 
             return new Response();
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -237,17 +221,14 @@ class EventsResource extends AbstractRestController
     {
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
 
-        try
-        {
+        try {
             /** @var PostSignUp $postSignUpDto */
             $postSignUpDto = $this->getDtoFromContent($request, PostSignUp::class);
 
             $eventDto = $eventService->postSignUp((int)$eventId, $postSignUpDto);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -273,17 +254,14 @@ class EventsResource extends AbstractRestController
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
         ParameterUtils::isIntegerOrThrow($signUpId, 'signUpId');
 
-        try
-        {
+        try {
             /** @var PutSignUp $putSignUpDto */
             $putSignUpDto = $this->getDtoFromContent($request, PutSignUp::class);
 
             $eventDto = $eventService->putSignUp(intval($eventId), intval($signUpId), $putSignUpDto);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -311,14 +289,11 @@ class EventsResource extends AbstractRestController
         ParameterUtils::isIntegerOrThrow($eventId, 'eventId');
         ParameterUtils::isIntegerOrThrow($signUpId, 'signUpId');
 
-        try
-        {
+        try {
             $eventDto = $eventService->deleteSignUp((int)$eventId, (int)$signUpId);
 
             return new JsonSerializedResponse(ResourceHelper::object($eventDto));
-        }
-        catch(ServiceException $serviceException)
-        {
+        } catch (ServiceException $serviceException) {
             return ResourceHelper::createErrorResponse(
                 $request,
                 $serviceException->getCode(),
@@ -329,8 +304,7 @@ class EventsResource extends AbstractRestController
 
     private function getStartOnDate($pStartOnDate)
     {
-        if ($pStartOnDate === null)
-        {
+        if ($pStartOnDate === null) {
             return new DateTime();
         }
 

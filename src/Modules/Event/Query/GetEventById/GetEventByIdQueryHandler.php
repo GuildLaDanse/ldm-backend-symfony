@@ -73,7 +73,7 @@ class GetEventByIdQueryHandler implements MessageHandlerInterface
      * @throws NotAuthorizedException
      * @throws MapperException
      */
-    public function handle(GetEventByIdQuery $query): EventDTO\Event
+    public function __invoke(GetEventByIdQuery $query): EventDTO\Event
     {
         /** @var EntityRepository $repository */
         $repository = $this->doctrine->getRepository(EntityEvent\Event::class);

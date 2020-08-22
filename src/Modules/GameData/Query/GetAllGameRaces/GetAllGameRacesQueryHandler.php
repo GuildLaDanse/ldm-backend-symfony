@@ -45,7 +45,7 @@ class GetAllGameRacesQueryHandler implements MessageHandlerInterface
      * @return array
      * @throws MapperException
      */
-    public function handle(GetAllGameRacesQuery $query): array
+    public function __invoke(GetAllGameRacesQuery $query): array
     {
         $em = $this->doctrine->getManager();
 

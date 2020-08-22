@@ -63,7 +63,7 @@ class CreateGuildSyncSessionCommandHandler implements MessageHandlerInterface
      *
      * @throws InvalidInputException
      */
-    protected function validateInput(CreateGuildSyncSessionCommand $command)
+    protected function validateInput(CreateGuildSyncSessionCommand $command): void
     {
         if ($command->getGuildId() === null)
         {

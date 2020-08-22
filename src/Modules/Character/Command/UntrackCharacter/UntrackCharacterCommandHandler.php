@@ -89,7 +89,7 @@ class UntrackCharacterCommandHandler implements MessageHandlerInterface
      *
      * @throws InvalidInputException
      */
-    private function validateInput(UntrackCharacterCommand $command)
+    private function validateInput(UntrackCharacterCommand $command): void
     {
         if (!($command->getCharacterSession() instanceof CharacterSessionImpl))
         {

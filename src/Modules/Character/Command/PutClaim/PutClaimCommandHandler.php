@@ -82,7 +82,7 @@ class PutClaimCommandHandler implements MessageHandlerInterface
      *
      * @throws InvalidInputException
      */
-    private function validateInput(PutClaimCommand $command)
+    private function validateInput(PutClaimCommand $command): void
     {
         if ($command->getPatchClaim() === null)
         {

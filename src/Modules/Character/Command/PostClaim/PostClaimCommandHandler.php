@@ -69,7 +69,7 @@ class PostClaimCommandHandler
      * @param PostClaimCommand $command
      * @throws InvalidInputException
      */
-    protected function validateInput(PostClaimCommand $command)
+    protected function validateInput(PostClaimCommand $command): void
     {
         if ($command->getPatchClaim() === null)
         {

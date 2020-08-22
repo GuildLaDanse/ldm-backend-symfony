@@ -47,7 +47,7 @@ class GetAllGameFactionsQueryHandler implements MessageHandlerInterface
      *
      * @throws MapperException
      */
-    public function handle(GetAllGameFactionsQuery $query): array
+    public function __invoke(GetAllGameFactionsQuery $query): array
     {
         $em = $this->doctrine->getManager();
 

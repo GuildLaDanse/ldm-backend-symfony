@@ -89,7 +89,7 @@ class TrackCharacterCommandHandler implements MessageHandlerInterface
      *
      * @throws InvalidInputException
      */
-    private function validateInput(TrackCharacterCommand $command)
+    private function validateInput(TrackCharacterCommand $command): void
     {
         if ($command->getPatchCharacter() === null || $command->getCharacterSession() === null)
         {

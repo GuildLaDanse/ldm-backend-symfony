@@ -11,15 +11,10 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    Symfony\Component\DependencyInjection\ContainerInterface:
+       class: Symfony\Component\DependencyInjection\ContainerInterface
+
     _instanceof:
-        App\Infrastructure\Tactician\CommandHandlerInterface:
-            public: true
-            tags:
-                - { name: tactician.handler, typehints: true }
-        App\Infrastructure\Tactician\QueryHandlerInterface:
-            public: true
-            tags:
-                - { name: tactician.handler, typehints: true }
         App\Infrastructure\Authorization\ResourceFinders\ResourceFinderModule:
             public: true
 

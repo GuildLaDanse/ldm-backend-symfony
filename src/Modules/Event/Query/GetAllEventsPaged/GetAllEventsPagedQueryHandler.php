@@ -81,7 +81,7 @@ class GetAllEventsPagedQueryHandler implements MessageHandlerInterface
      * @throws NotAuthorizedException
      * @throws MapperException
      */
-    public function handle(GetAllEventsPagedQuery $query): EventDTO\EventPage
+    public function __invoke(GetAllEventsPagedQuery $query): EventDTO\EventPage
     {
         if ($query->getStartOn() === null)
         {
