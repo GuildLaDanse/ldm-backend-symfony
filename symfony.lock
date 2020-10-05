@@ -263,6 +263,9 @@
     "roave/security-advisories": {
         "version": "dev-master"
     },
+    "sebastian/cli-parser": {
+        "version": "1.0.1"
+    },
     "sebastian/code-unit": {
         "version": "1.0.0"
     },
@@ -417,6 +420,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/http-foundation": {
         "version": "v4.4.4"
